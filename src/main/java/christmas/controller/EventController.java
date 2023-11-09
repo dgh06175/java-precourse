@@ -17,7 +17,7 @@ public class EventController {
         // 방문 날짜 입력 받기
         Date visitdate = requestVisitDate();
         // 주문 메뉴 입력 받기
-
+        String orderedMenu = requestOrderedMenu();
         // 주문 메뉴 및 금액 출력
 
         // 이벤트 혜택 출력
@@ -27,6 +27,16 @@ public class EventController {
         while (true) {
             try {
                 return new Date(inputView.readDate());
+            } catch (EventException e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
+
+    private String requestOrderedMenu() {
+        while (true) {
+            try {
+                return inputView.readMenu();
             } catch (EventException e) {
                 System.out.println(e.getMessage());
             }
