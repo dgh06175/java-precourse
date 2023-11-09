@@ -1,23 +1,27 @@
 package christmas.controller;
 
 import christmas.domain.Date;
+import christmas.domain.InputParser;
 import christmas.exception.EventException;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.Map;
 
 public class EventController {
     InputView inputView;
     OutputView outputView;
+    InputParser inputParser;
     public EventController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
+        this.inputParser = new InputParser();
     }
 
     public void run() {
         // 방문 날짜 입력 받기
         Date visitdate = requestVisitDate();
         // 주문 메뉴 입력 받기
-        String orderedMenu = requestOrderedMenu();
+        Map<String, Integer> order = requestOrder();
         // 주문 메뉴 및 금액 출력
 
         // 이벤트 혜택 출력
@@ -26,17 +30,19 @@ public class EventController {
     private Date requestVisitDate() {
         while (true) {
             try {
-                return new Date(inputView.readDate());
+                String inputDate = inputView.readDate();
+                return new Date(inputParser.parseDate(inputDate));
             } catch (EventException e) {
                 System.out.println(e.getMessage());
             }
         }
     }
 
-    private String requestOrderedMenu() {
+
+    private Map<String, Integer> requestOrder() {
         while (true) {
             try {
-                return inputView.readMenu();
+                return inputParser.parseOrder(inputView.readOrder());
             } catch (EventException e) {
                 System.out.println(e.getMessage());
             }
