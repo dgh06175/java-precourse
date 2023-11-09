@@ -3,13 +3,13 @@ package christmas.view;
 public class InputView {
     OutputView outputView = new OutputView();
 
-    public int readDate() {
+    public String readDate() {
         outputView.printReadDateMessage();
         return InputUtil.readInt();
     }
 
-    public String readMenu() {
-        outputView.printReadMenuMessage();
+    public String readOrder() {
+        outputView.printReadOrderMessage();
         return InputUtil.readString();
     }
 }
