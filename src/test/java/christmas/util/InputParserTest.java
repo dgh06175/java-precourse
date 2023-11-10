@@ -1,4 +1,4 @@
-package christmas.domain;
+package christmas.util;
 
 import christmas.exception.DateException;
 import christmas.exception.MenuException;
@@ -9,7 +9,6 @@ import java.util.Map;
 import static org.assertj.core.api.Assertions.*;
 
 public class InputParserTest {
-
     private InputParser inputParser;
 
     @BeforeEach
@@ -29,10 +28,8 @@ public class InputParserTest {
 
     @Test
     void testParseDate_InvalidInput_ShouldThrowException() {
-        // Arrange
         String invalidInputDate = "-1";
 
-        // Act & Assert
         assertThatExceptionOfType(DateException.class).isThrownBy(() -> {
             inputParser.parseDate(invalidInputDate);
         });

@@ -1,7 +1,7 @@
 package christmas.controller;
 
 import christmas.domain.Date;
-import christmas.domain.InputParser;
+import christmas.util.InputParser;
 import christmas.exception.EventException;
 import christmas.view.InputView;
 import christmas.view.OutputView;
