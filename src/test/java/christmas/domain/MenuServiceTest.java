@@ -1,7 +1,7 @@
 package christmas.domain;
 
 import christmas.domain.enums.Menu;
-import christmas.exception.MenuException;
+import christmas.exception.OrderException;
 import java.util.EnumMap;
 import java.util.Map;
 import org.junit.jupiter.api.*;
@@ -31,6 +31,6 @@ class MenuServiceTest {
         Map<String, Integer> parsedStringOrder = Map.of("라면", 1);
 
         assertThatThrownBy(() -> MenuService.stringToMenu(parsedStringOrder))
-                .isInstanceOf(MenuException.class);
+                .isInstanceOf(OrderException.class);
     }
 }

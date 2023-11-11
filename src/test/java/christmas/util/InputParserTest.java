@@ -1,8 +1,6 @@
 package christmas.util;
 
-import christmas.exception.EventException;
-import christmas.exception.InputException;
-import christmas.exception.MenuException;
+import christmas.exception.OrderException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -68,7 +66,7 @@ public class InputParserTest {
     void testParseOrder_InvalidInput_ShouldThrowException() {
         String invalidInputOrder = "티본스테이크1,바비큐립-2-초코케이크-3";
 
-        assertThatExceptionOfType(MenuException.class).isThrownBy(() -> {
+        assertThatExceptionOfType(OrderException.class).isThrownBy(() -> {
             inputParser.parseOrder(invalidInputOrder);
         });
     }
@@ -78,7 +76,7 @@ public class InputParserTest {
     void testParseOrder_DuplicateInput_ShouldThrowException() {
         String duplicateInputOrder = "바비큐립-1,바비큐립-2,초코케이크-3";
 
-        assertThatExceptionOfType(MenuException.class).isThrownBy(() -> {
+        assertThatExceptionOfType(OrderException.class).isThrownBy(() -> {
             inputParser.parseOrder(duplicateInputOrder);
         });
     }

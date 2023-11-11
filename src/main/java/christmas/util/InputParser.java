@@ -1,7 +1,7 @@
 package christmas.util;
 
 import christmas.exception.DateException;
-import christmas.exception.MenuException;
+import christmas.exception.OrderException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -42,7 +42,7 @@ public class InputParser {
 
     private void validateInputMenuRegex(String inputOrder) {
         if(!Pattern.matches(INPUT_MENU_REGEX, inputOrder)) {
-            throw new MenuException();
+            throw new OrderException();
         }
     }
 
@@ -50,7 +50,7 @@ public class InputParser {
         long originCount = Arrays.stream(inputOrder.split(DIVIDER))
                 .map(item -> item.split(MENU_COUNT_DIVIDER)).count();
         if(originCount != parsedOrder.size()) {
-            throw new MenuException();
+            throw new OrderException();
         }
     }
 }

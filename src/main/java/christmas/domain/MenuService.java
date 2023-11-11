@@ -1,7 +1,7 @@
 package christmas.domain;
 
 import christmas.domain.enums.Menu;
-import christmas.exception.MenuException;
+import christmas.exception.OrderException;
 import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,7 +18,7 @@ public class MenuService {
                             () -> new EnumMap<>(Menu.class)
                     ));
         } catch (NullPointerException | IllegalArgumentException e) {
-            throw new MenuException();
+            throw new OrderException();
         }
         return order;
     }
