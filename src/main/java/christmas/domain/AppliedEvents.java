@@ -1,5 +1,6 @@
 package christmas.domain;
 
+import christmas.domain.enums.Badge;
 import christmas.domain.enums.Event;
 import java.util.EnumMap;
 import java.util.Map;
@@ -31,5 +32,9 @@ public class AppliedEvents {
 
     public boolean containsGiveawayEvent() {
         return events.get(Event.GIVEAWAY) > 0;
+    }
+
+    public Badge getBadge() {
+        return Badge.of(getTotalDiscount());
     }
 }

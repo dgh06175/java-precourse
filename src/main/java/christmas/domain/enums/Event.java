@@ -6,7 +6,7 @@ import christmas.domain.Date;
 import christmas.domain.Order;
 
 public enum Event {
-    CHRISTMAS_D_DAY(1, CHRISTMAS_DAY, 1000) {
+    CHRISTMAS_D_DAY("크리스마스 디데이 할인",1, CHRISTMAS_DAY, 1000) {
         @Override
         public boolean isEventValid(Date date, Order order) {
             return isDateValid(date) && isTotalPriceValid(order);
@@ -20,7 +20,7 @@ public enum Event {
         }
     },
 
-    WEEKDAY(1, END_OF_DECEMBER_DAY, 2_023) {
+    WEEKDAY("평일 할인", 1, END_OF_DECEMBER_DAY, 2_023) {
         @Override
         public boolean isEventValid(Date date, Order order) {
             return isDateValid(date) && isTotalPriceValid(order) && !date.isWeekend();
@@ -34,7 +34,7 @@ public enum Event {
         }
     },
 
-    WEEKEND(1, END_OF_DECEMBER_DAY, 2_023) {
+    WEEKEND("주말 할인", 1, END_OF_DECEMBER_DAY, 2_023) {
         @Override
         public boolean isEventValid(Date date, Order order) {
             return isDateValid(date) && isTotalPriceValid(order) && date.isWeekend();
@@ -48,7 +48,7 @@ public enum Event {
         }
     },
 
-    SPECIAL(1, END_OF_DECEMBER_DAY, 1_000) {
+    SPECIAL("특별 할인", 1, END_OF_DECEMBER_DAY, 1_000) {
         @Override
         public boolean isEventValid(Date date, Order order) {
             return isDateValid(date) && isTotalPriceValid(order) && isSpecial(date);
@@ -61,7 +61,7 @@ public enum Event {
         }
     },
 
-    GIVEAWAY(1, END_OF_DECEMBER_DAY, 25_000) {
+    GIVEAWAY("증정 이벤트", 1, END_OF_DECEMBER_DAY, 25_000) {
 
         @Override
         public boolean isEventValid(Date date, Order order) {
@@ -75,11 +75,13 @@ public enum Event {
         }
     };
 
+    final String name;
     final Date startDay;
     final Date endDay;
     final int saleAmount;
 
-    Event(int startDay, int endDay, int saleAmount) {
+    Event(String name, int startDay, int endDay, int saleAmount) {
+        this.name = name;
         this.startDay = new Date(startDay);
         this.endDay = new Date(endDay);
         this.saleAmount = saleAmount;
