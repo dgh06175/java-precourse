@@ -18,7 +18,13 @@ public class InputParser {
     }
 
     public Map<String, Integer> parseOrder(String inputOrder) {
-        validateInputMenu(inputOrder);
+        validateInputMenuRegex(inputOrder);
+        Map<String, Integer> parsedOrder = inputOrderToStringIntegerMap(inputOrder);
+        validateDuplicatedMenu(inputOrder, parsedOrder);
+        return parsedOrder;
+    }
+
+    private Map<String, Integer> inputOrderToStringIntegerMap(String inputOrder) {
         return Arrays.stream(inputOrder.split(DIVIDER))
                 .map(item -> item.split(MENU_COUNT_DIVIDER))
                 .collect(Collectors.toMap(
@@ -34,8 +40,16 @@ public class InputParser {
         }
     }
 
-    private void validateInputMenu(String inputOrder) {
+    private void validateInputMenuRegex(String inputOrder) {
         if(!Pattern.matches(INPUT_MENU_REGEX, inputOrder)) {
+            throw new MenuException();
+        }
+    }
+
+    private void validateDuplicatedMenu(String inputOrder, Map<String, Integer> parsedOrder) {
+        long originCount = Arrays.stream(inputOrder.split(DIVIDER))
+                .map(item -> item.split(MENU_COUNT_DIVIDER)).count();
+        if(originCount == parsedOrder.size()) {
             throw new MenuException();
         }
     }
