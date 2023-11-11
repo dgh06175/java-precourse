@@ -75,7 +75,7 @@ public enum Event {
         }
     };
 
-    final String name;
+    public final String name;
     final Date startDay;
     final Date endDay;
     final int saleAmount;

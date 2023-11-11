@@ -25,9 +25,9 @@ public class Order {
     public Map<String, Integer> getMenuStringAndCount() {
         return value.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> entry.getKey().name(), // 키: 메뉴 이름
-                        Map.Entry::getValue, // 값: 수량
-                        (existing, replacement) -> existing // 충돌 발생 시 기존 값을 유지
+                        entry -> entry.getKey().name(),
+                        Map.Entry::getValue,
+                        (existing, replacement) -> existing
                 ));
     }
 

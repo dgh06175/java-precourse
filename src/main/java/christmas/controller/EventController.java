@@ -68,5 +68,6 @@ public class EventController {
 
     private void displayResult(AppliedEvents appliedEvents) {
         outputView.printGiveAway(appliedEvents.containsGiveawayEvent());
+        outputView.printEventList(appliedEvents.getEventStringAndPrice());
     }
 }
