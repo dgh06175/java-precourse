@@ -2,7 +2,6 @@ package christmas.controller;
 
 import christmas.domain.AppliedEvents;
 import christmas.domain.Date;
-import christmas.domain.EventCalculator;
 import christmas.domain.MenuService;
 import christmas.domain.Order;
 import christmas.domain.enums.Menu;
@@ -31,10 +30,9 @@ public class EventController {
         // 주문 메뉴 및 금액 출력
         displayOrder(order);
         displayPriceBeforeSale(order);
-
-        AppliedEvents appliedEvents = new EventCalculator(order, visitdate).getAppliedEvents();
-
         // 이벤트 혜택 출력
+        AppliedEvents appliedEvents = AppliedEvents.of(order, visitdate);
+
     }
 
     private Date requestVisitDate() {
