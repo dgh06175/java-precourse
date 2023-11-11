@@ -17,19 +17,11 @@ public enum Menu {
     레드와인(MenuCategory.DRINK, 60000),
     샴페인(MenuCategory.DRINK, 25000);
 
-    private final MenuCategory menuCategory;
-    private final int price;
+    public final MenuCategory menuCategory;
+    public final int price;
 
     Menu(MenuCategory menuCategory, int price) {
         this.menuCategory = menuCategory;
         this.price = price;
-    }
-
-    public MenuCategory getCategory() {
-        return menuCategory;
-    }
-
-    public int getPrice() {
-        return price;
     }
 }
