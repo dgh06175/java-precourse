@@ -1,6 +1,7 @@
 package christmas.view;
 
 import christmas.domain.Order;
+import christmas.domain.enums.Menu;
 import java.text.DecimalFormat;
 import java.util.Map;
 
@@ -32,6 +33,15 @@ public class OutputView {
         String formattedPrice = decimalFormat.format(priceBeforeSale);
         System.out.printf("%s원\n", formattedPrice);
     }
+
+    public void printGiveAway(boolean hasGiveAway) {
+        System.out.println();
+        System.out.println("<증정 메뉴>");
+        if (hasGiveAway) {
+            System.out.printf("%s %d개", Menu.샴페인.name(), 1);
+        }
+    }
+
 
     public void printErrorMessage(Exception e) {
         System.out.println(e.getMessage());

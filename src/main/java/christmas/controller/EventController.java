@@ -32,7 +32,7 @@ public class EventController {
         displayPriceBeforeSale(order);
         // 이벤트 혜택 출력
         AppliedEvents appliedEvents = AppliedEvents.of(order, visitdate);
-
+        displayResult(appliedEvents);
     }
 
     private Date requestVisitDate() {
@@ -64,5 +64,9 @@ public class EventController {
 
     private void displayPriceBeforeSale(Order order) {
         outputView.printPriceBeforeSale(order.getTotalPrice());
+    }
+
+    private void displayResult(AppliedEvents appliedEvents) {
+        outputView.printGiveAway(appliedEvents.containsGiveawayEvent());
     }
 }
