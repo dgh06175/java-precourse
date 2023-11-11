@@ -29,10 +29,10 @@ public class EventController {
         Order order = requestOrder();
         // 주문 메뉴 및 금액 출력
         displayOrder(order);
-        displayPriceBeforeSale(order);
+        displayPriceBeforeDiscount(order);
         // 이벤트 혜택 출력
         AppliedEvents appliedEvents = AppliedEvents.of(order, visitdate);
-        displayResult(appliedEvents);
+        displayResult(appliedEvents, order);
     }
 
     private Date requestVisitDate() {
@@ -62,12 +62,15 @@ public class EventController {
         outputView.printMenu(order.getMenuStringAndCount());
     }
 
-    private void displayPriceBeforeSale(Order order) {
+    private void displayPriceBeforeDiscount(Order order) {
         outputView.printPriceBeforeSale(order.getTotalPrice());
     }
 
-    private void displayResult(AppliedEvents appliedEvents) {
+    private void displayResult(AppliedEvents appliedEvents, Order order) {
         outputView.printGiveAway(appliedEvents.containsGiveawayEvent());
         outputView.printEventList(appliedEvents.getEventStringAndPrice());
+        outputView.printTotalDiscount(appliedEvents.getTotalDiscount());
+        outputView.printExpectedPrice(order.getTotalPrice() - appliedEvents.getTotalDiscountExceptGiveAway());
+        outputView.printEventBadge(appliedEvents.getBadge().name());
     }
 }

@@ -42,16 +42,47 @@ public class OutputView {
         if (hasGiveAway) {
             System.out.printf("%s %d개\n", Menu.샴페인.name(), 1);
         }
+        if(!hasGiveAway) {
+            System.out.println("없음");
+        }
     }
 
     public void printEventList(Map<String, Integer> eventStringAndPrice) {
         System.out.println();
         System.out.println("<혜택 내역>");
+        if (eventStringAndPrice.values().stream().mapToInt(i -> i).sum() == 0) {
+            System.out.println("없음");
+            return;
+        }
         for(String eventString: eventStringAndPrice.keySet()) {
             String price = MONEY_FORMAT.format(eventStringAndPrice.get(eventString));
             if (price.equals("0")) continue;
             System.out.printf("%s: -%s원\n", eventString, price);
         }
+    }
+
+    public void printTotalDiscount(int totalDiscount) {
+        System.out.println();
+        System.out.println("<총혜택 금액>");
+        if (totalDiscount == 0) {
+            System.out.println("0원");
+            return;
+        }
+        String price = MONEY_FORMAT.format(totalDiscount);
+        System.out.printf("-%s원\n", price);
+    }
+
+    public void printExpectedPrice(int expectedPrice) {
+        System.out.println();
+        System.out.println("<할인 후 예상 결제 금액>");
+        String price = MONEY_FORMAT.format(expectedPrice);
+        System.out.println(price);
+    }
+
+    public void printEventBadge(String BadgeName) {
+        System.out.println();
+        System.out.println("<12월 이벤트 배지>");
+        System.out.println(BadgeName);
     }
 
     public void printErrorMessage(Exception e) {

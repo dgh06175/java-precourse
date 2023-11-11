@@ -27,6 +27,13 @@ public class AppliedEvents {
                 .sum();
     }
 
+    public int getTotalDiscountExceptGiveAway() {
+        return events.keySet().stream()
+                .filter(event -> event != Event.GIVEAWAY)
+                .mapToInt(event -> events.getOrDefault(event, 0))
+                .sum();
+    }
+
     public int getDiscountOf(Event event) {
         return events.get(event);
     }
