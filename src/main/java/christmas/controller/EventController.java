@@ -1,10 +1,14 @@
 package christmas.controller;
 
 import christmas.domain.Date;
+import christmas.domain.MenuService;
+import christmas.domain.Order;
+import christmas.domain.enums.Menu;
 import christmas.util.InputParser;
 import christmas.exception.EventException;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.util.EnumMap;
 import java.util.Map;
 
 public class EventController {
@@ -21,7 +25,7 @@ public class EventController {
         // 방문 날짜 입력 받기
         Date visitdate = requestVisitDate();
         // 주문 메뉴 입력 받기
-        Map<String, Integer> order = requestOrder();
+        Order order = requestOrder();
         // 주문 메뉴 및 금액 출력
 
         // 이벤트 혜택 출력
@@ -39,10 +43,12 @@ public class EventController {
     }
 
 
-    private Map<String, Integer> requestOrder() {
+    private Order requestOrder() {
         while (true) {
             try {
-                return inputParser.parseOrder(inputView.readOrder());
+                Map<String, Integer> parsedStringOrder = inputParser.parseOrder(inputView.readOrder());
+                EnumMap<Menu, Integer> parsedOrder = MenuService.stringToMenu(parsedStringOrder);
+                return new Order(parsedOrder);
             } catch (EventException e) {
                 System.out.println(e.getMessage());
             }
