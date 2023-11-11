@@ -21,8 +21,8 @@ class MenuServiceTest {
         EnumMap<Menu, Integer> result = MenuService.stringToMenu(parsedStringOrder);
 
         assertThat(result.size()).isEqualTo(2);
-        assertThat(result.get(Menu.레드와인)).isEqualTo(2);
-        assertThat(result.get(Menu.바비큐립)).isEqualTo(3);
+        assertThat(result.get(Menu.RED_WINE)).isEqualTo(2);
+        assertThat(result.get(Menu.BARBECUE_RIBS)).isEqualTo(3);
     }
 
     @DisplayName("유효하지 않은_ 자열 예외 테스트")

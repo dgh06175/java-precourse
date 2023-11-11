@@ -3,7 +3,7 @@ package christmas.controller;
 import christmas.domain.AppliedEvents;
 import christmas.domain.Date;
 import christmas.domain.MenuService;
-import christmas.domain.Order;
+import christmas.domain.OrderedMenu;
 import christmas.domain.enums.Menu;
 import christmas.util.InputParser;
 import christmas.exception.EventException;
@@ -26,13 +26,13 @@ public class EventController {
         // 방문 날짜 입력 받기
         Date visitdate = requestVisitDate();
         // 주문 메뉴 입력 받기
-        Order order = requestOrder();
+        OrderedMenu orderedMenu = requestOrder();
         // 주문 메뉴 및 금액 출력
-        displayOrder(order);
-        displayPriceBeforeDiscount(order);
+        displayOrder(orderedMenu);
+        displayPriceBeforeDiscount(orderedMenu);
         // 이벤트 혜택 출력
-        AppliedEvents appliedEvents = AppliedEvents.of(order, visitdate);
-        displayResult(appliedEvents, order);
+        AppliedEvents appliedEvents = AppliedEvents.of(orderedMenu, visitdate);
+        displayResult(appliedEvents, orderedMenu);
     }
 
     private Date requestVisitDate() {
@@ -46,31 +46,31 @@ public class EventController {
         }
     }
 
-    private Order requestOrder() {
+    private OrderedMenu requestOrder() {
         while (true) {
             try {
                 Map<String, Integer> parsedStringOrder = inputParser.parseOrder(inputView.readOrder());
                 EnumMap<Menu, Integer> parsedOrder = MenuService.stringToMenu(parsedStringOrder);
-                return new Order(parsedOrder);
+                return new OrderedMenu(parsedOrder);
             } catch (EventException e) {
                 outputView.printErrorMessage(e);
             }
         }
     }
 
-    private void displayOrder(Order order) {
-        outputView.printMenu(order.getMenuStringAndCount());
+    private void displayOrder(OrderedMenu orderedMenu) {
+        outputView.printMenu(orderedMenu.getMenuStringAndCount());
     }
 
-    private void displayPriceBeforeDiscount(Order order) {
-        outputView.printPriceBeforeSale(order.getTotalPrice());
+    private void displayPriceBeforeDiscount(OrderedMenu orderedMenu) {
+        outputView.printPriceBeforeSale(orderedMenu.getTotalPrice());
     }
 
-    private void displayResult(AppliedEvents appliedEvents, Order order) {
+    private void displayResult(AppliedEvents appliedEvents, OrderedMenu orderedMenu) {
         outputView.printGiveAway(appliedEvents.containsGiveawayEvent());
         outputView.printEventList(appliedEvents.getEventStringAndPrice());
         outputView.printTotalDiscount(appliedEvents.getTotalDiscount());
-        outputView.printExpectedPrice(order.getTotalPrice() - appliedEvents.getTotalDiscountExceptGiveAway());
+        outputView.printExpectedPrice(orderedMenu.getTotalPrice() - appliedEvents.getTotalDiscountExceptGiveAway());
         outputView.printEventBadge(appliedEvents.getBadge().name());
     }
 }

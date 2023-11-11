@@ -13,10 +13,10 @@ public class AppliedEvents {
         this.events = new EnumMap<>(events);
     }
 
-    public static AppliedEvents of(Order order, Date date) {
+    public static AppliedEvents of(OrderedMenu orderedMenu, Date date) {
         EnumMap<Event, Integer> events = new EnumMap<>(Event.class);
         for(Event event: Event.values()) {
-            events.put(event, event.calculateDiscount(date, order));
+            events.put(event, event.calculateDiscount(date, orderedMenu));
         }
         return new AppliedEvents(events);
     }

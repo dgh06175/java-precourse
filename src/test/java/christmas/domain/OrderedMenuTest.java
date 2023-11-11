@@ -7,16 +7,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 
-class OrderTest {
+class OrderedMenuTest {
     public static final String ORDER_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
 
     @DisplayName("메뉴 개수가 1미만일 경우 예외 발생")
     @Test
     void menuQuantityLessThan1() {
         EnumMap<Menu, Integer> parsedOrder = new EnumMap<>(Menu.class);
-        parsedOrder.put(Menu.양송이수프, 0);
+        parsedOrder.put(Menu.MUSHROOM_SOUP, 0);
 
-        assertThatThrownBy(() -> new Order(parsedOrder))
+        assertThatThrownBy(() -> new OrderedMenu(parsedOrder))
                 .isInstanceOf(OrderException.class)
                 .hasMessageContaining(ORDER_ERROR_MESSAGE);
     }
@@ -25,13 +25,13 @@ class OrderTest {
     @Test
     void menuTotalQuantityOver20Test() {
         EnumMap<Menu, Integer> parsedOrder = new EnumMap<>(Menu.class);
-        parsedOrder.put(Menu.바비큐립, 5);
-        parsedOrder.put(Menu.시저샐러드, 3);
-        parsedOrder.put(Menu.양송이수프, 6);
-        parsedOrder.put(Menu.제로콜라, 7);
+        parsedOrder.put(Menu.BARBECUE_RIBS, 5);
+        parsedOrder.put(Menu.CAESAR_SALAD, 3);
+        parsedOrder.put(Menu.MUSHROOM_SOUP, 6);
+        parsedOrder.put(Menu.ZERO_COLA, 7);
 
 
-        assertThatThrownBy(() -> new Order(parsedOrder))
+        assertThatThrownBy(() -> new OrderedMenu(parsedOrder))
                 .isInstanceOf(OrderException.class)
                 .hasMessageContaining(ORDER_ERROR_MESSAGE);
     }
@@ -40,11 +40,11 @@ class OrderTest {
     @Test
     void orderOnlyDrinkTest() {
         EnumMap<Menu, Integer> parsedOrder = new EnumMap<>(Menu.class);
-        parsedOrder.put(Menu.제로콜라, 1);
-        parsedOrder.put(Menu.샴페인, 1);
-        parsedOrder.put(Menu.레드와인, 1);
+        parsedOrder.put(Menu.ZERO_COLA, 1);
+        parsedOrder.put(Menu.CHAMPAGNE, 1);
+        parsedOrder.put(Menu.RED_WINE, 1);
 
-        assertThatThrownBy(() -> new Order(parsedOrder))
+        assertThatThrownBy(() -> new OrderedMenu(parsedOrder))
                 .isInstanceOf(OrderException.class)
                 .hasMessageContaining(ORDER_ERROR_MESSAGE);
     }
@@ -53,10 +53,10 @@ class OrderTest {
     @Test
     void totalPriceTest() {
         EnumMap<Menu, Integer> parsedOrder = new EnumMap<>(Menu.class);
-        parsedOrder.put(Menu.해산물파스타, 2);
-        parsedOrder.put(Menu.레드와인, 1);
-        parsedOrder.put(Menu.초코케이크, 1);
+        parsedOrder.put(Menu.SEAFOOD_PASTA, 2);
+        parsedOrder.put(Menu.RED_WINE, 1);
+        parsedOrder.put(Menu.CHOCOLATE_CAKE, 1);
 
-        assertThat(new Order(parsedOrder).getTotalPrice()).isEqualTo(145000);
+        assertThat(new OrderedMenu(parsedOrder).getTotalPrice()).isEqualTo(145000);
     }
 }

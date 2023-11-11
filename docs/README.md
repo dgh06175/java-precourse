@@ -36,7 +36,7 @@
   - 날짜 유효성 보증 책임
     - 예외 발생시 "[ERROR] 유효하지 않은 날짜입니다. 다시 입력해 주세요." 출력하고 재입력
     - [x] 1~31의 숫자 아닐 경우
-- [x] 주문한 메뉴 객체 : Order
+- [x] 주문한 메뉴 객체 : OrderedMenu
   - 저장된 메뉴의 총액 계산 기능
   - 메뉴 유효성 보증 책임
     - 예외 발생시 "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요." 출력하고 재입력
@@ -97,7 +97,7 @@
 2. 기본 검증된 문자열 -> 입력 형식에 올바른지 검증
 3. 입력 형식 검증된 문자열 -> List<String, Integer>
 4. List<String, Integer> -> List<Menu, Integer>
-5. List<Menu, Integer> -> Order 객체
+5. List<Menu, Integer> -> OrderedMenu 객체
 
 이 모든 기능을 도메인, View, Controller, domain, Util 등 어떤 패키지에서 어떤 클래스가 동작해야하는지 생각해봤다.
 
@@ -120,9 +120,9 @@
 이 부분은 문자열을 Menu 라는 도메인 객체로 만드므로 컨트롤러 또는 서비스 계층의 역할이다.
 컨트롤러에 구현하면 컨트롤러의 역할이 너무 많아질 것 같으므로 서비스 클래스에 맡기기로 했다.
 
-5. List<Menu, Integer> -> Order 객체
+5. List<Menu, Integer> -> OrderedMenu 객체
 
-직접적인 Order 객체 생성 도메인의 책임이므로,
-Order 객체 내부의 생성자 또는 팩토리 메소드에서 수행하기로 했다.
+직접적인 OrderedMenu 객체 생성 도메인의 책임이므로,
+OrderedMenu 객체 내부의 생성자 또는 팩토리 메소드에서 수행하기로 했다.
 
 ###

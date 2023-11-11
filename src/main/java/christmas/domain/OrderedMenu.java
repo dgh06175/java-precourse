@@ -7,11 +7,11 @@ import java.util.EnumMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Order {
+public class OrderedMenu {
     private static final int MAX_MENU_QUANTITY = 20;
     private final EnumMap<Menu, Integer> value;
 
-    public Order(EnumMap<Menu, Integer> parsedOrder) {
+    public OrderedMenu(EnumMap<Menu, Integer> parsedOrder) {
         validateOrder(parsedOrder);
         this.value = new EnumMap<>(parsedOrder);
     }

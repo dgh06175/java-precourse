@@ -12,7 +12,7 @@ public class MenuService {
         try {
             order = parsedStringOrder.entrySet().stream()
                     .collect(Collectors.toMap(
-                            e -> Menu.valueOf(e.getKey()),
+                            e -> Menu.of(e.getKey()),
                             Map.Entry::getValue,
                             (existing, replacement) -> existing,
                             () -> new EnumMap<>(Menu.class)

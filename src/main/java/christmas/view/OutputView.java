@@ -1,6 +1,5 @@
 package christmas.view;
 
-import christmas.domain.Order;
 import christmas.domain.enums.Menu;
 import java.text.DecimalFormat;
 import java.util.Map;
@@ -40,7 +39,7 @@ public class OutputView {
         System.out.println();
         System.out.println("<증정 메뉴>");
         if (hasGiveAway) {
-            System.out.printf("%s %d개\n", Menu.샴페인.name(), 1);
+            System.out.printf("%s %d개\n", Menu.CHAMPAGNE.name, 1);
         }
         if(!hasGiveAway) {
             System.out.println("없음");
