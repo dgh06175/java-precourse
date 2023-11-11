@@ -18,7 +18,7 @@ public class InputParser {
     }
 
     public Map<String, Integer> parseOrder(String inputOrder) {
-        validateInputMenuRegex(inputOrder);
+        validateInputOrderRegex(inputOrder);
         Map<String, Integer> parsedOrder = inputOrderToStringIntegerMap(inputOrder);
         validateDuplicatedMenu(inputOrder, parsedOrder);
         return parsedOrder;
@@ -40,7 +40,7 @@ public class InputParser {
         }
     }
 
-    private void validateInputMenuRegex(String inputOrder) {
+    private void validateInputOrderRegex(String inputOrder) {
         if(!Pattern.matches(INPUT_MENU_REGEX, inputOrder)) {
             throw new OrderException();
         }
