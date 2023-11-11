@@ -1,20 +1,21 @@
 package christmas.domain.enums;
+
 public enum Menu {
-    MUSHROOM_SOUP(MenuCategory.APPETIZER, 6000),
-    TAPAS(MenuCategory.APPETIZER, 5500),
-    CAESAR_SALAD(MenuCategory.APPETIZER, 8000),
+    양송이수프(MenuCategory.APPETIZER, 6000),
+    타파스(MenuCategory.APPETIZER, 5500),
+    시저샐러드(MenuCategory.APPETIZER, 8000),
 
-    T_BONE_STEAK(MenuCategory.MAIN, 55000),
-    BBQ_RIB(MenuCategory.MAIN, 54000),
-    SEAFOOD_PASTA(MenuCategory.MAIN, 35000),
-    CHRISTMAS_PASTA(MenuCategory.MAIN, 25000),
+    티본스테이크(MenuCategory.MAIN, 55000),
+    바비큐립(MenuCategory.MAIN, 54000),
+    해산물파스타(MenuCategory.MAIN, 35000),
+    크리스마스파스타(MenuCategory.MAIN, 25000),
 
-    CHOCOLATE_CAKE(MenuCategory.DESSERT, 15000),
-    ICE_CREAM(MenuCategory.DESSERT, 5000),
+    초코케이크(MenuCategory.DESSERT, 15000),
+    아이스크림(MenuCategory.DESSERT, 5000),
 
-    ZERO_COLA(MenuCategory.DRINK, 3000),
-    RED_WINE(MenuCategory.DRINK, 60000),
-    CHAMPAGNE(MenuCategory.DRINK, 25000);
+    제로콜라(MenuCategory.DRINK, 3000),
+    레드와인(MenuCategory.DRINK, 60000),
+    샴페인(MenuCategory.DRINK, 25000);
 
     private final MenuCategory menuCategory;
     private final int price;
