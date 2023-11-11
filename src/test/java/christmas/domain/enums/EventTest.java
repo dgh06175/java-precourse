@@ -53,7 +53,7 @@ public class EventTest {
 
     @DisplayName("주말 할인 이벤트 유효성 검사")
     @ParameterizedTest
-    @ValueSource(ints = {2, 3, 9, 30, 31})
+    @ValueSource(ints = {1, 2, 8, 29, 30})
     void checkWeekendEventValidity(int day) {
         Date weekendDate = new Date(day);
 
@@ -64,7 +64,7 @@ public class EventTest {
 
     @DisplayName("주말 할인 이벤트 유효성 실패 검사")
     @ParameterizedTest
-    @ValueSource(ints = {1, 7, 8, 18, 25})
+    @ValueSource(ints = {5, 6, 17, 21})
     void checkWeekendEventInValidity(int day) {
         Date weekendDate = new Date(day);
 
@@ -75,7 +75,7 @@ public class EventTest {
 
     @DisplayName("주중 할인 이벤트 유효성 검사")
     @ParameterizedTest
-    @ValueSource(ints = {1, 4, 11, 29})
+    @ValueSource(ints = {3, 10, 28})
     void checkWeekDayEventValidity(int day) {
         Date weekendDate = new Date(day);
 
@@ -88,7 +88,7 @@ public class EventTest {
 
     @DisplayName("주중 할인 이벤트 유효성 실패 검사")
     @ParameterizedTest
-    @ValueSource(ints = {2, 17, 31, 16})
+    @ValueSource(ints = {1, 16, 30, 15})
     void checkWeekDayEventInValidity(int day) {
         Date weekendDate = new Date(day);
 

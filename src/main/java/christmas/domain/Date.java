@@ -23,6 +23,6 @@ public class Date {
     }
 
     public boolean isWeekend() {
-        return value % 7 == 2 || value % 7 == 3;
+        return value % 7 == 1 || value % 7 == 2;
     }
 }
