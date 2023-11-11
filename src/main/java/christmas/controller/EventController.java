@@ -27,7 +27,8 @@ public class EventController {
         // 주문 메뉴 입력 받기
         Order order = requestOrder();
         // 주문 메뉴 및 금액 출력
-
+        displayOrder(order);
+        displayPrice(order);
         // 이벤트 혜택 출력
     }
 
@@ -37,11 +38,10 @@ public class EventController {
                 String inputDate = inputView.readDate();
                 return new Date(inputParser.parseDate(inputDate));
             } catch (EventException e) {
-                System.out.println(e.getMessage());
+                outputView.printErrorMessage(e);
             }
         }
     }
-
 
     private Order requestOrder() {
         while (true) {
@@ -50,8 +50,16 @@ public class EventController {
                 EnumMap<Menu, Integer> parsedOrder = MenuService.stringToMenu(parsedStringOrder);
                 return new Order(parsedOrder);
             } catch (EventException e) {
-                System.out.println(e.getMessage());
+                outputView.printErrorMessage(e);
             }
         }
+    }
+
+    private void displayOrder(Order order) {
+        outputView.printMenu(order.getMenuDetail());
+    }
+
+    private void displayPrice(Order order) {
+        outputView.printPriceBeforeSale(order.getTotalPrice());
     }
 }

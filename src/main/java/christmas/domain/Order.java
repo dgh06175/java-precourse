@@ -4,6 +4,9 @@ import christmas.domain.enums.Menu;
 import christmas.domain.enums.MenuCategory;
 import christmas.exception.OrderException;
 import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public class Order {
     private static final int MAX_MENU_QUANTITY = 20;
@@ -18,6 +21,15 @@ public class Order {
         return value.entrySet().stream()
                 .mapToInt(entry -> entry.getKey().getPrice() * entry.getValue())
                 .sum();
+    }
+
+    public Map<String, Integer> getMenuDetail() {
+        return value.entrySet().stream()
+                .collect(Collectors.toMap(
+                        entry -> entry.getKey().name(), // 키: 메뉴 이름
+                        Map.Entry::getValue, // 값: 수량
+                        (existing, replacement) -> existing // 충돌 발생 시 기존 값을 유지
+                ));
     }
 
     private void validateOrder(EnumMap<Menu, Integer> order) {
