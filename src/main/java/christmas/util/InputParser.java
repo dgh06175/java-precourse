@@ -49,7 +49,7 @@ public class InputParser {
     private void validateDuplicatedMenu(String inputOrder, Map<String, Integer> parsedOrder) {
         long originCount = Arrays.stream(inputOrder.split(DIVIDER))
                 .map(item -> item.split(MENU_COUNT_DIVIDER)).count();
-        if(originCount == parsedOrder.size()) {
+        if(originCount != parsedOrder.size()) {
             throw new MenuException();
         }
     }
