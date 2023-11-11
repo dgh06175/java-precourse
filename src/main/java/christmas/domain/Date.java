@@ -5,7 +5,7 @@ import christmas.exception.DateException;
 public class Date {
     private static final int FIRST_DATE = 1;
     private static final int LAST_DATE = 31;
-    int value;
+    public final int value;
 
     public Date (int value){
         validateDate(value);
@@ -16,5 +16,13 @@ public class Date {
         if (value < FIRST_DATE || value > LAST_DATE) {
             throw new DateException();
         }
+    }
+
+    public boolean isDateBetweenClosed(Date start, Date end) {
+        return this.value >= start.value && this.value <= end.value;
+    }
+
+    public boolean isWeekend() {
+        return value % 7 == 2 || value % 7 == 3;
     }
 }
