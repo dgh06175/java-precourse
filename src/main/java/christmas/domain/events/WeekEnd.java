@@ -23,6 +23,6 @@ public class WeekEnd extends AbstractEvent {
     @Override
     public int calculateDiscount(Date date, OrderedMenu orderedMenu) {
         // 메인 메뉴 개수 * 2023 반환
-        return orderedMenu.getDiscountOf(MenuCategory.MAIN, SALE_AMOUNT);
+        return orderedMenu.getDiscountByCategory(MenuCategory.MAIN, SALE_AMOUNT);
     }
 }

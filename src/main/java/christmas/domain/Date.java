@@ -1,10 +1,11 @@
 package christmas.domain;
 
+import static christmas.constant.END_OF_DECEMBER_DAY;
+import static christmas.constant.START_OF_MONTH_DAY;
+
 import christmas.exception.DateException;
 
 public class Date {
-    private static final int FIRST_DATE = 1;
-    private static final int LAST_DATE = 31;
     public final int value;
 
     public Date (int value){
@@ -13,7 +14,7 @@ public class Date {
     }
 
     private void validateDate(int value) {
-        if (value < FIRST_DATE || value > LAST_DATE) {
+        if (value < START_OF_MONTH_DAY || value > END_OF_DECEMBER_DAY) {
             throw new DateException();
         }
     }

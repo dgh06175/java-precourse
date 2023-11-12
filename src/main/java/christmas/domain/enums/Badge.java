@@ -7,7 +7,7 @@ public enum Badge {
     SANTA("산타", 20_000);
 
     public final String name;
-    public final int minimumMoney;
+    private final int minimumMoney;
 
     Badge (String name, int minimumMoney) {
         this.name = name;

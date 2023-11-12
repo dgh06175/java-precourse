@@ -5,9 +5,9 @@ import christmas.domain.OrderedMenu;
 
 public abstract class AbstractEvent implements Event {
     private static final int EVENT_MIN_PRICE = 10_000;
-    protected final String name;
-    protected final Date startDay;
-    protected final Date endDay;
+    private final String name;
+    private final Date startDay;
+    private final Date endDay;
 
     AbstractEvent(String name, int startDay, int endDay) {
         this.name = name;

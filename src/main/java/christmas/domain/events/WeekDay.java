@@ -1,6 +1,5 @@
 package christmas.domain.events;
 
-import static christmas.constant.CHRISTMAS_DAY;
 import static christmas.constant.END_OF_DECEMBER_DAY;
 import static christmas.constant.START_OF_MONTH_DAY;
 
@@ -24,6 +23,6 @@ public class WeekDay extends AbstractEvent {
     @Override
     public int calculateDiscount(Date date, OrderedMenu orderedMenu) {
         // 디저트 메뉴 개수 * 2023 반환
-        return orderedMenu.getDiscountOf(MenuCategory.DESSERT, SALE_AMOUNT);
+        return orderedMenu.getDiscountByCategory(MenuCategory.DESSERT, SALE_AMOUNT);
     }
 }
