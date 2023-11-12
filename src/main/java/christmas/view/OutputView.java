@@ -21,80 +21,91 @@ public class OutputView {
     private static final String EVENT_BADGE_HEADER = "<12월 이벤트 배지>";
 
     public void printReadDateMessage() {
-        System.out.println(INIT_MESSAGE);
-        System.out.println(READ_DATE_MESSAGE);
+        printMessage(INIT_MESSAGE);
+        printMessage(READ_DATE_MESSAGE);
     }
 
     public void printReadOrderMessage() {
-        System.out.println(READ_ORDER_MESSAGE);
+        printMessage(READ_ORDER_MESSAGE);
     }
 
     public void printMenu(Map<String, Integer> orders, Date date) {
-        System.out.printf(EVENT_START_MESSAGE, date.value);
-        System.out.println();
-        System.out.println();
-        System.out.println(ORDER_MENU_HEADER);
+        printMessageWithFormat(EVENT_START_MESSAGE, date.value);
+        printEmptyLine();
+        printMessage(ORDER_MENU_HEADER);
         for (String menuName: orders.keySet()) {
-            System.out.printf("%s %d개\n", menuName, orders.get(menuName));
+            printMessageWithFormat("%s %d개", menuName, orders.get(menuName));
         }
     }
 
     public void printPriceBeforeSale(int priceBeforeSale) {
-        System.out.println();
-        System.out.println(PRICE_BEFORE_SALE_HEADER);
+        printEmptyLine();
+        printMessage(PRICE_BEFORE_SALE_HEADER);
         String formattedPrice = MONEY_FORMAT.format(priceBeforeSale);
-        System.out.printf("%s원\n", formattedPrice);
+        printMessageWithFormat("%s원", formattedPrice);
     }
 
     public void printGiveAway(boolean hasGiveAway) {
-        System.out.println();
-        System.out.println(GIVEAWAY_HEADER);
+        printEmptyLine();
+        printMessage(GIVEAWAY_HEADER);
         if (hasGiveAway) {
-            System.out.printf("%s %d개\n", Menu.CHAMPAGNE.name, 1);
+            printMessageWithFormat("%s %d개", Menu.CHAMPAGNE.name, 1);
         } else {
-            System.out.println(NO_ITEMS);
+            printMessage(NO_ITEMS);
         }
     }
 
     public void printEventList(Map<String, Integer> eventStringAndPrice) {
-        System.out.println();
-        System.out.println(EVENT_LIST_HEADER);
+        printEmptyLine();
+        printMessage(EVENT_LIST_HEADER);
         if (eventStringAndPrice.values().stream().mapToInt(i -> i).sum() == 0) {
-            System.out.println(NO_ITEMS);
+            printMessage(NO_ITEMS);
             return;
         }
         for(String eventString: eventStringAndPrice.keySet()) {
             String price = MONEY_FORMAT.format(eventStringAndPrice.get(eventString));
             if (price.equals("0")) continue;
-            System.out.printf("%s: -%s원\n", eventString, price);
+            printMessageWithFormat("%s: -%s원", eventString, price);
         }
     }
 
     public void printTotalDiscount(int totalDiscount) {
-        System.out.println();
-        System.out.println(TOTAL_DISCOUNT_HEADER);
+        printEmptyLine();
+        printMessage(TOTAL_DISCOUNT_HEADER);
         if (totalDiscount == 0) {
-            System.out.println("0원");
+            printMessage("0원");
             return;
         }
         String price = MONEY_FORMAT.format(totalDiscount);
-        System.out.printf("-%s원\n", price);
+        printMessageWithFormat("-%s원", price);
     }
 
     public void printExpectedPrice(int expectedPrice) {
-        System.out.println();
-        System.out.println(EXPECTED_PRICE_HEADER);
+        printEmptyLine();
+        printMessage(EXPECTED_PRICE_HEADER);
         String price = MONEY_FORMAT.format(expectedPrice);
-        System.out.println(price + "원");
+        printMessage(price + "원");
     }
 
     public void printEventBadge(String BadgeName) {
-        System.out.println();
-        System.out.println(EVENT_BADGE_HEADER);
-        System.out.println(BadgeName);
+        printEmptyLine();
+        printMessage(EVENT_BADGE_HEADER);
+        printMessage(BadgeName);
     }
 
     public void printErrorMessage(Exception e) {
-        System.out.println(e.getMessage());
+        printMessage(e.getMessage());
+    }
+
+    private void printEmptyLine() {
+        System.out.println();
+    }
+
+    private void printMessage(String message) {
+        System.out.println(message);
+    }
+
+    private void printMessageWithFormat(String format, Object... args) {
+        System.out.printf(format + "\n", args);
     }
 }
