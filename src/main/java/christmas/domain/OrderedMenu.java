@@ -5,6 +5,7 @@ import christmas.domain.enums.MenuCategory;
 import christmas.exception.OrderException;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 public class OrderedMenu {
@@ -31,14 +32,11 @@ public class OrderedMenu {
                 ));
     }
 
-    public int getDiscountOf(MenuCategory category, int discountAmount) {
-        int count = 0;
-        for(Menu menu: value.keySet()) {
-            if (menu.menuCategory == category) {
-                count += value.get(menu);
-            }
-        }
-        return count * discountAmount;
+    public int getDiscountByCategory(MenuCategory category, int discountAmount) {
+        return value.entrySet().stream()
+                .filter(entry -> entry.getKey().menuCategory == category)
+                .mapToInt(Entry::getValue)
+                .sum() * discountAmount;
     }
 
     private void validateOrder(EnumMap<Menu, Integer> order) {

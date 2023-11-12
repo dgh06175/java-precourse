@@ -1,6 +1,7 @@
 package christmas.domain.enums;
 
 import christmas.exception.OrderException;
+import java.util.Arrays;
 
 public enum Menu {
     MUSHROOM_SOUP("양송이수프", MenuCategory.APPETIZER, 6000),
@@ -29,12 +30,10 @@ public enum Menu {
         this.price = price;
     }
 
-    public static Menu of(String name) {
-        for (Menu menu : Menu.values()) {
-            if (menu.name.equals(name)) {
-                return menu;
-            }
-        }
-        throw new OrderException();
+    public static Menu of(String inName) {
+        return Arrays.stream(Menu.values())
+                .filter(menu -> menu.name.equals(inName))
+                .findFirst()
+                .orElseThrow(OrderException::new);
     }
 }
