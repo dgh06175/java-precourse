@@ -1,12 +1,11 @@
 package christmas.domain.events;
 
-import static christmas.constant.CHRISTMAS_DAY;
-import static christmas.constant.END_OF_DECEMBER_DAY;
-import static christmas.constant.START_OF_MONTH_DAY;
+import static christmas.domain.Constant.CHRISTMAS_DAY;
+import static christmas.domain.Constant.END_OF_DECEMBER_DAY;
+import static christmas.domain.Constant.START_OF_MONTH_DAY;
 
 import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
-import christmas.domain.enums.MenuCategory;
 
 public class Special extends AbstractEvent {
     private static final int SALE_AMOUNT = 1000;

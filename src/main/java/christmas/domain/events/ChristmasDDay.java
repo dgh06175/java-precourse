@@ -1,7 +1,7 @@
 package christmas.domain.events;
 
-import static christmas.constant.CHRISTMAS_DAY;
-import static christmas.constant.START_OF_MONTH_DAY;
+import static christmas.domain.Constant.CHRISTMAS_DAY;
+import static christmas.domain.Constant.START_OF_MONTH_DAY;
 
 import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
