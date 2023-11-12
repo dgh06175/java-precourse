@@ -25,7 +25,7 @@ public class OrderedMenu {
     public Map<String, Integer> getMenuStringAndCount() {
         return value.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> entry.getKey().name(),
+                        entry -> entry.getKey().name,
                         Map.Entry::getValue,
                         (existing, replacement) -> existing
                 ));

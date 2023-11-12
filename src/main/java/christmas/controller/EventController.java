@@ -16,6 +16,7 @@ public class EventController {
     InputView inputView;
     OutputView outputView;
     InputParser inputParser;
+
     public EventController(InputView inputView, OutputView outputView) {
         this.inputView = inputView;
         this.outputView = outputView;
@@ -28,7 +29,7 @@ public class EventController {
         // 주문 메뉴 입력 받기
         OrderedMenu orderedMenu = requestOrder();
         // 주문 메뉴 및 금액 출력
-        displayOrder(orderedMenu);
+        displayOrder(orderedMenu, visitdate);
         displayPriceBeforeDiscount(orderedMenu);
         // 이벤트 혜택 출력
         AppliedEvents appliedEvents = AppliedEvents.of(orderedMenu, visitdate);
@@ -58,8 +59,8 @@ public class EventController {
         }
     }
 
-    private void displayOrder(OrderedMenu orderedMenu) {
-        outputView.printMenu(orderedMenu.getMenuStringAndCount());
+    private void displayOrder(OrderedMenu orderedMenu, Date date) {
+        outputView.printMenu(orderedMenu.getMenuStringAndCount(), date);
     }
 
     private void displayPriceBeforeDiscount(OrderedMenu orderedMenu) {

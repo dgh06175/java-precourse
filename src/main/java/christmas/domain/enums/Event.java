@@ -62,7 +62,6 @@ public enum Event {
     },
 
     GIVEAWAY("증정 이벤트", 1, END_OF_DECEMBER_DAY, 25_000) {
-
         @Override
         public boolean isEventValid(Date date, OrderedMenu orderedMenu) {
             return isDateValid(date) && isTotalPriceValid(orderedMenu) && orderedMenu.getTotalPrice() >= 120_000;
@@ -95,13 +94,17 @@ public enum Event {
     }
 
     public abstract boolean isEventValid(Date date, OrderedMenu orderedMenu);
+
     protected abstract int calculateEventSpecificDiscount(Date date, OrderedMenu orderedMenu);
+
     protected boolean isDateValid(Date date) {
         return date.isDateBetweenClosed(this.startDay, this.endDay);
     }
+
     protected boolean isTotalPriceValid(OrderedMenu orderedMenu) {
         return orderedMenu.getTotalPrice() >= 10_000;
     }
+
     protected boolean isSpecial (Date date) {
         return date.value % 7 == 3 || date.value == 25;
     }
