@@ -12,6 +12,7 @@ public class InputParser {
     private static final String MENU_COUNT_DIVIDER = "-";
     private static final String MENU_REGEX = String.format("[가-힣a-zA-Z]+%s\\d+", MENU_COUNT_DIVIDER);
     private static final String INPUT_MENU_REGEX = String.format("(%s)+(%s ?%s)*", MENU_REGEX, DIVIDER, MENU_REGEX);
+
     public int parseDate(String inputDate) {
         validateInputDate(inputDate);
         return Integer.parseInt(inputDate);
