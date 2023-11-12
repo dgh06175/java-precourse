@@ -31,14 +31,14 @@ public class OrderedMenu {
                 ));
     }
 
-    public int getCountOfMenuCategory(MenuCategory category) {
+    public int getDiscountOf(MenuCategory category, int discountAmount) {
         int count = 0;
         for(Menu menu: value.keySet()) {
             if (menu.menuCategory == category) {
                 count += value.get(menu);
             }
         }
-        return count;
+        return count * discountAmount;
     }
 
     private void validateOrder(EnumMap<Menu, Integer> order) {
