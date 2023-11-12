@@ -1,23 +1,23 @@
 package christmas.domain.enums;
 
-import net.bytebuddy.dynamic.scaffold.TypeInitializer.None;
-
 public enum Badge {
-    없음(0),
-    별(5_000),
-    트리(10_000),
-    산타(20_000);
+    NONE("없음", 0),
+    STAR("별", 5_000),
+    TREE("트리", 10_000),
+    SANTA("산타", 20_000);
 
+    public final String name;
     public final int minimumMoney;
 
-    Badge (int minimumMoney) {
+    Badge (String name, int minimumMoney) {
+        this.name = name;
         this.minimumMoney = minimumMoney;
     }
 
     public static Badge of(int totalDiscountMoney) {
-        if (산타.minimumMoney <= totalDiscountMoney) return 산타;
-        if (트리.minimumMoney <= totalDiscountMoney) return 트리;
-        if (별.minimumMoney <= totalDiscountMoney) return 별;
-        return 없음;
+        if (SANTA.minimumMoney <= totalDiscountMoney) return SANTA;
+        if (TREE.minimumMoney <= totalDiscountMoney) return TREE;
+        if (STAR.minimumMoney <= totalDiscountMoney) return STAR;
+        return NONE;
     }
 }

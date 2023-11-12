@@ -72,6 +72,6 @@ public class EventController {
         outputView.printEventList(appliedEvents.getEventStringAndPrice());
         outputView.printTotalDiscount(appliedEvents.getTotalDiscount());
         outputView.printExpectedPrice(orderedMenu.getTotalPrice() - appliedEvents.getTotalDiscountExceptGiveAway());
-        outputView.printEventBadge(appliedEvents.getBadge().name());
+        outputView.printEventBadge(appliedEvents.getBadge().name);
     }
 }
