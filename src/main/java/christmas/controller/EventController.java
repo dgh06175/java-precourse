@@ -32,7 +32,7 @@ public class EventController {
         displayOrder(orderedMenu, visitdate);
         displayPriceBeforeDiscount(orderedMenu);
         // 이벤트 혜택 출력
-        AppliedEvents appliedEvents = AppliedEvents.of(orderedMenu, visitdate);
+        AppliedEvents appliedEvents = AppliedEvents.of(visitdate, orderedMenu);
         displayResult(appliedEvents, orderedMenu);
     }
 

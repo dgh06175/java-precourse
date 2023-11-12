@@ -1,6 +1,5 @@
 package christmas.domain;
 
-import christmas.domain.enums.Event;
 import christmas.domain.enums.Menu;
 import java.util.EnumMap;
 import org.junit.jupiter.api.DisplayName;
@@ -14,22 +13,11 @@ public class AppliedEventsTest {
         OrderedMenu orderedMenu = createSampleOrder();
         Date date = new Date(15); // 12월 15일을 예시로 사용
 
-        AppliedEvents appliedEvents = AppliedEvents.of(orderedMenu, date);
+        AppliedEvents appliedEvents = AppliedEvents.of(date, orderedMenu);
         int totalDiscount = appliedEvents.getTotalDiscount();
         System.out.println(totalDiscount);
 
         assertThat(totalDiscount).isEqualTo(2400 + 2023 * 3 + 25000);
-    }
-
-    @DisplayName("특정 이벤트의 할인 금액 확인")
-    @Test
-    void getSpecificEventDiscount() {
-        OrderedMenu orderedMenu = createSampleOrder();
-        Date date = new Date(15);
-
-        AppliedEvents appliedEvents = AppliedEvents.of(orderedMenu, date);
-        int discount = appliedEvents.getDiscountOf(Event.CHRISTMAS_D_DAY);
-        assertThat(discount).isEqualTo(2400);
     }
 
     @DisplayName("Giveaway 이벤트 포함 여부 확인")
@@ -39,8 +27,8 @@ public class AppliedEventsTest {
         OrderedMenu orderedMenu2 = createSampleOrder2();
         Date date = new Date(15);
 
-        AppliedEvents appliedEvents = AppliedEvents.of(orderedMenu1, date);
-        AppliedEvents appliedEvents2 = AppliedEvents.of(orderedMenu2, date);
+        AppliedEvents appliedEvents = AppliedEvents.of(date, orderedMenu1);
+        AppliedEvents appliedEvents2 = AppliedEvents.of(date, orderedMenu2);
         boolean containsGiveaway1 = appliedEvents.containsGiveawayEvent();
         boolean containsGiveaway2 = appliedEvents2.containsGiveawayEvent();
 

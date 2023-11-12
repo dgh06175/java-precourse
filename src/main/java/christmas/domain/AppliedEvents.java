@@ -1,51 +1,57 @@
 package christmas.domain;
 
 import christmas.domain.enums.Badge;
-import christmas.domain.enums.Event;
-import java.util.EnumMap;
+import christmas.domain.enums.Menu;
+import christmas.domain.events.Event;
+import christmas.domain.events.EventFactory;
+import christmas.domain.events.GiveAway;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.List;
 
 public class AppliedEvents {
-    private final EnumMap<Event, Integer> events;
+    private final Map<Event, Integer> eventDiscounts;
 
-    private AppliedEvents(Map<Event, Integer> events) {
-        this.events = new EnumMap<>(events);
+    private AppliedEvents(Map<Event, Integer> eventDiscounts) {
+        this.eventDiscounts = new HashMap<>(eventDiscounts);
     }
 
-    public static AppliedEvents of(OrderedMenu orderedMenu, Date date) {
-        EnumMap<Event, Integer> events = new EnumMap<>(Event.class);
-        for(Event event: Event.values()) {
-            events.put(event, event.calculateDiscount(date, orderedMenu));
-        }
-        return new AppliedEvents(events);
+    public static AppliedEvents of(Date date, OrderedMenu orderedMenu) {
+        List<Event> events = EventFactory.getAllEvents();
+        Map<Event, Integer> eventDiscounts = events.stream()
+                .collect(Collectors.toMap(
+                        event -> event,
+                        event -> event.getDiscountOf(date, orderedMenu)
+                ));
+        return new AppliedEvents(eventDiscounts);
     }
 
     public int getTotalDiscount() {
-        return events.keySet().stream()
-                .mapToInt(event -> events.getOrDefault(event, 0))
+        return eventDiscounts.values()
+                .stream()
+                .mapToInt(Integer::intValue)
                 .sum();
     }
 
     public int getTotalDiscountExceptGiveAway() {
-        return events.keySet().stream()
-                .filter(event -> event != Event.GIVEAWAY)
-                .mapToInt(event -> events.getOrDefault(event, 0))
-                .sum();
-    }
-
-    public int getDiscountOf(Event event) {
-        return events.get(event);
+        if (containsGiveawayEvent()) {
+            return getTotalDiscount() - Menu.CHAMPAGNE.price;
+        }
+        return getTotalDiscount();
     }
 
     public boolean containsGiveawayEvent() {
-        return events.get(Event.GIVEAWAY) > 0;
+        return eventDiscounts.entrySet().stream()
+                .anyMatch(entry ->
+                        entry.getKey() instanceof GiveAway && entry.getValue() > 0
+                );
     }
 
     public Map<String, Integer> getEventStringAndPrice() {
-        return events.entrySet().stream()
+        return eventDiscounts.entrySet().stream()
                 .collect(Collectors.toMap(
-                        entry -> entry.getKey().name,
+                        entry -> entry.getKey().getName(),
                         Map.Entry::getValue,
                         (existing, replacement) -> existing
                 ));
