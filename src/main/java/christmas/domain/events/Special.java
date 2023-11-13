@@ -26,6 +26,6 @@ public class Special extends AbstractEvent {
     }
 
     private boolean isSpecial(Date date) {
-        return date.value % 7 == 3 || date.value == CHRISTMAS_DAY;
+        return date.isSunday() || date.isChristmas();
     }
 }

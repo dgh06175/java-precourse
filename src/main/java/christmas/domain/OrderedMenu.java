@@ -19,7 +19,7 @@ public class OrderedMenu {
 
     public int getTotalPrice() {
         return value.entrySet().stream()
-                .mapToInt(entry -> entry.getKey().price * entry.getValue())
+                .mapToInt(entry -> entry.getKey().getPrice(entry.getValue()))
                 .sum();
     }
 
@@ -34,7 +34,7 @@ public class OrderedMenu {
 
     public int getDiscountByCategory(MenuCategory category, int discountAmount) {
         return value.entrySet().stream()
-                .filter(entry -> entry.getKey().menuCategory == category)
+                .filter(entry -> entry.getKey().isCategoryEquals(category))
                 .mapToInt(Entry::getValue)
                 .sum() * discountAmount;
     }
@@ -60,6 +60,6 @@ public class OrderedMenu {
     }
 
     private boolean isEveryMenuCategoryIsDrink(EnumMap<Menu, Integer> order) {
-        return order.keySet().stream().allMatch(menu -> menu.menuCategory == MenuCategory.DRINK);
+        return order.keySet().stream().allMatch(menu -> menu.isCategoryEquals(MenuCategory.DRINK));
     }
 }

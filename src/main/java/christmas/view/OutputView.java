@@ -29,8 +29,8 @@ public class OutputView {
         printMessage(READ_ORDER_MESSAGE);
     }
 
-    public void printEventStartMessage(Date date) {
-        printMessageWithFormat(EVENT_START_MESSAGE, date.value);
+    public void printEventStartMessage(int day) {
+        printMessageWithFormat(EVENT_START_MESSAGE, day);
     }
 
     public void printMenu(Map<String, Integer> orders) {

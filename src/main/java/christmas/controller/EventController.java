@@ -28,7 +28,7 @@ public class EventController {
         Date visitdate = requestVisitDate();
         OrderedMenu orderedMenu = requestOrder();
         // 주문 내역 출력
-        outputView.printEventStartMessage(visitdate);
+        outputView.printEventStartMessage(visitdate.value);
         displayOrder(orderedMenu);
         displayPriceBeforeDiscount(orderedMenu);
         // 이벤트 혜택 출력

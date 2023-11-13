@@ -21,7 +21,7 @@ public enum Menu {
     CHAMPAGNE("샴페인", MenuCategory.DRINK, 25000);
 
     public final String name;
-    public final MenuCategory menuCategory;
+    private final MenuCategory menuCategory;
     public final int price;
 
     Menu(String name, MenuCategory menuCategory, int price) {
@@ -32,8 +32,20 @@ public enum Menu {
 
     public static Menu of(String inName) {
         return Arrays.stream(Menu.values())
-                .filter(menu -> menu.name.equals(inName))
+                .filter(menu -> menu.isNameEquals(inName))
                 .findFirst()
                 .orElseThrow(OrderException::new);
+    }
+
+    public boolean isCategoryEquals(MenuCategory inCategory) {
+        return menuCategory.equals(inCategory);
+    }
+
+    public int getPrice(int count) {
+        return price * count;
+    }
+
+    private boolean isNameEquals(String inName) {
+        return name.equals(inName);
     }
 }
