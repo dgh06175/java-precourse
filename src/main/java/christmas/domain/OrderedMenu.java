@@ -43,10 +43,10 @@ public class OrderedMenu {
         if (isAnyMenuQuantityLowerThanOne(order)) {
             throw new OrderException();
         }
-        if (getTotalMenuQuantity(order) > MAX_MENU_QUANTITY) {
+        if (isTotalMenuQuantityMoreThanMax(order)) {
             throw new OrderException();
         }
-        if (isAllMenuCategoryIsDrink(order)) {
+        if (isEveryMenuCategoryIsDrink(order)) {
             throw new OrderException();
         }
     }
@@ -55,11 +55,11 @@ public class OrderedMenu {
         return order.values().stream().anyMatch(quantity -> quantity < 1);
     }
 
-    private int getTotalMenuQuantity(EnumMap<Menu, Integer> order) {
-        return order.values().stream().mapToInt(Integer::intValue).sum();
+    private boolean isTotalMenuQuantityMoreThanMax(EnumMap<Menu, Integer> order) {
+        return order.values().stream().mapToInt(Integer::intValue).sum() > MAX_MENU_QUANTITY;
     }
 
-    private boolean isAllMenuCategoryIsDrink(EnumMap<Menu, Integer> order) {
+    private boolean isEveryMenuCategoryIsDrink(EnumMap<Menu, Integer> order) {
         return order.keySet().stream().allMatch(menu -> menu.menuCategory == MenuCategory.DRINK);
     }
 }

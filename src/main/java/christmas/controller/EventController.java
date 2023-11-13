@@ -40,7 +40,8 @@ public class EventController {
         while (true) {
             try {
                 String inputDate = inputView.readDate();
-                return new Date(inputParser.parseDate(inputDate));
+                int parsedDate = inputParser.parseDate(inputDate);
+                return new Date(parsedDate);
             } catch (EventException e) {
                 outputView.printErrorMessage(e);
             }
@@ -50,7 +51,8 @@ public class EventController {
     private OrderedMenu requestOrder() {
         while (true) {
             try {
-                Map<String, Integer> parsedStringOrder = inputParser.parseOrder(inputView.readOrder());
+                String inputOrder = inputView.readOrder();
+                Map<String, Integer> parsedStringOrder = inputParser.parseOrder(inputOrder);
                 EnumMap<Menu, Integer> parsedOrder = MenuService.stringToMenu(parsedStringOrder);
                 return new OrderedMenu(parsedOrder);
             } catch (EventException e) {
