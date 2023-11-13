@@ -24,6 +24,7 @@ public class EventController {
     }
 
     public void run() {
+        outputView.printFormattedMenu();
         // 날짜, 주문 입력 받기
         Date visitdate = requestVisitDate();
         OrderedMenu orderedMenu = requestOrder();

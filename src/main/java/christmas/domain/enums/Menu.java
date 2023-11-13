@@ -37,6 +37,23 @@ public enum Menu {
                 .orElseThrow(OrderException::new);
     }
 
+    public static String formattedMenu() {
+        StringBuilder output = new StringBuilder();
+        for (MenuCategory category : MenuCategory.values()) {
+            output.append("<").append(category.getDisplayName()).append(">\n");
+            Arrays.stream(Menu.values())
+                    .filter(menu -> menu.isCategoryEquals(category))
+                    .forEach(menu -> output.append(menu.name)
+                            .append("(")
+                            .append(String.format("%,d", menu.price))
+                            .append("), "));
+            int length = output.length();
+            output.delete(length - 2, length);
+            output.append("\n\n");
+        }
+        return output.toString().trim();
+    }
+
     public boolean isCategoryEquals(MenuCategory inCategory) {
         return menuCategory.equals(inCategory);
     }

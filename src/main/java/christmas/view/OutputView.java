@@ -1,12 +1,11 @@
 package christmas.view;
 
-import christmas.domain.Date;
 import christmas.domain.enums.Menu;
-import java.text.DecimalFormat;
 import java.util.Map;
 
 public class OutputView {
-    private static final DecimalFormat MONEY_FORMAT = new DecimalFormat("###,###");
+    private static final String MONEY_FORMAT = "%,d";
+    private static final String MENU = "<우테코 식당 메뉴>";
     private static final String INIT_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
     private static final String READ_DATE_MESSAGE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";
     private static final String READ_ORDER_MESSAGE = "주문하실 메뉴를 메뉴와 개수를 알려 주세요. (e.g. 해산물파스타-2,레드와인-1,초코케이크-1)";
@@ -19,6 +18,14 @@ public class OutputView {
     private static final String TOTAL_DISCOUNT_HEADER = "<총혜택 금액>";
     private static final String EXPECTED_PRICE_HEADER = "<할인 후 예상 결제 금액>";
     private static final String EVENT_BADGE_HEADER = "<12월 이벤트 배지>";
+
+    public void printFormattedMenu() {
+        printEmptyLine();
+        printMessage(MENU);
+        printEmptyLine();
+        printMessage(Menu.formattedMenu());
+        printEmptyLine();
+    }
 
     public void printReadDateMessage() {
         printMessage(INIT_MESSAGE);
@@ -44,8 +51,7 @@ public class OutputView {
     public void printPriceBeforeSale(int priceBeforeSale) {
         printEmptyLine();
         printMessage(PRICE_BEFORE_SALE_HEADER);
-        String formattedPrice = MONEY_FORMAT.format(priceBeforeSale);
-        printMessageWithFormat("%s원", formattedPrice);
+        printMessageWithFormat("%,d원", priceBeforeSale);
     }
 
     public void printGiveAway(boolean hasGiveAway) {
@@ -66,9 +72,9 @@ public class OutputView {
             return;
         }
         for(String eventString: eventStringAndPrice.keySet()) {
-            String price = MONEY_FORMAT.format(eventStringAndPrice.get(eventString));
-            if (price.equals("0")) continue;
-            printMessageWithFormat("%s: -%s원", eventString, price);
+            int price = eventStringAndPrice.get(eventString);
+            if (price == 0) continue;
+            printMessageWithFormat("%s: -%,d원", eventString, price);
         }
     }
 
@@ -79,15 +85,13 @@ public class OutputView {
             printMessage("0원");
             return;
         }
-        String price = MONEY_FORMAT.format(totalDiscount);
-        printMessageWithFormat("-%s원", price);
+        printMessageWithFormat("-%,d원", totalDiscount);
     }
 
     public void printExpectedPrice(int expectedPrice) {
         printEmptyLine();
         printMessage(EXPECTED_PRICE_HEADER);
-        String price = MONEY_FORMAT.format(expectedPrice);
-        printMessage(price + "원");
+        printMessageWithFormat("%,d원", expectedPrice);
     }
 
     public void printEventBadge(String BadgeName) {
