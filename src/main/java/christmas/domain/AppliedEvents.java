@@ -34,11 +34,12 @@ public class AppliedEvents {
                 .sum();
     }
 
-    public int getTotalDiscountExceptGiveAway() {
+    public int getPriceAfterDiscount(int priceBeforeDiscount) {
+        int priceAfterDiscount = priceBeforeDiscount - getTotalDiscount();
         if (containsGiveawayEvent()) {
-            return getTotalDiscount() - Menu.CHAMPAGNE.price;
+            priceAfterDiscount += Menu.CHAMPAGNE.price;
         }
-        return getTotalDiscount();
+        return priceAfterDiscount;
     }
 
     public boolean containsGiveawayEvent() {

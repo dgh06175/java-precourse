@@ -24,12 +24,12 @@ public class EventController {
     }
 
     public void run() {
-        // 방문 날짜 입력 받기
+        // 날짜, 주문 입력 받기
         Date visitdate = requestVisitDate();
-        // 주문 메뉴 입력 받기
         OrderedMenu orderedMenu = requestOrder();
-        // 주문 메뉴 및 금액 출력
-        displayOrder(orderedMenu, visitdate);
+        // 주문 내역 출력
+        outputView.printEventStartMessage(visitdate);
+        displayOrder(orderedMenu);
         displayPriceBeforeDiscount(orderedMenu);
         // 이벤트 혜택 출력
         AppliedEvents appliedEvents = AppliedEvents.of(visitdate, orderedMenu);
@@ -61,19 +61,23 @@ public class EventController {
         }
     }
 
-    private void displayOrder(OrderedMenu orderedMenu, Date date) {
-        outputView.printMenu(orderedMenu.getMenuStringAndCount(), date);
+    private void displayOrder(OrderedMenu orderedMenu) {
+        Map<String, Integer> menuStringAndCount = orderedMenu.getMenuStringAndCount();
+        outputView.printMenu(menuStringAndCount);
     }
 
     private void displayPriceBeforeDiscount(OrderedMenu orderedMenu) {
-        outputView.printPriceBeforeSale(orderedMenu.getTotalPrice());
+        int priceBeforeDiscount = orderedMenu.getTotalPrice();
+        outputView.printPriceBeforeSale(priceBeforeDiscount);
     }
 
     private void displayResult(AppliedEvents appliedEvents, OrderedMenu orderedMenu) {
         outputView.printGiveAway(appliedEvents.containsGiveawayEvent());
         outputView.printEventList(appliedEvents.getEventStringAndPrice());
         outputView.printTotalDiscount(appliedEvents.getTotalDiscount());
-        outputView.printExpectedPrice(orderedMenu.getTotalPrice() - appliedEvents.getTotalDiscountExceptGiveAway());
+        int priceBeforeDiscount = orderedMenu.getTotalPrice();
+        int priceAfterDiscount = appliedEvents.getPriceAfterDiscount(priceBeforeDiscount);
+        outputView.printExpectedPrice(priceAfterDiscount);
         outputView.printEventBadge(appliedEvents.getBadge().name);
     }
 }

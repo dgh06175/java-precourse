@@ -36,6 +36,20 @@ public class AppliedEventsTest {
         assertThat(containsGiveaway2).isFalse();
     }
 
+    @DisplayName("할인 후 최종 가격 테스트")
+    @Test
+    void testGetPriceAfterDiscount() {
+        OrderedMenu orderedMenu = createSampleOrder();
+        Date date = new Date(15);
+
+        AppliedEvents appliedEvents = AppliedEvents.of(date, orderedMenu);
+        int priceBeforeDiscount = 164_000;
+        int discountedPrice = appliedEvents.getPriceAfterDiscount(priceBeforeDiscount);
+        int expectedPrice = 130_531 + 25_000;
+
+        assertThat(discountedPrice).isEqualTo(expectedPrice);
+    }
+
     private OrderedMenu createSampleOrder() {
         EnumMap<Menu, Integer> orderDetails = new EnumMap<>(Menu.class);
         orderDetails.put(Menu.T_BONE_STEAK, 2);
