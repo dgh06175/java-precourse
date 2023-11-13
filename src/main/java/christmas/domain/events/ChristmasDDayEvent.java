@@ -6,12 +6,12 @@ import static christmas.domain.Constant.START_OF_MONTH_DAY;
 import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
 
-public class ChristmasDDay extends AbstractEvent {
+public class ChristmasDDayEvent extends AbstractEvent {
     private static final int SALE_START_AMOUNT = 1000;
     private static final int SALE_TIMES_AMOUNT = 100;
     private static final String SALE_NAME = "크리스마스 디데이 할인";
 
-    public ChristmasDDay() {
+    public ChristmasDDayEvent() {
         super(SALE_NAME, START_OF_MONTH_DAY, CHRISTMAS_DAY);
     }
 

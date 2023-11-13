@@ -5,11 +5,11 @@ import java.util.List;
 
 public class EventFactory {
     private static final List<Event> allEvents = Arrays.asList(
-            new ChristmasDDay(),
-            new WeekDay(),
-            new WeekEnd(),
-            new Special(),
-            new GiveAway()
+            new ChristmasDDayEvent(),
+            new WeekDayEvent(),
+            new WeekEndEvent(),
+            new SpecialEvent(),
+            new GiveAwayEvent()
     );
 
     public static List<Event> getAllEvents() {

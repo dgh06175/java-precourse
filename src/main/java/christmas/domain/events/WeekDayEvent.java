@@ -1,31 +1,28 @@
 package christmas.domain.events;
 
-import static christmas.domain.Constant.CHRISTMAS_DAY;
 import static christmas.domain.Constant.END_OF_DECEMBER_DAY;
 import static christmas.domain.Constant.START_OF_MONTH_DAY;
 
 import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
+import christmas.domain.enums.MenuCategory;
 
-public class Special extends AbstractEvent {
-    private static final int SALE_AMOUNT = 1000;
-    private static final String SALE_NAME = "특별 할인";
+public class WeekDayEvent extends AbstractEvent {
+    private static final int SALE_AMOUNT = 2023;
+    private static final String SALE_NAME = "평일 할인";
 
-    public Special() {
+    public WeekDayEvent() {
         super(SALE_NAME, START_OF_MONTH_DAY, END_OF_DECEMBER_DAY);
     }
 
     @Override
     public boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
-        return isSpecial(date);
+        return !date.isWeekend();
     }
 
     @Override
     public int calculateDiscount(Date date, OrderedMenu orderedMenu) {
-        return SALE_AMOUNT;
-    }
-
-    private boolean isSpecial(Date date) {
-        return date.isSunday() || date.isChristmas();
+        // 디저트 메뉴 개수 * 2023 반환
+        return orderedMenu.getDiscountByCategory(MenuCategory.DESSERT, SALE_AMOUNT);
     }
 }

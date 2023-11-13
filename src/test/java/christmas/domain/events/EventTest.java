@@ -17,7 +17,7 @@ class EventTest {
     void checkEventValidity() {
         Date date = new Date(25);
         OrderedMenu simpleOrder = createSimpleOrder();
-        Event event = new ChristmasDDay();
+        Event event = new ChristmasDDayEvent();
 
         int discount1= event.getDiscountOf(date, simpleOrder);
         int discount2 = event.getDiscountOf(date, simpleOrder);
@@ -34,7 +34,7 @@ class EventTest {
         Date date = new Date(day);
         OrderedMenu bigOrder = createBigOrder();
 
-        Event event = new ChristmasDDay();
+        Event event = new ChristmasDDayEvent();
         assertThat(event.getDiscountOf(date, bigOrder)).isGreaterThan(0);
     }
 
@@ -43,7 +43,7 @@ class EventTest {
     void checkChristmasDDayEventInValidity() {
         Date date = new Date(26);
         OrderedMenu bigOrder = createBigOrder();
-        Event event = new ChristmasDDay();
+        Event event = new ChristmasDDayEvent();
 
         int discount = event.getDiscountOf(date, bigOrder);
 
@@ -56,7 +56,7 @@ class EventTest {
     void calculateChristmasDDayDiscount(int day) {
         Date date = new Date(day);
         OrderedMenu bigOrder = createBigOrder();
-        Event event = new ChristmasDDay();
+        Event event = new ChristmasDDayEvent();
 
         int discount = event.getDiscountOf(date, bigOrder);
 
@@ -69,7 +69,7 @@ class EventTest {
     void checkWeekendEventValidity(int day) {
         Date weekendDate = new Date(day);
         OrderedMenu bigOrder = createBigOrder();
-        Event event = new WeekEnd();
+        Event event = new WeekEndEvent();
 
         int discount = event.getDiscountOf(weekendDate, bigOrder);
 
@@ -82,7 +82,7 @@ class EventTest {
     void checkWeekendEventInValidity(int day) {
         Date weekendDate = new Date(day);
         OrderedMenu bigOrder = createBigOrder();
-        Event event = new WeekEnd();
+        Event event = new WeekEndEvent();
 
         int discount = event.getDiscountOf(weekendDate, bigOrder);
 
@@ -95,7 +95,7 @@ class EventTest {
     void checkWeekDayEventValidity(int day) {
         Date weekendDate = new Date(day);
         OrderedMenu bigOrder = createBigOrder();
-        Event event = new WeekDay();
+        Event event = new WeekDayEvent();
 
         int discount = event.getDiscountOf(weekendDate, bigOrder);
 
@@ -109,7 +109,7 @@ class EventTest {
         Date weekendDate = new Date(day);
         OrderedMenu bigOrder = createBigOrder();
         OrderedMenu simpleOrder = createSimpleOrder();
-        Event event = new WeekDay();
+        Event event = new WeekDayEvent();
 
         int discount1 = event.getDiscountOf(weekendDate, bigOrder);
         int discount2 = event.getDiscountOf(weekendDate, simpleOrder);
@@ -125,7 +125,7 @@ class EventTest {
         Date specialDate2 = new Date(25);
         Date invalidSpecialDate = new Date(26);
         OrderedMenu bigOrder = createBigOrder();
-        Event event = new Special();
+        Event event = new SpecialEvent();
 
         assertThat(event.getDiscountOf(specialDate1, bigOrder)).isGreaterThan(0);
         assertThat(event.getDiscountOf(specialDate2, bigOrder)).isEqualTo(1000);
@@ -138,7 +138,7 @@ class EventTest {
         Date specialDate1 = new Date(1);
         OrderedMenu orderedMenu = createBigOrder();
         OrderedMenu orderedMenu2 = createSimpleOrder();
-        Event event = new GiveAway();
+        Event event = new GiveAwayEvent();
 
         int discount1 = event.getDiscountOf(specialDate1, orderedMenu);
         int discount2 = event.getDiscountOf(specialDate1, orderedMenu2);

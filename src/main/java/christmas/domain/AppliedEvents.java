@@ -4,7 +4,7 @@ import christmas.domain.enums.Badge;
 import christmas.domain.enums.Menu;
 import christmas.domain.events.Event;
 import christmas.domain.events.EventFactory;
-import christmas.domain.events.GiveAway;
+import christmas.domain.events.GiveAwayEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -45,7 +45,7 @@ public class AppliedEvents {
     public boolean containsGiveawayEvent() {
         return eventDiscounts.entrySet().stream()
                 .anyMatch(entry ->
-                        entry.getKey() instanceof GiveAway && entry.getValue() > 0
+                        entry.getKey() instanceof GiveAwayEvent && entry.getValue() > 0
                 );
     }
 
