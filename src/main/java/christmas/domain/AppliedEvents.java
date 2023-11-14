@@ -7,6 +7,7 @@ import christmas.domain.events.EventFactory;
 import christmas.domain.events.GiveAwayEvent;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 import java.util.List;
 
@@ -18,12 +19,10 @@ public class AppliedEvents {
     }
 
     public static AppliedEvents of(Date date, OrderedMenu orderedMenu) {
-        List<Event> events = EventFactory.getAllEvents();
-        Map<Event, Integer> eventDiscounts = events.stream()
-                .collect(Collectors.toMap(
-                        event -> event,
-                        event -> event.getDiscountOf(date, orderedMenu)
-                ));
+        Map<Event, Integer> eventDiscounts = new HashMap<>();
+        for (Event event: EventFactory.getAllEvents()) {
+            eventDiscounts.put(event, event.getDiscountOf(date, orderedMenu));
+        }
         return new AppliedEvents(eventDiscounts);
     }
 
@@ -43,19 +42,24 @@ public class AppliedEvents {
     }
 
     public boolean containsGiveawayEvent() {
-        return eventDiscounts.entrySet().stream()
-                .anyMatch(entry ->
-                        entry.getKey() instanceof GiveAwayEvent && entry.getValue() > 0
-                );
+        for (Map.Entry<Event, Integer> tmpEntry: eventDiscounts.entrySet()) {
+            if (isGiveAwayApplied(tmpEntry)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean isGiveAwayApplied(Entry<Event, Integer> tmpEntry) {
+        return tmpEntry.getKey() instanceof GiveAwayEvent && tmpEntry.getValue() > 0;
     }
 
     public Map<String, Integer> getEventStringAndPrice() {
-        return eventDiscounts.entrySet().stream()
-                .collect(Collectors.toMap(
-                        entry -> entry.getKey().getName(),
-                        Map.Entry::getValue,
-                        (existing, replacement) -> existing
-                ));
+        Map<String, Integer> eventStringAndPrice = new HashMap<>();
+        for (Map.Entry<Event, Integer> entry : eventDiscounts.entrySet()) {
+            eventStringAndPrice.put(entry.getKey().getName(), entry.getValue());
+        }
+        return eventStringAndPrice;
     }
 
     public Badge getBadge() {

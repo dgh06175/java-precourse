@@ -4,9 +4,9 @@ import christmas.domain.enums.Menu;
 import christmas.domain.enums.MenuCategory;
 import christmas.exception.OrderException;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
 
 public class OrderedMenu {
     private static final int MAX_MENU_QUANTITY = 20;
@@ -24,12 +24,11 @@ public class OrderedMenu {
     }
 
     public Map<String, Integer> getMenuStringAndCount() {
-        return value.entrySet().stream()
-                .collect(Collectors.toMap(
-                        entry -> entry.getKey().name,
-                        Map.Entry::getValue,
-                        (existing, replacement) -> existing
-                ));
+        Map<String, Integer> menuStringAndCount = new HashMap<>();
+        for(Map.Entry<Menu, Integer> entry: value.entrySet()) {
+            menuStringAndCount.put(entry.getKey().displayName, entry.getValue());
+        }
+        return menuStringAndCount;
     }
 
     public int getDiscountByCategory(MenuCategory category, int discountAmount) {
