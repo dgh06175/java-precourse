@@ -3,10 +3,12 @@ package christmas.domain;
 import christmas.domain.enums.Menu;
 import christmas.domain.enums.MenuCategory;
 import christmas.exception.OrderException;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class OrderedMenu {
     private static final int MAX_MENU_QUANTITY = 20;
@@ -17,6 +19,9 @@ public class OrderedMenu {
         this.value = new EnumMap<>(parsedOrder);
     }
 
+    /**
+     * @return OrderedMenu 에 저장된 메뉴들 가격 총합
+     */
     public int getTotalPrice() {
         return value.entrySet().stream()
                 .mapToInt(entry -> entry.getKey().getPrice(entry.getValue()))
@@ -39,26 +44,26 @@ public class OrderedMenu {
     }
 
     private void validateOrder(EnumMap<Menu, Integer> order) {
-        if (isAnyMenuQuantityLowerThanOne(order)) {
+        if (isAnyMenuQuantityLowerThanOne(order.values())) {
             throw new OrderException();
         }
-        if (isTotalMenuQuantityMoreThanMax(order)) {
+        if (isTotalMenuQuantityMoreThanMax(order.values())) {
             throw new OrderException();
         }
-        if (isEveryMenuCategoryIsDrink(order)) {
+        if (isEveryMenuCategoryIsDrink(order.keySet())) {
             throw new OrderException();
         }
     }
 
-    private boolean isAnyMenuQuantityLowerThanOne(EnumMap<Menu, Integer> order) {
-        return order.values().stream().anyMatch(quantity -> quantity < 1);
+    private boolean isAnyMenuQuantityLowerThanOne(Collection<Integer> quantities) {
+        return quantities.stream().anyMatch(quantity -> quantity < 1);
     }
 
-    private boolean isTotalMenuQuantityMoreThanMax(EnumMap<Menu, Integer> order) {
-        return order.values().stream().mapToInt(Integer::intValue).sum() > MAX_MENU_QUANTITY;
+    private boolean isTotalMenuQuantityMoreThanMax(Collection<Integer> quantities) {
+        return quantities.stream().mapToInt(i -> i).sum() > MAX_MENU_QUANTITY;
     }
 
-    private boolean isEveryMenuCategoryIsDrink(EnumMap<Menu, Integer> order) {
-        return order.keySet().stream().allMatch(menu -> menu.isCategoryEquals(MenuCategory.DRINK));
+    private boolean isEveryMenuCategoryIsDrink(Set<Menu> menuSet) {
+        return menuSet.stream().allMatch(menu -> menu.isCategoryEquals(MenuCategory.DRINK));
     }
 }
