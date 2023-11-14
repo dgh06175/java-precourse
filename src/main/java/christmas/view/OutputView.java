@@ -4,7 +4,6 @@ import christmas.domain.enums.Menu;
 import java.util.Map;
 
 public class OutputView {
-    private static final String MONEY_FORMAT = "%,d";
     private static final String MENU = "<우테코 식당 메뉴>";
     private static final String INIT_MESSAGE = "안녕하세요! 우테코 식당 12월 이벤트 플래너입니다.";
     private static final String READ_DATE_MESSAGE = "12월 중 식당 예상 방문 날짜는 언제인가요? (숫자만 입력해 주세요!)";

@@ -18,7 +18,6 @@ public class AppliedEventsTest {
 
         AppliedEvents appliedEvents = AppliedEvents.of(date, orderedMenu);
         int totalDiscount = appliedEvents.getTotalDiscount();
-        System.out.println(totalDiscount);
 
         assertThat(totalDiscount).isEqualTo(2400 + 2023 * 3 + 25000);
     }
