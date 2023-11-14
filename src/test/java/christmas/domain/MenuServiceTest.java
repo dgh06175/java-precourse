@@ -25,7 +25,7 @@ class MenuServiceTest {
         assertThat(result.get(Menu.BARBECUE_RIBS)).isEqualTo(3);
     }
 
-    @DisplayName("유효하지 않은_ 자열 예외 테스트")
+    @DisplayName("유효하지 않은 문자열 예외 테스트")
     @Test
     void invalidStringTest() {
         Map<String, Integer> parsedStringOrder = Map.of("라면", 1);
