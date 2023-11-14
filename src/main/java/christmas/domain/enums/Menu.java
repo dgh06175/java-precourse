@@ -20,12 +20,12 @@ public enum Menu {
     RED_WINE("레드와인", MenuCategory.DRINK, 60000),
     CHAMPAGNE("샴페인", MenuCategory.DRINK, 25000);
 
-    public final String name;
+    public final String displayName;
     private final MenuCategory menuCategory;
     private final int price;
 
-    Menu(String name, MenuCategory menuCategory, int price) {
-        this.name = name;
+    Menu(String displayName, MenuCategory menuCategory, int price) {
+        this.displayName = displayName;
         this.menuCategory = menuCategory;
         this.price = price;
     }
@@ -43,7 +43,7 @@ public enum Menu {
             output.append("<").append(category.getDisplayName()).append(">\n");
             Arrays.stream(Menu.values())
                     .filter(menu -> menu.isCategoryEquals(category))
-                    .forEach(menu -> output.append(menu.name)
+                    .forEach(menu -> output.append(menu.displayName)
                             .append("(")
                             .append(String.format("%,d", menu.price))
                             .append("), "));
@@ -67,6 +67,6 @@ public enum Menu {
     }
 
     private boolean isNameEquals(String inName) {
-        return name.equals(inName);
+        return displayName.equals(inName);
     }
 }

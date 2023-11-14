@@ -58,7 +58,7 @@ public class OutputView {
         printEmptyLine();
         printMessage(GIVEAWAY_HEADER);
         if (hasGiveAway) {
-            printMessageWithFormat("%s %d개", Menu.CHAMPAGNE.name, 1);
+            printMessageWithFormat("%s %d개", Menu.CHAMPAGNE.displayName, 1);
         } else {
             printMessage(NO_ITEMS);
         }

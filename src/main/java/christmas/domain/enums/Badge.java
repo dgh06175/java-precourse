@@ -6,11 +6,11 @@ public enum Badge {
     TREE("트리", 10_000),
     SANTA("산타", 20_000);
 
-    public final String name;
+    public final String displayName;
     private final int minDiscount;
 
-    Badge (String name, int minDiscount) {
-        this.name = name;
+    Badge (String displayName, int minDiscount) {
+        this.displayName = displayName;
         this.minDiscount = minDiscount;
     }
 

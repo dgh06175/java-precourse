@@ -75,6 +75,6 @@ public class EventFacade {
     }
 
     public void displayBadge(AppliedEvents appliedEvents) {
-        outputView.printEventBadge(appliedEvents.getBadge().name);
+        outputView.printEventBadge(appliedEvents.getBadge().displayName);
     }
 }
