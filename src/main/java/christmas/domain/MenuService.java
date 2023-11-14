@@ -18,12 +18,10 @@ public class MenuService {
     }
 
     private static EnumMap<Menu, Integer> getMenuMap(Map<String, Integer> parsedStringOrder) {
-        return parsedStringOrder.entrySet().stream()
-                .collect(Collectors.toMap(
-                        e -> Menu.of(e.getKey()),
-                        Map.Entry::getValue,
-                        (existing, replacement) -> existing,
-                        () -> new EnumMap<>(Menu.class)
-                ));
+        EnumMap<Menu, Integer> menuMap = new EnumMap<>(Menu.class);
+        for(Map.Entry<String, Integer> entry: parsedStringOrder.entrySet()) {
+            menuMap.put(Menu.of(entry.getKey()), entry.getValue());
+        }
+        return menuMap;
     }
 }
