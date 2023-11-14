@@ -8,8 +8,6 @@ import christmas.domain.events.GiveAwayEvent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.stream.Collectors;
-import java.util.List;
 
 public class AppliedEvents {
     private final Map<Event, Integer> eventDiscounts;
@@ -19,6 +17,10 @@ public class AppliedEvents {
     }
 
     public static AppliedEvents of(Date date, OrderedMenu orderedMenu) {
+        return getAppliedEvents(date, orderedMenu);
+    }
+
+    private static AppliedEvents getAppliedEvents(Date date, OrderedMenu orderedMenu) {
         Map<Event, Integer> eventDiscounts = new HashMap<>();
         for (Event event: EventFactory.getAllEvents()) {
             eventDiscounts.put(event, event.getDiscountOf(date, orderedMenu));
@@ -35,10 +37,14 @@ public class AppliedEvents {
 
     public int getPriceAfterDiscount(int priceBeforeDiscount) {
         int priceAfterDiscount = priceBeforeDiscount - getTotalDiscount();
+        return priceAfterDiscount + giveAwayDiscount();
+    }
+
+    private int giveAwayDiscount() {
         if (containsGiveawayEvent()) {
-            priceAfterDiscount += Menu.CHAMPAGNE.getPrice();
+            return Menu.CHAMPAGNE.getPrice();
         }
-        return priceAfterDiscount;
+        return 0;
     }
 
     public boolean containsGiveawayEvent() {
