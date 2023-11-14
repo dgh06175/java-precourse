@@ -37,7 +37,7 @@ public class AppliedEvents {
     public int getPriceAfterDiscount(int priceBeforeDiscount) {
         int priceAfterDiscount = priceBeforeDiscount - getTotalDiscount();
         if (containsGiveawayEvent()) {
-            priceAfterDiscount += Menu.CHAMPAGNE.price;
+            priceAfterDiscount += Menu.CHAMPAGNE.getPrice();
         }
         return priceAfterDiscount;
     }

@@ -15,12 +15,12 @@ public class SpecialEvent extends AbstractEvent {
     }
 
     @Override
-    public boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
+    protected boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
         return isSpecial(date);
     }
 
     @Override
-    public int calculateDiscount(Date date, OrderedMenu orderedMenu) {
+    protected int calculateDiscount(Date date, OrderedMenu orderedMenu) {
         return SALE_AMOUNT;
     }
 

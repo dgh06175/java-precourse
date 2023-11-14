@@ -16,13 +16,13 @@ public class GiveAwayEvent extends AbstractEvent {
     }
 
     @Override
-    public boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
+    protected boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
         return orderedMenu.getTotalPrice() >= GIVE_AWAY_MIN_PRICE;
     }
 
     @Override
-    public int calculateDiscount(Date date, OrderedMenu orderedMenu) {
+    protected int calculateDiscount(Date date, OrderedMenu orderedMenu) {
         // 총 주문 금액 12만원 이상일떄 샴페인 증정
-        return Menu.CHAMPAGNE.price;
+        return Menu.CHAMPAGNE.getPrice();
     }
 }

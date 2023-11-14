@@ -22,7 +22,7 @@ public enum Menu {
 
     public final String name;
     private final MenuCategory menuCategory;
-    public final int price;
+    private final int price;
 
     Menu(String name, MenuCategory menuCategory, int price) {
         this.name = name;
@@ -56,6 +56,10 @@ public enum Menu {
 
     public boolean isCategoryEquals(MenuCategory inCategory) {
         return menuCategory.equals(inCategory);
+    }
+
+    public int getPrice() {
+        return price;
     }
 
     public int getPrice(int count) {

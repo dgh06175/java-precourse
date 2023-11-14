@@ -16,12 +16,12 @@ public class ChristmasDDayEvent extends AbstractEvent {
     }
 
     @Override
-    public boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
+    protected boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
         return true;
     }
 
     @Override
-    public int calculateDiscount(Date date, OrderedMenu orderedMenu) {
+    protected int calculateDiscount(Date date, OrderedMenu orderedMenu) {
         // 1,000원으로 시작하여 크리스마스가 다가올수록 날마다 할인 금액이 100원씩 증가
         return SALE_START_AMOUNT + date.getDaysToChristmas() * SALE_TIMES_AMOUNT;
     }

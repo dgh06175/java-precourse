@@ -13,7 +13,7 @@ import java.util.Map;
 public class EventController {
     private final InputView inputView;
     private final InputParser inputParser;
-    EventFacade eventFacade;
+    private final EventFacade eventFacade;
 
     public EventController(InputView inputView, OutputView outputView, InputParser inputParser) {
         this.inputView = inputView;

@@ -16,12 +16,12 @@ public class WeekDayEvent extends AbstractEvent {
     }
 
     @Override
-    public boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
+    protected boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
         return !date.isWeekend();
     }
 
     @Override
-    public int calculateDiscount(Date date, OrderedMenu orderedMenu) {
+    protected int calculateDiscount(Date date, OrderedMenu orderedMenu) {
         // 디저트 메뉴 개수 * 2023 반환
         return orderedMenu.getDiscountByCategory(MenuCategory.DESSERT, SALE_AMOUNT);
     }
