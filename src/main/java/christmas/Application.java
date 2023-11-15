@@ -9,7 +9,7 @@ import java.time.Month;
 public class Application {
     public static void main(String[] args) {
         new EventController(
-                2064,
+                2023,
                 Month.of(12),
                 new InputView(),
                 new OutputView(),
