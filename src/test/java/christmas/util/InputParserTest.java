@@ -1,6 +1,6 @@
 package christmas.util;
 
-import christmas.domain.dto.StringIntPair;
+import christmas.domain.records.StringIntPair;
 import christmas.exception.OrderException;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;

@@ -2,8 +2,8 @@ package christmas.controller;
 
 import christmas.domain.MenuService;
 import christmas.domain.OrderedMenu;
-import christmas.domain.dto.MenuQuantity;
-import christmas.domain.dto.StringIntPair;
+import christmas.domain.records.MenuQuantity;
+import christmas.domain.records.StringIntPair;
 import christmas.exception.DateException;
 import christmas.util.InputParser;
 import christmas.view.InputView;

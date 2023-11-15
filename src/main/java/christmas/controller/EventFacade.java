@@ -2,7 +2,7 @@ package christmas.controller;
 
 import christmas.domain.AppliedEvents;
 import christmas.domain.OrderedMenu;
-import christmas.domain.dto.StringIntPair;
+import christmas.domain.records.StringIntPair;
 import christmas.exception.EventException;
 import christmas.view.OutputView;
 

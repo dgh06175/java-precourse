@@ -1,7 +1,7 @@
 package christmas.domain;
 
-import christmas.domain.dto.EventDiscountPrice;
-import christmas.domain.dto.StringIntPair;
+import christmas.domain.records.EventDiscountPrice;
+import christmas.domain.records.StringIntPair;
 import christmas.domain.enums.Badge;
 import christmas.domain.enums.Menu;
 import christmas.domain.events.Event;

@@ -1,6 +1,6 @@
 package christmas.domain;
 
-import christmas.domain.dto.MenuQuantity;
+import christmas.domain.records.MenuQuantity;
 import christmas.domain.enums.Menu;
 import java.time.LocalDate;
 import java.util.ArrayList;

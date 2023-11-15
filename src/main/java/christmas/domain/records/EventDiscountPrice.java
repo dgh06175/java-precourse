@@ -1,4 +1,4 @@
-package christmas.domain.dto;
+package christmas.domain.records;
 
 import christmas.domain.events.Event;
 

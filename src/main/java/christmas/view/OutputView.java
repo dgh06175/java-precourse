@@ -1,6 +1,6 @@
 package christmas.view;
 
-import christmas.domain.dto.StringIntPair;
+import christmas.domain.records.StringIntPair;
 import christmas.domain.enums.Menu;
 import java.time.LocalDate;
 import java.util.List;
