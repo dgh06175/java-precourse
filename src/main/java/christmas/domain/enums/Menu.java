@@ -2,6 +2,7 @@ package christmas.domain.enums;
 
 import christmas.exception.OrderException;
 import java.util.Arrays;
+import java.util.stream.Collectors;
 
 public enum Menu {
     MUSHROOM_SOUP("양송이수프", MenuCategory.APPETIZER, 6000),
@@ -38,20 +39,19 @@ public enum Menu {
     }
 
     public static String formattedMenu() {
-        StringBuilder output = new StringBuilder();
-        for (MenuCategory category : MenuCategory.values()) {
-            output.append("<").append(category.getDisplayName()).append(">\n");
-            Arrays.stream(Menu.values())
-                    .filter(menu -> menu.isCategoryEquals(category))
-                    .forEach(menu -> output.append(menu.displayName)
-                            .append("(")
-                            .append(String.format("%,d", menu.price))
-                            .append("), "));
-            int length = output.length();
-            output.delete(length - 2, length);
-            output.append("\n\n");
-        }
-        return output.toString().trim();
+        return Arrays.stream(MenuCategory.values())
+                .map(Menu::formatMenuForCategory)
+                .collect(Collectors.joining("\n\n"))
+                .trim();
+    }
+
+    private static String formatMenuForCategory(MenuCategory category) {
+        String menuItems = Arrays.stream(Menu.values())
+                .filter(menu -> menu.isCategoryEquals(category))
+                .map(menu -> String.format("%s(%,d)", menu.displayName, menu.price))
+                .collect(Collectors.joining(", "));
+
+        return String.format("<%s>\n%s", category.getDisplayName(), menuItems);
     }
 
     public boolean isCategoryEquals(MenuCategory inCategory) {
