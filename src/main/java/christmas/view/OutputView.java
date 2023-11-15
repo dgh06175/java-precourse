@@ -1,7 +1,8 @@
 package christmas.view;
 
+import christmas.domain.dto.StringIntPair;
 import christmas.domain.enums.Menu;
-import java.util.Map;
+import java.util.List;
 
 public class OutputView {
     private static final String MENU = "<우테코 식당 메뉴>";
@@ -39,11 +40,11 @@ public class OutputView {
         printMessageWithFormat(EVENT_START_MESSAGE, day);
     }
 
-    public void printMenu(Map<String, Integer> orders) {
+    public void printMenu(List<StringIntPair> orders) {
         printEmptyLine();
         printMessage(ORDER_MENU_HEADER);
-        for (String menuName: orders.keySet()) {
-            printMessageWithFormat("%s %d개", menuName, orders.get(menuName));
+        for (var item: orders) {
+            printMessageWithFormat("%s %d개", item.string(), item.integer());
         }
     }
 
@@ -63,18 +64,25 @@ public class OutputView {
         }
     }
 
-    public void printEventList(Map<String, Integer> eventStringAndPrice) {
+    public void printEventList(List<StringIntPair> eventStringDiscountPrice) {
         printEmptyLine();
         printMessage(EVENT_LIST_HEADER);
-        if (eventStringAndPrice.values().stream().mapToInt(i -> i).sum() == 0) {
+        if (isPriceZero(eventStringDiscountPrice)) {
             printMessage(NO_ITEMS);
             return;
         }
-        for(String eventString: eventStringAndPrice.keySet()) {
-            int price = eventStringAndPrice.get(eventString);
+        for(var item: eventStringDiscountPrice) {
+            int price = item.integer();
             if (price == 0) continue;
-            printMessageWithFormat("%s: -%,d원", eventString, price);
+            printMessageWithFormat("%s: -%,d원", item.string(), price);
         }
+    }
+
+    private static boolean isPriceZero(List<StringIntPair> eventStringDiscountPrice) {
+        return eventStringDiscountPrice.stream()
+                .map(StringIntPair::integer)
+                .mapToInt(i -> i)
+                .sum() == 0;
     }
 
     public void printTotalDiscount(int totalDiscount) {

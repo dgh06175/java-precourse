@@ -1,69 +1,73 @@
 package christmas.domain;
 
-import christmas.domain.enums.Menu;
+import christmas.domain.dto.MenuQuantity;
+import christmas.domain.dto.StringIntPair;
 import christmas.domain.enums.MenuCategory;
 import christmas.exception.OrderException;
-import java.util.Collection;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OrderedMenu {
     private static final int MAX_MENU_QUANTITY = 20;
-    private final EnumMap<Menu, Integer> value;
+    private final List<MenuQuantity> menuQuantities;
 
-    public OrderedMenu(EnumMap<Menu, Integer> parsedOrder) {
+    public OrderedMenu(List<MenuQuantity> parsedOrder) {
         validateOrder(parsedOrder);
-        this.value = new EnumMap<>(parsedOrder);
+        this.menuQuantities = new ArrayList<>(parsedOrder);
     }
 
     /**
      * @return OrderedMenu 에 저장된 메뉴들 가격 총합
      */
     public int getTotalPrice() {
-        return value.entrySet().stream()
-                .mapToInt(entry -> entry.getKey().getPrice(entry.getValue()))
+        return menuQuantities.stream()
+                .mapToInt(item -> item.menu().getPrice(item.quantity()))
                 .sum();
     }
 
-    public Map<String, Integer> getMenuStringAndCount() {
-        Map<String, Integer> menuStringAndCount = new HashMap<>();
-        for(Map.Entry<Menu, Integer> entry: value.entrySet()) {
-            menuStringAndCount.put(entry.getKey().displayName, entry.getValue());
-        }
-        return menuStringAndCount;
-    }
-
     public int getDiscountByCategory(MenuCategory category, int discountAmount) {
-        return value.entrySet().stream()
-                .filter(entry -> entry.getKey().isCategoryEquals(category))
-                .mapToInt(Entry::getValue)
+        return menuQuantities.stream()
+                .filter(entry -> entry.menu().isCategoryEquals(category))
+                .mapToInt(MenuQuantity::quantity)
                 .sum() * discountAmount;
     }
 
-    private void validateOrder(EnumMap<Menu, Integer> order) {
-        if (isAnyMenuQuantityLowerThanOne(order.values())) {
+    public List<StringIntPair> getMenuStringQuantity() {
+        List<StringIntPair> stringOrder = new ArrayList<>();
+        for(var item: menuQuantities) {
+            StringIntPair stringIntPair = new StringIntPair(item.menu().displayName, item.quantity());
+            stringOrder.add(stringIntPair);
+        }
+        return stringOrder;
+    }
+
+    private void validateOrder(List<MenuQuantity> orders) {
+        if (isAnyMenuQuantityLowerThanOne(orders)) {
             throw new OrderException();
         }
-        if (isTotalMenuQuantityMoreThanMax(order.values())) {
+        if (isTotalMenuQuantityMoreThanMax(orders)) {
             throw new OrderException();
         }
-        if (isEveryMenuCategoryIsDrink(order.keySet())) {
+        if (isEveryMenuCategoryIsDrink(orders)) {
             throw new OrderException();
         }
     }
 
-    private boolean isAnyMenuQuantityLowerThanOne(Collection<Integer> quantities) {
-        return quantities.stream().anyMatch(quantity -> quantity < 1);
+    private boolean isAnyMenuQuantityLowerThanOne(List<MenuQuantity> orders) {
+        return orders.stream()
+                .map(MenuQuantity::quantity)
+                .anyMatch(quantity -> quantity < 1);
     }
 
-    private boolean isTotalMenuQuantityMoreThanMax(Collection<Integer> quantities) {
-        return quantities.stream().mapToInt(i -> i).sum() > MAX_MENU_QUANTITY;
+    private boolean isTotalMenuQuantityMoreThanMax(List<MenuQuantity> orders) {
+        return orders.stream()
+                .map(MenuQuantity::quantity)
+                .mapToInt(i -> i).sum() > MAX_MENU_QUANTITY;
     }
 
-    private boolean isEveryMenuCategoryIsDrink(Set<Menu> menuSet) {
-        return menuSet.stream().allMatch(menu -> menu.isCategoryEquals(MenuCategory.DRINK));
+    private boolean isEveryMenuCategoryIsDrink(List<MenuQuantity> orders) {
+        return orders.stream()
+                .map(MenuQuantity::menu)
+                .allMatch(menu -> menu.isCategoryEquals(MenuCategory.DRINK));
     }
 }

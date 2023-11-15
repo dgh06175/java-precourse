@@ -1,19 +1,20 @@
 package christmas.domain;
 
+import christmas.domain.dto.EventDiscountPrice;
+import christmas.domain.dto.StringIntPair;
 import christmas.domain.enums.Badge;
 import christmas.domain.enums.Menu;
 import christmas.domain.events.Event;
 import christmas.domain.events.EventFactory;
 import christmas.domain.events.GiveAwayEvent;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AppliedEvents {
-    private final Map<Event, Integer> eventDiscounts;
+    private final List<EventDiscountPrice> values;
 
-    private AppliedEvents(Map<Event, Integer> eventDiscounts) {
-        this.eventDiscounts = new HashMap<>(eventDiscounts);
+    private AppliedEvents(List<EventDiscountPrice> values) {
+        this.values = values;
     }
 
     public static AppliedEvents of(Date date, OrderedMenu orderedMenu) {
@@ -21,17 +22,17 @@ public class AppliedEvents {
     }
 
     private static AppliedEvents getAppliedEvents(Date date, OrderedMenu orderedMenu) {
-        Map<Event, Integer> eventDiscounts = new HashMap<>();
-        for (Event event: EventFactory.getAllEvents()) {
-            eventDiscounts.put(event, event.getDiscountOf(date, orderedMenu));
+        List<EventDiscountPrice> eventDiscountPrices = new ArrayList<>();
+        for (Event item: EventFactory.getAllEvents()) {
+            eventDiscountPrices.add(new EventDiscountPrice(item, item.getDiscountOf(date, orderedMenu)));
         }
-        return new AppliedEvents(eventDiscounts);
+        return new AppliedEvents(eventDiscountPrices);
     }
 
     public int getTotalDiscount() {
-        return eventDiscounts.values()
+        return values
                 .stream()
-                .mapToInt(Integer::intValue)
+                .mapToInt(EventDiscountPrice::discountPrice)
                 .sum();
     }
 
@@ -48,22 +49,22 @@ public class AppliedEvents {
     }
 
     public boolean containsGiveawayEvent() {
-        for (Map.Entry<Event, Integer> tmpEntry: eventDiscounts.entrySet()) {
-            if (isGiveAwayApplied(tmpEntry)) {
+        for (EventDiscountPrice eventDiscountPrice : values) {
+            if (isGiveAwayApplied(eventDiscountPrice)) {
                 return true;
             }
         }
         return false;
     }
 
-    private boolean isGiveAwayApplied(Entry<Event, Integer> tmpEntry) {
-        return tmpEntry.getKey() instanceof GiveAwayEvent && tmpEntry.getValue() > 0;
+    private boolean isGiveAwayApplied(EventDiscountPrice tmpEvent) {
+        return tmpEvent.event() instanceof GiveAwayEvent && tmpEvent.discountPrice() > 0;
     }
 
-    public Map<String, Integer> getEventStringAndPrice() {
-        Map<String, Integer> eventStringAndPrice = new HashMap<>();
-        for (Map.Entry<Event, Integer> entry : eventDiscounts.entrySet()) {
-            eventStringAndPrice.put(entry.getKey().getName(), entry.getValue());
+    public List<StringIntPair> getEventStringAndPrice() {
+        List<StringIntPair> eventStringAndPrice = new ArrayList<>();
+        for (var item : values) {
+            eventStringAndPrice.add(new StringIntPair(item.event().getName(), item.discountPrice()));
         }
         return eventStringAndPrice;
     }

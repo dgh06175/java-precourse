@@ -9,7 +9,7 @@ import static christmas.domain.testUtil.createSampleOrder1;
 import static christmas.domain.testUtil.createSampleOrder2;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class AppliedEventsTest {
+public class EventsTestDiscountPair {
     @DisplayName("적용된 이벤트의 총 할인 금액 계산")
     @Test
     void calculateTotalDiscount() {

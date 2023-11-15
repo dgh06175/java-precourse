@@ -1,27 +1,30 @@
 package christmas.domain;
 
+import christmas.domain.dto.MenuQuantity;
+import christmas.domain.dto.StringIntPair;
 import christmas.domain.enums.Menu;
 import christmas.exception.OrderException;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MenuService {
-    public static EnumMap<Menu, Integer> stringToMenu(Map<String, Integer> parsedStringOrder) {
-        EnumMap<Menu, Integer> order;
+    public static List<MenuQuantity> stringToMenu(List<StringIntPair> parsedStringOrder) {
+        List<MenuQuantity> order;
         try {
-            order = getMenuMap(parsedStringOrder);
+            order = getMenuQuantities(parsedStringOrder);
         } catch (NullPointerException | IllegalArgumentException e) {
             throw new OrderException();
         }
         return order;
     }
 
-    private static EnumMap<Menu, Integer> getMenuMap(Map<String, Integer> parsedStringOrder) {
-        EnumMap<Menu, Integer> menuMap = new EnumMap<>(Menu.class);
-        for(Map.Entry<String, Integer> entry: parsedStringOrder.entrySet()) {
-            menuMap.put(Menu.of(entry.getKey()), entry.getValue());
+
+
+    private static List<MenuQuantity> getMenuQuantities(List<StringIntPair> parsedStringOrder) {
+        List<MenuQuantity> menuQuantityList = new ArrayList<>();
+        for(var item: parsedStringOrder) {
+            menuQuantityList.add(new MenuQuantity(Menu.of(item.string()), item.integer()));
         }
-        return menuMap;
+        return menuQuantityList;
     }
 }

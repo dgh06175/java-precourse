@@ -1,37 +1,40 @@
 package christmas.domain;
 
+import christmas.domain.dto.MenuQuantity;
 import christmas.domain.enums.Menu;
+import java.util.ArrayList;
 import java.util.EnumMap;
+import java.util.List;
 
 public class testUtil {
     public static OrderedMenu createBigOrder() {
-        EnumMap<Menu, Integer> orderDetails = new EnumMap<>(Menu.class);
-        orderDetails.put(Menu.T_BONE_STEAK, 1);
-        orderDetails.put(Menu.BARBECUE_RIBS, 2);
-        orderDetails.put(Menu.TAPAS, 1);
-        orderDetails.put(Menu.CHRISTMAS_PASTA, 1);
-        orderDetails.put(Menu.ICE_CREAM, 3);
+        List<MenuQuantity> orderDetails = new ArrayList<>();
+        orderDetails.add(new MenuQuantity(Menu.T_BONE_STEAK, 1));
+        orderDetails.add(new MenuQuantity(Menu.BARBECUE_RIBS, 2));
+        orderDetails.add(new MenuQuantity(Menu.TAPAS, 1));
+        orderDetails.add(new MenuQuantity(Menu.CHRISTMAS_PASTA, 1));
+        orderDetails.add(new MenuQuantity(Menu.ICE_CREAM, 3));
         return new OrderedMenu(orderDetails);
     }
 
     public static OrderedMenu createSimpleOrder() {
-        EnumMap<Menu, Integer> orderDetails = new EnumMap<>(Menu.class);
-        orderDetails.put(Menu.TAPAS, 1);
-        orderDetails.put(Menu.ZERO_COLA, 1);
+        List<MenuQuantity> orderDetails = new ArrayList<>();
+        orderDetails.add(new MenuQuantity(Menu.TAPAS, 1));
+        orderDetails.add(new MenuQuantity(Menu.ZERO_COLA, 1));
         return new OrderedMenu(orderDetails);
     }
 
     public static OrderedMenu createSampleOrder1() {
-        EnumMap<Menu, Integer> orderDetails = new EnumMap<>(Menu.class);
-        orderDetails.put(Menu.T_BONE_STEAK, 2);
-        orderDetails.put(Menu.BARBECUE_RIBS, 1);
+        List<MenuQuantity> orderDetails = new ArrayList<>();
+        orderDetails.add(new MenuQuantity(Menu.T_BONE_STEAK, 2));
+        orderDetails.add(new MenuQuantity(Menu.BARBECUE_RIBS, 1));
         return new OrderedMenu(orderDetails);
     }
 
     public static OrderedMenu createSampleOrder2() {
-        EnumMap<Menu, Integer> orderDetails = new EnumMap<>(Menu.class);
-        orderDetails.put(Menu.MUSHROOM_SOUP, 1);
-        orderDetails.put(Menu.ZERO_COLA, 2);
+        List<MenuQuantity> orderDetails = new ArrayList<>();
+        orderDetails.add(new MenuQuantity(Menu.MUSHROOM_SOUP, 1));
+        orderDetails.add(new MenuQuantity(Menu.ZERO_COLA, 2));
         return new OrderedMenu(orderDetails);
     }
 }

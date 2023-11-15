@@ -1,9 +1,12 @@
 package christmas.util;
 
+import christmas.domain.dto.StringIntPair;
 import christmas.exception.DateException;
 import christmas.exception.OrderException;
 import java.util.Arrays;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -18,21 +21,18 @@ public class InputParser {
         return Integer.parseInt(inputDate);
     }
 
-    public Map<String, Integer> parseOrder(String inputOrder) {
+    public List<StringIntPair> parseOrder(String inputOrder) {
         validateInputOrderRegex(inputOrder);
-        Map<String, Integer> parsedOrder = inputOrderToStringIntegerMap(inputOrder);
-        validateDuplicatedMenu(inputOrder, parsedOrder);
+        List<StringIntPair> parsedOrder = inputOrderToMenuStringQuantities(inputOrder);
+        validateDuplicatedMenu(parsedOrder);
         return parsedOrder;
     }
 
-    private Map<String, Integer> inputOrderToStringIntegerMap(String inputOrder) {
+    private List<StringIntPair> inputOrderToMenuStringQuantities(String inputOrder) {
         return Arrays.stream(inputOrder.split(DIVIDER))
                 .map(item -> item.split(MENU_COUNT_DIVIDER))
-                .collect(Collectors.toMap(
-                        splitItem -> splitItem[0],
-                        splitItem -> Integer.parseInt(splitItem[1]),
-                        (existing, replacement) -> existing
-                ));
+                .map(i -> new StringIntPair(i[0], Integer.parseInt(i[1])))
+                .collect(Collectors.toList());
     }
 
     private void validateInputDate(String inputDate) {
@@ -47,11 +47,13 @@ public class InputParser {
         }
     }
 
-    private void validateDuplicatedMenu(String inputOrder, Map<String, Integer> parsedOrder) {
-        long originCount = Arrays.stream(inputOrder.split(DIVIDER))
-                .map(item -> item.split(MENU_COUNT_DIVIDER)).count();
-        if(originCount != parsedOrder.size()) {
-            throw new OrderException();
+    private void validateDuplicatedMenu(List<StringIntPair> parsedOrder) {
+        Set<String> seenMenus = new HashSet<>();
+
+        for (StringIntPair item : parsedOrder) {
+            if (!seenMenus.add(item.string())) {
+                throw new OrderException();
+            }
         }
     }
 }

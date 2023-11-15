@@ -1,10 +1,11 @@
 package christmas.util;
 
+import christmas.domain.dto.StringIntPair;
 import christmas.exception.OrderException;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import java.util.Map;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 
@@ -50,15 +51,16 @@ public class InputParserTest {
     void testParseOrder_ValidInput() {
         String validInputOrder = "티본스테이크-1,바비큐립-2,초코케이크-3,레드와인-7";
 
-        Map<String, Integer> parsedOrder = inputParser.parseOrder(validInputOrder);
+        List<StringIntPair> parsedOrder = inputParser.parseOrder(validInputOrder);
 
         assertThat(parsedOrder)
-                .containsExactlyInAnyOrderEntriesOf(Map.of(
-                        "티본스테이크", 1,
-                        "바비큐립", 2,
-                        "초코케이크", 3,
-                        "레드와인", 7
-                ));
+                .hasSize(4)
+                .containsExactly(
+                        new StringIntPair("티본스테이크", 1),
+                        new StringIntPair("바비큐립", 2),
+                        new StringIntPair("초코케이크", 3),
+                        new StringIntPair("레드와인", 7)
+                );
     }
 
     @DisplayName("잘못된 메뉴 형식 입력 테스트")

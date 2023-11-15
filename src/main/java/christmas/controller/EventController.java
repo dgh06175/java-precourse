@@ -3,12 +3,12 @@ package christmas.controller;
 import christmas.domain.Date;
 import christmas.domain.MenuService;
 import christmas.domain.OrderedMenu;
-import christmas.domain.enums.Menu;
+import christmas.domain.dto.MenuQuantity;
+import christmas.domain.dto.StringIntPair;
 import christmas.util.InputParser;
 import christmas.view.InputView;
 import christmas.view.OutputView;
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.List;
 
 public class EventController {
     private final InputView inputView;
@@ -43,8 +43,8 @@ public class EventController {
     private OrderedMenu requestOrder() {
         return eventFacade.executeWithRetry(() -> {
             String inputOrder = inputView.readOrder();
-            Map<String, Integer> parsedStringOrder = inputParser.parseOrder(inputOrder);
-            EnumMap<Menu, Integer> parsedOrder = MenuService.stringToMenu(parsedStringOrder);
+            List<StringIntPair> parsedStringOrder = inputParser.parseOrder(inputOrder);
+            List<MenuQuantity> parsedOrder = MenuService.stringToMenu(parsedStringOrder);
             return new OrderedMenu(parsedOrder);
         });
     }

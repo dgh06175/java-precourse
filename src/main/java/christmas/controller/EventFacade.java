@@ -3,10 +3,11 @@ package christmas.controller;
 import christmas.domain.AppliedEvents;
 import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
+import christmas.domain.dto.StringIntPair;
 import christmas.exception.EventException;
 import christmas.view.OutputView;
 
-import java.util.Map;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class EventFacade {
@@ -46,8 +47,8 @@ public class EventFacade {
     }
 
     public void displayOrder(OrderedMenu orderedMenu) {
-        Map<String, Integer> menuStringAndCount = orderedMenu.getMenuStringAndCount();
-        outputView.printMenu(menuStringAndCount);
+        List<StringIntPair> menuStringQuantities = orderedMenu.getMenuStringQuantity();
+        outputView.printMenu(menuStringQuantities);
     }
 
     public void displayPriceBeforeDiscount(OrderedMenu orderedMenu) {
