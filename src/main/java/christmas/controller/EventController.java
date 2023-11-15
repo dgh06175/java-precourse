@@ -28,15 +28,16 @@ public class EventController {
 
     public void run() {
         eventFacade.displayMenuList();
-        // 날짜, 주문 입력 받기
         LocalDate visitDate = requestVisitDate();
         OrderedMenu orderedMenu = requestOrder();
-        // 주문 내역 출력
         eventFacade.displayOrderedMenu(visitDate, orderedMenu);
-        // 이벤트 혜택 출력
         eventFacade.displayEventResult(visitDate, orderedMenu);
     }
 
+    /**
+     * 방문 날짜(일)를 입력받아 검증하고 LocalDate 객체로 만들어 반환한다.
+     * @return 방문 날짜
+     */
     private LocalDate requestVisitDate() {
         return eventFacade.executeWithRetry(() -> {
             String inputDate = inputView.readDate(eventDate);
@@ -54,6 +55,10 @@ public class EventController {
 
     }
 
+    /**
+     * 주문을 입력받아 검증하고 OrderedMenu 객체로 만들어 반환한다.
+     * @return 주문한 메뉴
+     */
     private OrderedMenu requestOrder() {
         return eventFacade.executeWithRetry(() -> {
             String inputOrder = inputView.readOrder();

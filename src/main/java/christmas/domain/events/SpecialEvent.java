@@ -15,6 +15,12 @@ public class SpecialEvent extends Event {
         super(eventDate, SALE_NAME, START_OF_MONTH_DAY, eventDate.lengthOfMonth());
     }
 
+    /**
+     * 달력에 별이 있는 경우에만 이벤트 적용
+     * @param visitDate 방문 날짜
+     * @param orderedMenu 주문 메뉴
+     * @return 적용 여부
+     */
     @Override
     protected boolean isSpecificEventValid(LocalDate visitDate, OrderedMenu orderedMenu) {
         return isSpecial(visitDate);

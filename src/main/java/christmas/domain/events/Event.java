@@ -15,6 +15,12 @@ public abstract class Event {
         this.endDay = LocalDate.of(eventDate.getYear(), eventDate.getMonth(), endDay);
     }
 
+    /**
+     * 이벤트가 방문 날짜와 주문 메뉴에 적용하는 할인금액 반환
+     * @param visitDate 방문 날짜
+     * @param orderedMenu 주문 메뉴
+     * @return 할인금
+     */
     public int getDiscountOf(LocalDate visitDate, OrderedMenu orderedMenu) {
         if (!isEventValid(visitDate, orderedMenu)) {
             return 0;
@@ -26,6 +32,12 @@ public abstract class Event {
         return name;
     }
 
+    /**
+     * 이벤트 날짜이고, 총 주문 금액이 10,000원 이상이고, 이벤트에 따른 추가 조건이 맞을 경우에만 이벤트 적용
+     * @param visitDate 방문 날짜
+     * @param orderedMenu 주문 메뉴
+     * @return 적용 여부
+     */
     private boolean isEventValid(LocalDate visitDate, OrderedMenu orderedMenu) {
         return isDateIncludeInEventDays(visitDate) && isTotalPriceValid(orderedMenu) && isSpecificEventValid(visitDate, orderedMenu);
     }

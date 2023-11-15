@@ -13,6 +13,15 @@ import java.util.function.Supplier;
 public class EventFacade {
     private final OutputView outputView;
 
+    public EventFacade(OutputView outputView) {
+        this.outputView = outputView;
+    }
+
+    /**
+     * action 을 실행하고 결과를 반환한다.
+     * 도중에 예외가 발생하면 메세지를 출력하고 다시 실행한다.
+     * @param action 실행할 행동
+     */
     public <T> T executeWithRetry(Supplier<T> action) {
         while (true) {
             try {
@@ -23,20 +32,26 @@ public class EventFacade {
         }
     }
 
-    public EventFacade(OutputView outputView) {
-        this.outputView = outputView;
-    }
-
     public void displayMenuList() {
         outputView.printFormattedMenu();
     }
 
+    /**
+     * 사용자가 주문한 메뉴를 출력한다.
+     * @param visitDate 방문 날짜
+     * @param orderedMenu 주문 메뉴
+     */
     public void displayOrderedMenu(LocalDate visitDate, OrderedMenu orderedMenu) {
         outputView.printEventStartMessage(visitDate);
         displayOrder(orderedMenu);
         displayPriceBeforeDiscount(orderedMenu);
     }
 
+    /**
+     * 할인 이벤트 적용 결과를 모두 출력한다.
+     * @param visitDate 방문 날짜
+     * @param orderedMenu 주문 메뉴
+     */
     public void displayEventResult(LocalDate visitDate, OrderedMenu orderedMenu) {
         AppliedEvents appliedEvents = AppliedEvents.of(visitDate, orderedMenu);
         displayGiveAway(appliedEvents);
@@ -46,36 +61,35 @@ public class EventFacade {
         displayBadge(appliedEvents, visitDate);
     }
 
-    public void displayOrder(OrderedMenu orderedMenu) {
+    private void displayOrder(OrderedMenu orderedMenu) {
         List<StringIntPair> menuStringQuantities = orderedMenu.getMenuStringQuantity();
         outputView.printMenu(menuStringQuantities);
     }
 
-    public void displayPriceBeforeDiscount(OrderedMenu orderedMenu) {
+    private void displayPriceBeforeDiscount(OrderedMenu orderedMenu) {
         int priceBeforeDiscount = orderedMenu.getTotalPrice();
         outputView.printPriceBeforeSale(priceBeforeDiscount);
     }
 
-    public void displayGiveAway(AppliedEvents appliedEvents) {
+    private void displayGiveAway(AppliedEvents appliedEvents) {
         outputView.printGiveAway(appliedEvents.containsGiveawayEvent());
     }
 
-    public void displayAppliedEvent(AppliedEvents appliedEvents) {
+    private void displayAppliedEvent(AppliedEvents appliedEvents) {
         outputView.printEventList(appliedEvents.getEventStringAndPrice());
     }
 
-    public void displayTotalDiscount(AppliedEvents appliedEvents) {
+    private void displayTotalDiscount(AppliedEvents appliedEvents) {
         outputView.printTotalDiscount(appliedEvents.getTotalDiscount());
-
     }
 
-    public void displayPrice(AppliedEvents appliedEvents, OrderedMenu orderedMenu) {
+    private void displayPrice(AppliedEvents appliedEvents, OrderedMenu orderedMenu) {
         int priceBeforeDiscount = orderedMenu.getTotalPrice();
         int priceAfterDiscount = appliedEvents.getPriceAfterDiscount(priceBeforeDiscount);
         outputView.printExpectedPrice(priceAfterDiscount);
     }
 
-    public void displayBadge(AppliedEvents appliedEvents, LocalDate visitDate) {
+    private void displayBadge(AppliedEvents appliedEvents, LocalDate visitDate) {
         outputView.printEventBadge(appliedEvents.getBadge().displayName, visitDate);
     }
 }

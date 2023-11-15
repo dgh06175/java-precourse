@@ -31,6 +31,11 @@ public enum Menu {
         this.price = price;
     }
 
+    /**
+     * 문자열과 이름이 동일한 메뉴를 반환한다.
+     * @param inName 이름
+     * @return 이름에 맞는 메뉴
+     */
     public static Menu of(String inName) {
         return Arrays.stream(Menu.values())
                 .filter(menu -> menu.isNameEquals(inName))
@@ -38,6 +43,10 @@ public enum Menu {
                 .orElseThrow(OrderException::new);
     }
 
+    /**
+     * 메뉴판 출력을 위해 모든 메뉴의 정보를 문자열로 반환한다.
+     * @return 메뉴 정보 문자열
+     */
     public static String formattedMenu() {
         return Arrays.stream(MenuCategory.values())
                 .map(Menu::formatMenuForCategory)

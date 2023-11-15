@@ -8,7 +8,6 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 
 public class WeekDayEvent extends Event {
-    private static final int SALE_AMOUNT = 2023;
     private static final String SALE_NAME = "평일 할인";
 
     public WeekDayEvent(LocalDate eventDate) {
@@ -20,10 +19,15 @@ public class WeekDayEvent extends Event {
         return !isWeekEnd(visitDate);
     }
 
+    /**
+     * 주중일 경우 디저트 개수 * 연 할인
+     * @param visitDate 방문 날짜
+     * @param orderedMenu 주문 메뉴
+     * @return 할인금
+     */
     @Override
     protected int calculateDiscount(LocalDate visitDate, OrderedMenu orderedMenu) {
-        // 디저트 메뉴 개수 * 2023 반환
-        return orderedMenu.getDiscountByCategory(MenuCategory.DESSERT, SALE_AMOUNT);
+        return orderedMenu.getDiscountByCategory(MenuCategory.DESSERT, visitDate.getYear());
     }
 
     private boolean isWeekEnd(LocalDate visitDate) {

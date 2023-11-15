@@ -14,14 +14,25 @@ public class GiveAwayEvent extends Event {
         super(eventDate, SALE_NAME, START_OF_MONTH_DAY, eventDate.lengthOfMonth());
     }
 
+    /**
+     * 120,000원 이상인 경우에만 증정 이벤트 적용
+     * @param visitDate 방문 날짜
+     * @param orderedMenu 주문 메뉴
+     * @return 적용 여부
+     */
     @Override
     protected boolean isSpecificEventValid(LocalDate visitDate, OrderedMenu orderedMenu) {
         return orderedMenu.getTotalPrice() >= GIVE_AWAY_MIN_PRICE;
     }
 
+    /**
+     * 증정 금액 반환
+     * @param visitDate 방문 날짜
+     * @param orderedMenu 주문 메뉴
+     * @return 할인금
+     */
     @Override
     protected int calculateDiscount(LocalDate visitDate, OrderedMenu orderedMenu) {
-        // 총 주문 금액 12만원 이상일때 샴페인 증정
         return Menu.CHAMPAGNE.getPrice();
     }
 }

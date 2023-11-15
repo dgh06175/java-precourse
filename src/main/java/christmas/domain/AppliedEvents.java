@@ -22,6 +22,11 @@ public class AppliedEvents {
         return getAppliedEvents(visitDate, orderedMenu);
     }
 
+    /**
+     * 방문 날짜와 주문 메뉴를 받아, 적용되는 모든 이벤트와 그에 맞는 할인금 저장
+     * @param visitDate 방문 날짜
+     * @param orderedMenu 주문 메뉴
+     */
     private static AppliedEvents getAppliedEvents(LocalDate visitDate, OrderedMenu orderedMenu) {
         List<EventDiscountPrice> eventDiscountPrices = new ArrayList<>();
         for (Event item: EventFactory.getAllEvents(visitDate)) {
@@ -30,6 +35,9 @@ public class AppliedEvents {
         return new AppliedEvents(eventDiscountPrices);
     }
 
+    /**
+     * @return 총혜택 금액
+     */
     public int getTotalDiscount() {
         return values
                 .stream()
@@ -37,16 +45,12 @@ public class AppliedEvents {
                 .sum();
     }
 
+    /**
+     * @return 할인 후 예상 결제 금액
+     */
     public int getPriceAfterDiscount(int priceBeforeDiscount) {
         int priceAfterDiscount = priceBeforeDiscount - getTotalDiscount();
         return priceAfterDiscount + giveAwayDiscount();
-    }
-
-    private int giveAwayDiscount() {
-        if (containsGiveawayEvent()) {
-            return Menu.CHAMPAGNE.getPrice();
-        }
-        return 0;
     }
 
     public boolean containsGiveawayEvent() {
@@ -58,10 +62,20 @@ public class AppliedEvents {
         return false;
     }
 
+    private int giveAwayDiscount() {
+        if (containsGiveawayEvent()) {
+            return Menu.CHAMPAGNE.getPrice();
+        }
+        return 0;
+    }
+
     private boolean isGiveAwayApplied(EventDiscountPrice tmpEvent) {
         return tmpEvent.event() instanceof GiveAwayEvent && tmpEvent.discountPrice() > 0;
     }
 
+    /**
+     * @return 출력을 위한 이벤트 문자열과 할인금 dto
+     */
     public List<StringIntPair> getEventStringAndPrice() {
         List<StringIntPair> eventStringAndPrice = new ArrayList<>();
         for (var item : values) {

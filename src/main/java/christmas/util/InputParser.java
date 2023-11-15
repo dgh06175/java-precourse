@@ -21,6 +21,11 @@ public class InputParser {
         return Integer.parseInt(inputDate);
     }
 
+    /**
+     * 입력 문자열을 메뉴 이름 문자열과 개수 정수 dto로 만들어서 반환
+     * @param inputOrder 주문 입력
+     * @return 문자열, 정수 객체
+     */
     public List<StringIntPair> parseOrder(String inputOrder) {
         validateInputOrderRegex(inputOrder);
         List<StringIntPair> parsedOrder = inputOrderToMenuStringQuantities(inputOrder);

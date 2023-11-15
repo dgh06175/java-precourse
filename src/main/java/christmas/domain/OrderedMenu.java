@@ -25,6 +25,12 @@ public class OrderedMenu {
                 .sum();
     }
 
+    /**
+     * 카테고리 음식이 얼마나 할인받는지 계산
+     * @param category 카테고리
+     * @param discountAmount 할인금
+     * @return 카테고리에 맞는 음식 개수 * 할인금
+     */
     public int getDiscountByCategory(MenuCategory category, int discountAmount) {
         return menuQuantities.stream()
                 .filter(entry -> entry.menu().isCategoryEquals(category))
@@ -32,6 +38,9 @@ public class OrderedMenu {
                 .sum() * discountAmount;
     }
 
+    /**
+     * @return 출력을 위한 메뉴와 메뉴개수 dto
+     */
     public List<StringIntPair> getMenuStringQuantity() {
         List<StringIntPair> stringOrder = new ArrayList<>();
         for(var item: menuQuantities) {

@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuService {
+    /**
+     * 메뉴 이름 문자열과 개수를 받아서 메뉴 객체와 개수로 변환
+     * @param parsedStringOrder 메뉴 이름 문자열과 개수
+     * @return 메뉴 객체와 그 개수
+     */
     public static List<MenuQuantity> stringToMenu(List<StringIntPair> parsedStringOrder) {
         List<MenuQuantity> order;
         try {
