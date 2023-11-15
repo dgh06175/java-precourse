@@ -67,6 +67,44 @@
 - [x] 할인 후 예상 결제 금액 출력
 - [x] 12월 이벤트 베지 출력
 
+## 파일 구조
+```text
+├── Application.java
+├── controller
+│   ├── EventController.java
+│   └── EventFacade.java
+├── domain
+│   ├── AppliedEvents.java : 적용된 이벤트
+│   ├── MenuService.java
+│   ├── OrderedMenu.java : 주문한 메뉴
+│   ├── dto
+│   │   ├── EventDiscountPrice.java
+│   │   ├── MenuQuantity.java
+│   │   └── StringIntPair.java
+│   ├── enums
+│   │   ├── Badge.java
+│   │   ├── Menu.java
+│   │   └── MenuCategory.java
+│   └── events
+│       ├── ChristmasDDayEvent.java
+│       ├── Constant.java
+│       ├── Event.java
+│       ├── EventFactory.java
+│       ├── GiveAwayEvent.java
+│       ├── SpecialEvent.java
+│       ├── WeekDayEvent.java
+│       └── WeekEndEvent.java
+├── exception
+│   ├── DateException.java
+│   ├── EventException.java
+│   └── OrderException.java
+├── util
+│   └── InputParser.java
+└── view
+    ├── InputView.java
+    └── OutputView.java
+```
+
 ## 학습 목표
 
 > 클래스(객체)를 분리하는 연습
