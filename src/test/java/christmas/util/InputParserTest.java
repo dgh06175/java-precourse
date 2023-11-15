@@ -24,7 +24,7 @@ public class InputParserTest {
     void testParseDate_ValidInput() {
         String validInputDate = "12";
 
-        int parsedDate = inputParser.parseDate(validInputDate);
+        int parsedDate = inputParser.parseDay(validInputDate);
 
         assertThat(parsedDate).isEqualTo(12);
     }
@@ -33,7 +33,7 @@ public class InputParserTest {
     @ParameterizedTest
     @ValueSource(strings = {"-1", "0" })
     void testParseDate_InvalidInput_ShouldThrowException(String invalidDateInput) {
-        assertThatThrownBy(() -> inputParser.parseDate(invalidDateInput))
+        assertThatThrownBy(() -> inputParser.parseDay(invalidDateInput))
                 .isInstanceOf(Exception.class)
                 .hasMessageContaining(("[ERROR]"));
     }
@@ -42,7 +42,7 @@ public class InputParserTest {
     @ParameterizedTest
     @ValueSource(strings = {"One", "1일" })
     void testParseDate_StringInput_ShouldThrowException(String invalidDateInput) {
-        assertThatThrownBy(()->inputParser.parseDate(invalidDateInput))
+        assertThatThrownBy(()->inputParser.parseDay(invalidDateInput))
                 .isInstanceOf(NumberFormatException.class);
     }
 

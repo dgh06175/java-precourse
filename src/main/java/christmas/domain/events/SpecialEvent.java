@@ -1,30 +1,31 @@
 package christmas.domain.events;
 
-import static christmas.domain.Constant.END_OF_DECEMBER_DAY;
-import static christmas.domain.Constant.START_OF_MONTH_DAY;
+import static christmas.domain.events.Constant.CHRISTMAS_DAY;
+import static christmas.domain.events.Constant.START_OF_MONTH_DAY;
 
-import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
 
-public class SpecialEvent extends AbstractEvent {
+public class SpecialEvent extends Event {
     private static final int SALE_AMOUNT = 1000;
     private static final String SALE_NAME = "특별 할인";
 
-    public SpecialEvent() {
-        super(SALE_NAME, START_OF_MONTH_DAY, END_OF_DECEMBER_DAY);
+    public SpecialEvent(LocalDate eventDate) {
+        super(eventDate, SALE_NAME, START_OF_MONTH_DAY, eventDate.lengthOfMonth());
     }
 
     @Override
-    protected boolean isSpecificEventValid(Date date, OrderedMenu orderedMenu) {
-        return isSpecial(date);
+    protected boolean isSpecificEventValid(LocalDate visitDate, OrderedMenu orderedMenu) {
+        return isSpecial(visitDate);
     }
 
     @Override
-    protected int calculateDiscount(Date date, OrderedMenu orderedMenu) {
+    protected int calculateDiscount(LocalDate visitDate, OrderedMenu orderedMenu) {
         return SALE_AMOUNT;
     }
 
-    private boolean isSpecial(Date date) {
-        return date.isSunday() || date.isChristmas();
+    private boolean isSpecial(LocalDate visitDate) {
+        return visitDate.getDayOfWeek() == DayOfWeek.SUNDAY || visitDate.getDayOfMonth() == CHRISTMAS_DAY;
     }
 }

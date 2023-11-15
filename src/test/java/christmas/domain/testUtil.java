@@ -2,11 +2,13 @@ package christmas.domain;
 
 import christmas.domain.dto.MenuQuantity;
 import christmas.domain.enums.Menu;
+import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.EnumMap;
 import java.util.List;
 
 public class testUtil {
+    public static LocalDate eventDate = LocalDate.of(2023, 12, 1);
+
     public static OrderedMenu createBigOrder() {
         List<MenuQuantity> orderDetails = new ArrayList<>();
         orderDetails.add(new MenuQuantity(Menu.T_BONE_STEAK, 1));

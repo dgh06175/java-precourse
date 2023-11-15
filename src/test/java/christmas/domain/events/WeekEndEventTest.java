@@ -2,10 +2,11 @@ package christmas.domain.events;
 
 import static christmas.domain.testUtil.createBigOrder;
 import static christmas.domain.testUtil.createSampleOrder2;
+import static christmas.domain.testUtil.eventDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,11 +16,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 class WeekEndEventTest {
     private WeekEndEvent event;
     private OrderedMenu bigOrder;
-    private Date date;
+    private LocalDate visitDate;
 
     @BeforeEach
     void setGiveAwayEvent() {
-        event = new WeekEndEvent();
+        event = new WeekEndEvent(eventDate);
         bigOrder = createBigOrder();
     }
 
@@ -27,8 +28,8 @@ class WeekEndEventTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 9, 15, 23, 29, 30})
     void checkValidWeekEndEvent(int validDay) {
-        date = new Date(validDay);
-        int discount = event.getDiscountOf(date, bigOrder);
+        visitDate = LocalDate.of(eventDate.getYear(), eventDate.getMonth(), validDay);
+        int discount = event.getDiscountOf(visitDate, bigOrder);
 
         assertThat(discount).isEqualTo(4 * 2023);
     }
@@ -37,8 +38,8 @@ class WeekEndEventTest {
     @ParameterizedTest
     @ValueSource(ints = {4, 12, 17, 20, 24, 25, 28, 31})
     void checkInvalidDateWeekEndEvent(int invalidDay) {
-        date = new Date(invalidDay);
-        int discount = event.getDiscountOf(date, bigOrder);
+        visitDate = LocalDate.of(eventDate.getYear(), eventDate.getMonth(), invalidDay);
+        int discount = event.getDiscountOf(visitDate, bigOrder);
 
         assertThat(discount).isEqualTo(0);
     }
@@ -47,8 +48,8 @@ class WeekEndEventTest {
     @Test
     void checkInvalidMenuWeekEndEvent() {
         OrderedMenu order = createSampleOrder2();
-        date = new Date(16);
-        int discount = event.getDiscountOf(date, order);
+        visitDate = LocalDate.of(eventDate.getYear(), eventDate.getMonth(), 16);
+        int discount = event.getDiscountOf(visitDate, order);
 
         assertThat(discount).isEqualTo(0);
     }

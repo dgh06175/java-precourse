@@ -18,8 +18,6 @@ public class MenuService {
         return order;
     }
 
-
-
     private static List<MenuQuantity> getMenuQuantities(List<StringIntPair> parsedStringOrder) {
         List<MenuQuantity> menuQuantityList = new ArrayList<>();
         for(var item: parsedStringOrder) {

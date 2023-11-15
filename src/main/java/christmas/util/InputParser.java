@@ -16,8 +16,8 @@ public class InputParser {
     private static final String MENU_REGEX = String.format("[가-힣a-zA-Z]+%s\\d+", MENU_COUNT_DIVIDER);
     private static final String INPUT_MENU_REGEX = String.format("(%s)+(%s ?%s)*", MENU_REGEX, DIVIDER, MENU_REGEX);
 
-    public int parseDate(String inputDate) {
-        validateInputDate(inputDate);
+    public int parseDay(String inputDate) {
+        validateInputDay(inputDate);
         return Integer.parseInt(inputDate);
     }
 
@@ -30,12 +30,12 @@ public class InputParser {
 
     private List<StringIntPair> inputOrderToMenuStringQuantities(String inputOrder) {
         return Arrays.stream(inputOrder.split(DIVIDER))
-                .map(item -> item.split(MENU_COUNT_DIVIDER))
+                .map(item -> item.trim().split(MENU_COUNT_DIVIDER))
                 .map(i -> new StringIntPair(i[0], Integer.parseInt(i[1])))
                 .collect(Collectors.toList());
     }
 
-    private void validateInputDate(String inputDate) {
+    private void validateInputDay(String inputDate) {
         if (Integer.parseInt(inputDate) <= 0) {
             throw new DateException();
         }

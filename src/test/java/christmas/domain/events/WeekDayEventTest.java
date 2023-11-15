@@ -3,10 +3,11 @@ package christmas.domain.events;
 import static christmas.domain.testUtil.createBigOrder;
 import static christmas.domain.testUtil.createSampleOrder1;
 import static christmas.domain.testUtil.createSampleOrder2;
+import static christmas.domain.testUtil.eventDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,11 +17,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 class WeekDayEventTest {
     private WeekDayEvent event;
     private OrderedMenu bigOrder;
-    private Date date;
+    private LocalDate visitDate;
 
     @BeforeEach
     void setGiveAwayEvent() {
-        event = new WeekDayEvent();
+        event = new WeekDayEvent(eventDate);
         bigOrder = createBigOrder();
     }
 
@@ -28,8 +29,8 @@ class WeekDayEventTest {
     @ParameterizedTest
     @ValueSource(ints = {4, 12, 17, 20, 24, 25, 28, 31})
     void checkValidWeekDayEvent(int validDay) {
-        date = new Date(validDay);
-        int discount = event.getDiscountOf(date, bigOrder);
+        visitDate = LocalDate.of(eventDate.getYear(), eventDate.getMonth(), validDay);
+        int discount = event.getDiscountOf(visitDate, bigOrder);
 
         assertThat(discount).isEqualTo(3 * 2023);
     }
@@ -38,8 +39,8 @@ class WeekDayEventTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 9, 15, 23, 29, 30})
     void checkInvalidDateWeekDayEvent(int invalidDay) {
-        date = new Date(invalidDay);
-        int discount = event.getDiscountOf(date, bigOrder);
+        visitDate = LocalDate.of(eventDate.getYear(), eventDate.getMonth(), invalidDay);
+        int discount = event.getDiscountOf(visitDate, bigOrder);
 
         assertThat(discount).isEqualTo(0);
     }
@@ -49,10 +50,10 @@ class WeekDayEventTest {
     void checkInvalidMenuWeekDayEvent() {
         OrderedMenu order1 = createSampleOrder1();
         OrderedMenu order2 = createSampleOrder2();
-        date = new Date(6);
+        visitDate = LocalDate.of(eventDate.getYear(), eventDate.getMonth(), 6);
 
-        int discount1 = event.getDiscountOf(date, order1);
-        int discount2 = event.getDiscountOf(date, order2);
+        int discount1 = event.getDiscountOf(visitDate, order1);
+        int discount2 = event.getDiscountOf(visitDate, order2);
 
         assertThat(discount1).isEqualTo(0);
         assertThat(discount2).isEqualTo(0);

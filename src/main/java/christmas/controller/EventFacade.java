@@ -1,12 +1,12 @@
 package christmas.controller;
 
 import christmas.domain.AppliedEvents;
-import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
 import christmas.domain.dto.StringIntPair;
 import christmas.exception.EventException;
 import christmas.view.OutputView;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.function.Supplier;
 
@@ -31,19 +31,19 @@ public class EventFacade {
         outputView.printFormattedMenu();
     }
 
-    public void displayOrderedMenu(Date visitdate, OrderedMenu orderedMenu) {
-        outputView.printEventStartMessage(visitdate.value);
+    public void displayOrderedMenu(LocalDate visitDate, OrderedMenu orderedMenu) {
+        outputView.printEventStartMessage(visitDate);
         displayOrder(orderedMenu);
         displayPriceBeforeDiscount(orderedMenu);
     }
 
-    public void displayEventResult(Date visitdate, OrderedMenu orderedMenu) {
-        AppliedEvents appliedEvents = AppliedEvents.of(visitdate, orderedMenu);
+    public void displayEventResult(LocalDate visitDate, OrderedMenu orderedMenu) {
+        AppliedEvents appliedEvents = AppliedEvents.of(visitDate, orderedMenu);
         displayGiveAway(appliedEvents);
         displayAppliedEvent(appliedEvents);
         displayTotalDiscount(appliedEvents);
         displayPrice(appliedEvents, orderedMenu);
-        displayBadge(appliedEvents);
+        displayBadge(appliedEvents, visitDate);
     }
 
     public void displayOrder(OrderedMenu orderedMenu) {
@@ -75,7 +75,7 @@ public class EventFacade {
         outputView.printExpectedPrice(priceAfterDiscount);
     }
 
-    public void displayBadge(AppliedEvents appliedEvents) {
-        outputView.printEventBadge(appliedEvents.getBadge().displayName);
+    public void displayBadge(AppliedEvents appliedEvents, LocalDate visitDate) {
+        outputView.printEventBadge(appliedEvents.getBadge().displayName, visitDate);
     }
 }

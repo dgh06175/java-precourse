@@ -1,10 +1,11 @@
 package christmas.domain.events;
 
 import static christmas.domain.testUtil.createBigOrder;
+import static christmas.domain.testUtil.eventDate;
 import static org.assertj.core.api.Assertions.assertThat;
 
-import christmas.domain.Date;
 import christmas.domain.OrderedMenu;
+import java.time.LocalDate;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -13,11 +14,11 @@ import org.junit.jupiter.params.provider.ValueSource;
 class SpecialEventTest {
     private SpecialEvent event;
     private OrderedMenu bigOrder;
-    private Date date;
+    private LocalDate visitDate;
 
     @BeforeEach
     void setGiveAwayEvent() {
-        event = new SpecialEvent();
+        event = new SpecialEvent(eventDate);
         bigOrder = createBigOrder();
     }
 
@@ -25,8 +26,8 @@ class SpecialEventTest {
     @ParameterizedTest
     @ValueSource(ints = {3, 10, 17, 24, 25, 31})
     void checkValidSpecialEvent(int validDay) {
-        date = new Date(validDay);
-        int discount = event.getDiscountOf(date, bigOrder);
+        visitDate = LocalDate.of(eventDate.getYear(), eventDate.getMonth(), validDay);
+        int discount = event.getDiscountOf(visitDate, bigOrder);
 
         assertThat(discount).isEqualTo(1000);
     }
@@ -35,8 +36,8 @@ class SpecialEventTest {
     @ParameterizedTest
     @ValueSource(ints = {1, 9, 18, 26, 23, 30})
     void checkInvalidSpecialEvent(int invalidDay) {
-        date = new Date(invalidDay);
-        int discount = event.getDiscountOf(date, bigOrder);
+        visitDate = LocalDate.of(eventDate.getYear(), eventDate.getMonth(), invalidDay);
+        int discount = event.getDiscountOf(visitDate, bigOrder);
 
         assertThat(discount).isEqualTo(0);
     }

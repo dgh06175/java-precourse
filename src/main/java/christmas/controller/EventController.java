@@ -1,21 +1,26 @@
 package christmas.controller;
 
-import christmas.domain.Date;
 import christmas.domain.MenuService;
 import christmas.domain.OrderedMenu;
 import christmas.domain.dto.MenuQuantity;
 import christmas.domain.dto.StringIntPair;
+import christmas.exception.DateException;
 import christmas.util.InputParser;
 import christmas.view.InputView;
 import christmas.view.OutputView;
+import java.time.DateTimeException;
+import java.time.LocalDate;
+import java.time.Month;
 import java.util.List;
 
 public class EventController {
+    private final LocalDate eventDate;
     private final InputView inputView;
     private final InputParser inputParser;
     private final EventFacade eventFacade;
 
-    public EventController(InputView inputView, OutputView outputView, InputParser inputParser) {
+    public EventController(int year, Month eventMonth, InputView inputView, OutputView outputView, InputParser inputParser) {
+        this.eventDate = LocalDate.of(year, eventMonth, 1);
         this.inputView = inputView;
         this.inputParser = inputParser;
         this.eventFacade = new EventFacade(outputView);
@@ -24,20 +29,29 @@ public class EventController {
     public void run() {
         eventFacade.displayMenuList();
         // 날짜, 주문 입력 받기
-        Date visitdate = requestVisitDate();
+        LocalDate visitDate = requestVisitDate();
         OrderedMenu orderedMenu = requestOrder();
         // 주문 내역 출력
-        eventFacade.displayOrderedMenu(visitdate, orderedMenu);
+        eventFacade.displayOrderedMenu(visitDate, orderedMenu);
         // 이벤트 혜택 출력
-        eventFacade.displayEventResult(visitdate, orderedMenu);
+        eventFacade.displayEventResult(visitDate, orderedMenu);
     }
 
-    private Date requestVisitDate() {
+    private LocalDate requestVisitDate() {
         return eventFacade.executeWithRetry(() -> {
-            String inputDate = inputView.readDate();
-            int parsedDate = inputParser.parseDate(inputDate);
-            return new Date(parsedDate);
+            String inputDate = inputView.readDate(eventDate);
+            int parsedDay = inputParser.parseDay(inputDate);
+            return initLocalDate(parsedDay);
         });
+    }
+
+    private LocalDate initLocalDate(int parsedDay) {
+        try {
+            return LocalDate.of(eventDate.getYear(), eventDate.getMonth(), parsedDay);
+        } catch (DateTimeException e) {
+            throw new DateException();
+        }
+
     }
 
     private OrderedMenu requestOrder() {

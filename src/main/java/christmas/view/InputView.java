@@ -3,14 +3,15 @@ package christmas.view;
 import camp.nextstep.edu.missionutils.Console;
 import christmas.exception.DateException;
 import christmas.exception.OrderException;
+import java.time.LocalDate;
 import java.util.regex.Pattern;
 
 public class InputView {
     private static final String INTEGER_REGEX = "\\d+";
     OutputView outputView = new OutputView();
 
-    public String readDate() {
-        outputView.printReadDateMessage();
+    public String readDate(LocalDate eventDate) {
+        outputView.printReadDateMessage(eventDate);
         String input = readString();
 
         if (isInvalidString(input) || isInvalidNumber(input)) {

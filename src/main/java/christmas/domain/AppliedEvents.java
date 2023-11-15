@@ -7,6 +7,7 @@ import christmas.domain.enums.Menu;
 import christmas.domain.events.Event;
 import christmas.domain.events.EventFactory;
 import christmas.domain.events.GiveAwayEvent;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,14 +18,14 @@ public class AppliedEvents {
         this.values = values;
     }
 
-    public static AppliedEvents of(Date date, OrderedMenu orderedMenu) {
-        return getAppliedEvents(date, orderedMenu);
+    public static AppliedEvents of(LocalDate visitDate, OrderedMenu orderedMenu) {
+        return getAppliedEvents(visitDate, orderedMenu);
     }
 
-    private static AppliedEvents getAppliedEvents(Date date, OrderedMenu orderedMenu) {
+    private static AppliedEvents getAppliedEvents(LocalDate visitDate, OrderedMenu orderedMenu) {
         List<EventDiscountPrice> eventDiscountPrices = new ArrayList<>();
-        for (Event item: EventFactory.getAllEvents()) {
-            eventDiscountPrices.add(new EventDiscountPrice(item, item.getDiscountOf(date, orderedMenu)));
+        for (Event item: EventFactory.getAllEvents(visitDate)) {
+            eventDiscountPrices.add(new EventDiscountPrice(item, item.getDiscountOf(visitDate, orderedMenu)));
         }
         return new AppliedEvents(eventDiscountPrices);
     }
