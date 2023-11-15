@@ -7,9 +7,9 @@ import org.junit.jupiter.api.Test;
 
 public class BadgeTest {
     @Test
-    @DisplayName("할인 금액이 없을 때 뱃지 없음 검사")
+    @DisplayName("할인 금액이 적을 때 뱃지 없음 검사")
     public void shouldReturnNoneForNoDiscount() {
-        assertThat(Badge.of(0)).isEqualTo(Badge.NONE);
+        assertThat(Badge.of(4999)).isEqualTo(Badge.NONE);
     }
 
     @Test

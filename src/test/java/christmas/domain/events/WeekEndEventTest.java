@@ -44,7 +44,7 @@ class WeekEndEventTest {
         assertThat(discount).isEqualTo(0);
     }
 
-    @DisplayName("주말 할인 이벤트 메뉴 미적용 검사")
+    @DisplayName("주말 할인 이벤트 메뉴 카테고리 미적용 검사")
     @Test
     void checkInvalidMenuWeekEndEvent() {
         OrderedMenu order = createSampleOrder2();

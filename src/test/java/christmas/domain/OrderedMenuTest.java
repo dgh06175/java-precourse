@@ -12,7 +12,7 @@ import static org.assertj.core.api.Assertions.*;
 class OrderedMenuTest {
     public static final String ORDER_ERROR_MESSAGE = "[ERROR] 유효하지 않은 주문입니다. 다시 입력해 주세요.";
 
-    @DisplayName("메뉴 개수가 1미만일 경우 예외 발생")
+    @DisplayName("메뉴 개수가 하나라도 1미만일 경우 예외 발생")
     @Test
     void menuQuantityLessThan1() {
         List<MenuQuantity> parsedOrder = new ArrayList<>();
@@ -23,7 +23,7 @@ class OrderedMenuTest {
                 .hasMessageContaining(ORDER_ERROR_MESSAGE);
     }
 
-    @DisplayName("메뉴 개수가 20초과일 경우 예외 발생")
+    @DisplayName("메뉴 개수 총합이 20초과일 경우 예외 발생")
     @Test
     void menuTotalQuantityOver20Test() {
         List<MenuQuantity> parsedOrder = new ArrayList<>();
