@@ -1,8 +1,5 @@
 package baseball.util;
 
-import static camp.nextstep.edu.missionutils.Randoms.pickUniqueNumbersInRange;
-
-import baseball.domain.BaseBallNumber;
 import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
 import java.util.List;

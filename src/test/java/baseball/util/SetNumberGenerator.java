@@ -1,6 +1,5 @@
 package baseball.util;
 
-import baseball.domain.BaseBallNumber;
 import java.util.Arrays;
 import java.util.List;
 

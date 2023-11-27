@@ -1,5 +1,4 @@
 package baseball.domain;
-import baseball.domain.BaseBallNumber;
 import baseball.exception.InvalidInputException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
