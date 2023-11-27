@@ -4,7 +4,6 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
@@ -17,7 +16,7 @@ class NumberBaseballGameTest {
         SetNumberGenerator generator = new SetNumberGenerator(1, 2, 3);
         NumberBaseballGame game = new NumberBaseballGame(generator);
 
-        List<Integer> userNumber = Arrays.asList(1, 4, 3);
+        BaseBallNumber userNumber = new BaseBallNumber(Arrays.asList(1, 4, 3));
         Map<String, Integer> result = game.getResultWith(userNumber);
 
         assertThat(result).containsEntry("Strike", 2).containsEntry("Ball", 0);
@@ -29,7 +28,7 @@ class NumberBaseballGameTest {
         SetNumberGenerator generator = new SetNumberGenerator(1, 2, 3);
         NumberBaseballGame game = new NumberBaseballGame(generator);
 
-        List<Integer> winningNumber = Arrays.asList(1, 2, 3);
+        BaseBallNumber winningNumber = new BaseBallNumber(Arrays.asList(1, 2, 3));
         boolean isWin = game.isWin(winningNumber);
 
         assertThat(isWin).isTrue();
@@ -41,7 +40,7 @@ class NumberBaseballGameTest {
         SetNumberGenerator generator = new SetNumberGenerator(1, 2, 3);
         NumberBaseballGame game = new NumberBaseballGame(generator);
 
-        List<Integer> losingNumber = Arrays.asList(1, 2, 4);
+        BaseBallNumber losingNumber = new BaseBallNumber(Arrays.asList(1, 2, 4));
         boolean isWin = game.isWin(losingNumber);
 
         assertThat(isWin).isFalse();

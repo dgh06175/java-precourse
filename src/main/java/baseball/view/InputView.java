@@ -14,7 +14,7 @@ public class InputView {
         return convertStringToListOfIntegers(input);
     }
 
-    public int inputRetryNumber() throws InvalidInputException {
+    public int inputRestartNumber() throws InvalidInputException {
         String input = readInput();
         return convertStringToInteger(input);
     }
