@@ -8,7 +8,7 @@ public class OutputView {
     }
 
     public void printBaseballNumberInputMessage() {
-        System.out.println("숫자를 입력해주세요 : ");
+        System.out.print("숫자를 입력해주세요 : ");
     }
 
     public void printNumberCompareResult(Map<String, Integer> result) {
@@ -25,7 +25,7 @@ public class OutputView {
             System.out.print(" ");
         }
         if (strike > 0) {
-            System.out.printf("%d스트라이크", ball);
+            System.out.printf("%d스트라이크", strike);
         }
         System.out.println();
     }
