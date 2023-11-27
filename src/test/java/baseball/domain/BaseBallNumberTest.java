@@ -1,84 +1,125 @@
 package baseball.domain;
+import baseball.domain.BaseBallNumber;
 import baseball.exception.InvalidInputException;
-import baseball.util.SetNumberGenerator;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
 import static org.assertj.core.api.Assertions.*;
 
 class BaseBallNumberTest {
 
     @Nested
-    @DisplayName("BaseBallNumber 생성자")
+    @DisplayName("생성자")
     class ConstructorTest {
         @Test
-        @DisplayName("유효한 숫자 리스트로 객체 생성")
+        @DisplayName("유효한 숫자 리스트")
         void validNumbers() {
-            SetNumberGenerator generator = new SetNumberGenerator(1, 2, 3);
-            List<Integer> numbers = generator.generate();
+            assertThatCode(() -> new BaseBallNumber(Arrays.asList(1, 2, 3))).doesNotThrowAnyException();
+        }
 
-            assertThatCode(() -> new BaseBallNumber(numbers)).doesNotThrowAnyException();
+        @Test
+        @DisplayName("null 입력 시 예외 발생")
+        void nullNumbers() {
+            assertThatThrownBy(() -> new BaseBallNumber(null))
+                    .isInstanceOf(InvalidInputException.class)
+                    .hasMessageContaining("숫자는 정확히 3개여야 합니다.");
         }
 
         @ParameterizedTest
         @CsvSource({"0, 4, 5", "1, 10, 2"})
-        @DisplayName("유효하지 않은 숫자 리스트로 객체 생성 시 예외 발생")
-        void invalidNumbers(int a, int b, int c) {
-            SetNumberGenerator generator = new SetNumberGenerator(a, b, c);
-            List<Integer> numbers = generator.generate();
-
+        @DisplayName("1에서 9 범위를 벗어난 숫자 리스트")
+        void numbersOutOfRange(int a, int b, int c) {
+            List<Integer> numbers = Arrays.asList(a, b, c);
             assertThatThrownBy(() -> new BaseBallNumber(numbers))
                     .isInstanceOf(InvalidInputException.class)
-                    .hasMessageContaining("숫자는 1에서 9 사이의 값 이어야 합니다.");
+                    .hasMessageContaining("1에서 9 사이의 값 이어야 합니다.");
+        }
+
+        @ParameterizedTest
+        @CsvSource({"1, 2", "1, 2, 3, 4"})
+        @DisplayName("길이가 3이 아닌 숫자 리스트")
+        void invalidLength(String csvNumbers) {
+            List<Integer> numbers = Arrays.stream(csvNumbers.split(","))
+                    .filter(s -> !s.isEmpty())
+                    .map(Integer::parseInt)
+                    .toList();
+            assertThatThrownBy(() -> new BaseBallNumber(numbers))
+                    .isInstanceOf(InvalidInputException.class)
+                    .hasMessageContaining("숫자는 정확히 3개여야 합니다.");
         }
     }
 
     @Nested
-    @DisplayName("compareTo 메소드")
-    class CompareToTest {
+    @DisplayName("calcStrikeWith 메소드")
+    class CalcStrikeWithTest {
         @Test
         @DisplayName("모든 숫자가 일치하는 경우")
-        void allMatch() {
-            SetNumberGenerator generator1 = new SetNumberGenerator(1, 2, 3);
-            SetNumberGenerator generator2 = new SetNumberGenerator(1, 2, 3);
-            BaseBallNumber numbers = new BaseBallNumber(generator1.generate());
-            BaseBallNumber otherNumbers = new BaseBallNumber(generator2.generate());
+        void allStrikes() {
+            BaseBallNumber numbers = new BaseBallNumber(Arrays.asList(1, 2, 3));
+            BaseBallNumber otherNumbers = new BaseBallNumber(Arrays.asList(1, 2, 3));
+            int strikes = numbers.calcStrikeWith(otherNumbers);
 
-            Map<String, Integer> result = numbers.compareTo(otherNumbers);
-
-            assertThat(result).containsEntry("Strike", 3).containsEntry("Ball", 0);
-        }
-
-        @Test
-        @DisplayName("모든 숫자가 일치하지 않는 경우")
-        void noMatch() {
-            SetNumberGenerator generator1 = new SetNumberGenerator(1, 2, 3);
-            SetNumberGenerator generator2 = new SetNumberGenerator(4, 5, 6);
-            BaseBallNumber numbers = new BaseBallNumber(generator1.generate());
-            BaseBallNumber otherNumbers = new BaseBallNumber(generator2.generate());
-
-            Map<String, Integer> result = numbers.compareTo(otherNumbers);
-
-            assertThat(result).containsEntry("Strike", 0).containsEntry("Ball", 0);
+            assertThat(strikes).isEqualTo(3);
         }
 
         @Test
         @DisplayName("일부 숫자만 일치하는 경우")
-        void partialMatch() {
-            SetNumberGenerator generator1 = new SetNumberGenerator(1, 2, 3);
-            SetNumberGenerator generator2 = new SetNumberGenerator(1, 4, 2);
-            BaseBallNumber numbers = new BaseBallNumber(generator1.generate());
-            BaseBallNumber otherNumbers = new BaseBallNumber(generator2.generate());
+        void someStrikes() {
+            BaseBallNumber numbers = new BaseBallNumber(Arrays.asList(1, 2, 3));
+            BaseBallNumber otherNumbers = new BaseBallNumber(Arrays.asList(3, 2, 1));
+            int strikes = numbers.calcStrikeWith(otherNumbers);
 
-            Map<String, Integer> result = numbers.compareTo(otherNumbers);
+            assertThat(strikes).isEqualTo(1);
+        }
 
-            assertThat(result).containsEntry("Strike", 1).containsEntry("Ball", 1);
+        @Test
+        @DisplayName("일치하는 숫자가 없는 경우")
+        void noStrikes() {
+            BaseBallNumber numbers = new BaseBallNumber(Arrays.asList(1, 2, 3));
+            BaseBallNumber otherNumbers = new BaseBallNumber(Arrays.asList(4, 5, 6));
+            int strikes = numbers.calcStrikeWith(otherNumbers);
+
+            assertThat(strikes).isEqualTo(0);
+        }
+    }
+
+    @Nested
+    @DisplayName("calcBallWith 메소드")
+    class CalcBallWithTest {
+        @Test
+        @DisplayName("모든 숫자가 볼인 경우")
+        void allBalls() {
+            BaseBallNumber numbers = new BaseBallNumber(Arrays.asList(1, 2, 3));
+            BaseBallNumber otherNumbers = new BaseBallNumber(Arrays.asList(2, 3, 1));
+            int balls = numbers.calcBallWith(otherNumbers);
+
+            assertThat(balls).isEqualTo(3);
+        }
+
+        @Test
+        @DisplayName("일부 숫자만 볼인 경우")
+        void someBalls() {
+            BaseBallNumber numbers = new BaseBallNumber(Arrays.asList(1, 2, 3));
+            BaseBallNumber otherNumbers = new BaseBallNumber(Arrays.asList(1, 3, 4));
+            int balls = numbers.calcBallWith(otherNumbers);
+
+            assertThat(balls).isEqualTo(1);
+        }
+
+        @Test
+        @DisplayName("볼이 없는 경우")
+        void noBalls() {
+            BaseBallNumber numbers = new BaseBallNumber(Arrays.asList(1, 2, 3));
+            BaseBallNumber otherNumbers = new BaseBallNumber(Arrays.asList(4, 5, 6));
+            int balls = numbers.calcBallWith(otherNumbers);
+
+            assertThat(balls).isEqualTo(0);
         }
     }
 }
