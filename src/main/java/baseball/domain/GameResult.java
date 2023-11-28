@@ -1,10 +1,10 @@
 package baseball.domain;
 
-public class GameResult {
-    private static final String NOTHING = "낫싱";
-    private static final String STRIKE = "스트라이크";
-    private static final String BALL = "볼";
+import static baseball.domain.GameConstant.BALL_KR;
+import static baseball.domain.GameConstant.NOTHING;
+import static baseball.domain.GameConstant.STRIKE_KR;
 
+public class GameResult {
     private final int strike;
     private final int ball;
 
@@ -20,13 +20,13 @@ public class GameResult {
 
         StringBuilder resultBuilder = new StringBuilder();
         if (ball > 0) {
-            resultBuilder.append(ball).append(BALL);
+            resultBuilder.append(ball).append(BALL_KR);
         }
         if (ball > 0 && strike > 0) {
             resultBuilder.append(" ");
         }
         if (strike > 0) {
-            resultBuilder.append(strike).append(STRIKE);
+            resultBuilder.append(strike).append(STRIKE_KR);
         }
 
         return resultBuilder.toString();

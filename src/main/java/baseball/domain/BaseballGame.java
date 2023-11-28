@@ -18,7 +18,6 @@ public class BaseballGame {
         return new GameResult(strike, ball);
     }
 
-
     public boolean isWin(BaseBallNumber userNumber) {
         return computerNumber.calcStrikeWith(userNumber) == NUMBER_COUNT;
     }
