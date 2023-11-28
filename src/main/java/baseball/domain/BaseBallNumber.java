@@ -19,20 +19,20 @@ public class BaseBallNumber {
     }
 
     private void validateNumbers(List<Integer>numbers) {
-        if (isValidNumber(numbers)) {
+        if (!isValidNumber(numbers)) {
             throw new InvalidInputException(NUMBER_COUNT_EXCEPTION.getMessage());
         }
-        if (isAllBetween1and9(numbers)) {
+        if (!isAllBetween1and9(numbers)) {
             throw new InvalidInputException(NUMBER_SIZE_EXCEPTION.getMessage());
         }
     }
 
     private boolean isValidNumber(List<Integer> numbers) {
-        return numbers == null || numbers.size() != NUMBER_COUNT;
+        return numbers != null && numbers.size() == NUMBER_COUNT;
     }
 
     private boolean isAllBetween1and9(List<Integer> numbers) {
-        return numbers.stream().anyMatch(number -> number < MIN_NUMBER || number > MAX_NUMBER);
+        return numbers.stream().allMatch(number -> number >= MIN_NUMBER && number <= MAX_NUMBER);
     }
 
     public int calcStrikeWith(BaseBallNumber otherNumber) {
@@ -51,10 +51,7 @@ public class BaseBallNumber {
             if (numbers.contains(otherNumber.numbers.get(i))) {
                 ball++;
             }
-            if (numbers.get(i).equals(otherNumber.numbers.get(i))) {
-                ball--;
-            }
         }
-        return ball;
+        return ball - calcStrikeWith(otherNumber);
     }
 }
