@@ -27,7 +27,7 @@ class BaseBallNumberTest {
         void nullNumbers() {
             assertThatThrownBy(() -> new BaseBallNumber(null))
                     .isInstanceOf(InvalidInputException.class)
-                    .hasMessageContaining("숫자는 정확히 3개여야 합니다.");
+                    .hasMessageContaining("숫자는 정확히 3개를 입력해야 합니다.");
         }
 
         @ParameterizedTest
@@ -50,7 +50,7 @@ class BaseBallNumberTest {
                     .toList();
             assertThatThrownBy(() -> new BaseBallNumber(numbers))
                     .isInstanceOf(InvalidInputException.class)
-                    .hasMessageContaining("숫자는 정확히 3개여야 합니다.");
+                    .hasMessageContaining("숫자는 정확히 3개를 입력해야 합니다.");
         }
     }
 

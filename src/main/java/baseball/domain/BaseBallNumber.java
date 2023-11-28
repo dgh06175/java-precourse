@@ -1,5 +1,11 @@
 package baseball.domain;
 
+import static baseball.domain.DomainConstant.MAX_NUMBER;
+import static baseball.domain.DomainConstant.MIN_NUMBER;
+import static baseball.domain.DomainConstant.NUMBER_COUNT;
+import static baseball.exception.ExceptionMessage.NUMBER_COUNT_EXCEPTION;
+import static baseball.exception.ExceptionMessage.NUMBER_SIZE_EXCEPTION;
+
 import baseball.exception.InvalidInputException;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,24 +20,24 @@ public class BaseBallNumber {
 
     private void validateNumbers(List<Integer>numbers) {
         if (isValidNumber(numbers)) {
-            throw new InvalidInputException("숫자는 정확히 3개여야 합니다.");
+            throw new InvalidInputException(NUMBER_COUNT_EXCEPTION.getMessage());
         }
         if (isAllBetween1and9(numbers)) {
-            throw new InvalidInputException("숫자는 1에서 9 사이의 값 이어야 합니다.");
+            throw new InvalidInputException(NUMBER_SIZE_EXCEPTION.getMessage());
         }
     }
 
     private boolean isValidNumber(List<Integer> numbers) {
-        return numbers == null || numbers.size() != 3;
+        return numbers == null || numbers.size() != NUMBER_COUNT;
     }
 
     private boolean isAllBetween1and9(List<Integer> numbers) {
-        return numbers.stream().anyMatch(number -> number < 1 || number > 9);
+        return numbers.stream().anyMatch(number -> number < MIN_NUMBER || number > MAX_NUMBER);
     }
 
     public int calcStrikeWith(BaseBallNumber otherNumber) {
         int strike = 0;
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < NUMBER_COUNT; i++) {
             if (numbers.get(i).equals(otherNumber.numbers.get(i))) {
                 strike++;
             }
@@ -41,7 +47,7 @@ public class BaseBallNumber {
 
     public int calcBallWith(BaseBallNumber otherNumber) {
         int ball = 0;
-        for(int i = 0; i < 3; i++) {
+        for(int i = 0; i < NUMBER_COUNT; i++) {
             if (numbers.contains(otherNumber.numbers.get(i))) {
                 ball++;
             }

@@ -1,5 +1,9 @@
 package baseball.controller;
 
+import static baseball.domain.DomainConstant.NOT_RETRY;
+import static baseball.domain.DomainConstant.RETRY;
+import static baseball.exception.ExceptionMessage.RESTART_NUMBER_EXCEPTION;
+
 import baseball.domain.BaseBallNumber;
 import baseball.domain.NumberBaseballGame;
 import baseball.exception.InvalidInputException;
@@ -31,7 +35,7 @@ public class GameController {
         NumberBaseballGame game = new NumberBaseballGame(numberGenerator);
         boolean isWin = false;
         while (!isWin) {
-            BaseBallNumber userNumbers = requestUserNumber(game);
+            BaseBallNumber userNumbers = requestUserNumber();
             Map<String, Integer> roundResult = game.getResultWith(userNumbers);
             displayRoundResult(roundResult);
             isWin = game.isWin(userNumbers);
@@ -43,7 +47,7 @@ public class GameController {
         outputView.printNumberCompareResult(roundResult);
     }
 
-    private BaseBallNumber requestUserNumber(NumberBaseballGame game) {
+    private BaseBallNumber requestUserNumber() {
         outputView.printBaseballNumberInputMessage();
         List<Integer> inputNumbers = inputView.inputBaseballNumbers();
         return new BaseBallNumber(inputNumbers);
@@ -54,12 +58,12 @@ public class GameController {
         outputView.printRestartMessage();
         int restartNumber = inputView.inputRestartNumber();
         validateRestartNumber(restartNumber);
-        return restartNumber == 1;
+        return restartNumber == RETRY;
     }
 
     private void validateRestartNumber(int restartNumber) {
-        if (restartNumber != 1 && restartNumber != 2) {
-            throw new InvalidInputException("1 또는 2를 입력해주세요");
+        if (restartNumber != RETRY && restartNumber != NOT_RETRY) {
+            throw new InvalidInputException(RESTART_NUMBER_EXCEPTION.getMessage());
         }
     }
 }

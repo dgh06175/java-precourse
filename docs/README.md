@@ -29,7 +29,6 @@
 ### 1. domain
 
 - NumberBaseballGame : 게임 로직을 처리합니다. 사용자의 입력을 받아 컴퓨터의 숫자와 비교하고 결과를 생성합니다.
-- ComputerPlayer : 컴퓨터 와 플레이어의 역할을 담당합니다.
 - BaseballNumber : 야구 게임에서 사용되는 숫자를 나타내는 객체입니다.
 
 ### 2. View

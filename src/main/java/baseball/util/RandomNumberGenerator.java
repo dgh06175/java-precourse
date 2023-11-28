@@ -1,5 +1,9 @@
 package baseball.util;
 
+import static baseball.domain.DomainConstant.MAX_NUMBER;
+import static baseball.domain.DomainConstant.MIN_NUMBER;
+import static baseball.domain.DomainConstant.NUMBER_COUNT;
+
 import camp.nextstep.edu.missionutils.Randoms;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +12,8 @@ public class RandomNumberGenerator implements NumberGenerator{
     @Override
     public List<Integer> generate() {
         List<Integer> computer = new ArrayList<>();
-        while (computer.size() < 3) {
-            int randomNumber = Randoms.pickNumberInRange(1, 9);
+        while (computer.size() < NUMBER_COUNT) {
+            int randomNumber = Randoms.pickNumberInRange(MIN_NUMBER, MAX_NUMBER);
             if (!computer.contains(randomNumber)) {
                 computer.add(randomNumber);
             }

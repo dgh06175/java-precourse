@@ -1,5 +1,9 @@
 package baseball.domain;
 
+import static baseball.domain.DomainConstant.BALL;
+import static baseball.domain.DomainConstant.NUMBER_COUNT;
+import static baseball.domain.DomainConstant.STRIKE;
+
 import baseball.util.NumberGenerator;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,12 +20,12 @@ public class NumberBaseballGame {
         int strike = computerNumber.calcStrikeWith(userNumber);
         int ball = computerNumber.calcBallWith(userNumber);
 
-        result.put("Strike", strike);
-        result.put("Ball", ball);
+        result.put(STRIKE, strike);
+        result.put(BALL, ball);
         return result;
     }
 
     public boolean isWin(BaseBallNumber userNumber) {
-        return computerNumber.calcStrikeWith(userNumber) == 3;
+        return computerNumber.calcStrikeWith(userNumber) == NUMBER_COUNT;
     }
 }

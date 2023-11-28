@@ -1,5 +1,11 @@
 package baseball.view;
 
+import static baseball.domain.DomainConstant.NUMBER_COUNT;
+import static baseball.exception.ExceptionMessage.INTEGER_EXCEPTION;
+import static baseball.exception.ExceptionMessage.NUMBER_COUNT_EXCEPTION;
+import static baseball.exception.ExceptionMessage.NUMBER_INPUT_STRING_EXCEPTION;
+import static baseball.exception.ExceptionMessage.RETRY_NUMBER_COUNT_INVALID_EXCEPTION;
+
 import baseball.exception.InvalidInputException;
 import camp.nextstep.edu.missionutils.Console;
 
@@ -8,6 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class InputView {
+
 
     public List<Integer> inputBaseballNumbers() throws InvalidInputException {
         String input = readInput();
@@ -30,7 +37,7 @@ public class InputView {
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
         } catch (NumberFormatException e) {
-            throw new InvalidInputException("숫자로만 이루어진 값을 입력해주세요.");
+            throw new InvalidInputException(NUMBER_INPUT_STRING_EXCEPTION.getMessage());
         }
     }
 
@@ -39,19 +46,19 @@ public class InputView {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new InvalidInputException("정수 값을 입력해주세요.");
+            throw new InvalidInputException(INTEGER_EXCEPTION.getMessage());
         }
     }
 
     private void validateInputForBaseballNumbers(String input) throws InvalidInputException {
-        if (input.length() != 3) {
-            throw new InvalidInputException("숫자는 정확히 3개를 입력해야 합니다.");
+        if (input.length() != NUMBER_COUNT) {
+            throw new InvalidInputException(NUMBER_COUNT_EXCEPTION.getMessage());
         }
     }
 
     private void validateInputForRetryNumber(String input) throws InvalidInputException {
         if (input.length() != 1) {
-            throw new InvalidInputException("한 자리 숫자를 입력해야 합니다.");
+            throw new InvalidInputException(RETRY_NUMBER_COUNT_INVALID_EXCEPTION.getMessage());
         }
     }
 }
