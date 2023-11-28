@@ -1,8 +1,8 @@
 package baseball.exception;
 
-import static baseball.domain.DomainConstant.MAX_NUMBER;
-import static baseball.domain.DomainConstant.MIN_NUMBER;
-import static baseball.domain.DomainConstant.NUMBER_COUNT;
+import static baseball.domain.GameConstant.MAX_NUMBER;
+import static baseball.domain.GameConstant.MIN_NUMBER;
+import static baseball.domain.GameConstant.NUMBER_COUNT;
 
 public enum ExceptionMessage {
     RESTART_NUMBER_EXCEPTION("1 또는 2를 입력해주세요"),

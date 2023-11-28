@@ -1,18 +1,17 @@
 package baseball.controller;
 
-import static baseball.domain.DomainConstant.NOT_RETRY;
-import static baseball.domain.DomainConstant.RETRY;
+import static baseball.domain.GameConstant.NOT_RETRY;
+import static baseball.domain.GameConstant.RETRY;
 import static baseball.exception.ExceptionMessage.RESTART_NUMBER_EXCEPTION;
 
 import baseball.domain.BaseBallNumber;
 import baseball.domain.GameResult;
-import baseball.domain.NumberBaseballGame;
+import baseball.domain.BaseballGame;
 import baseball.exception.InvalidInputException;
 import baseball.util.NumberGenerator;
 import baseball.view.InputView;
 import baseball.view.OutputView;
 import java.util.List;
-import java.util.Map;
 
 public class GameController {
     private final NumberGenerator numberGenerator;
@@ -33,7 +32,7 @@ public class GameController {
     }
 
     private void runGame() {
-        NumberBaseballGame game = new NumberBaseballGame(numberGenerator);
+        BaseballGame game = new BaseballGame(numberGenerator);
         boolean isWin = false;
         while (!isWin) {
             BaseBallNumber userNumbers = requestUserNumber();

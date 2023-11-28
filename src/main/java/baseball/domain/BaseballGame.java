@@ -1,17 +1,13 @@
 package baseball.domain;
 
-import static baseball.domain.DomainConstant.BALL;
-import static baseball.domain.DomainConstant.NUMBER_COUNT;
-import static baseball.domain.DomainConstant.STRIKE;
+import static baseball.domain.GameConstant.NUMBER_COUNT;
 
 import baseball.util.NumberGenerator;
-import java.util.HashMap;
-import java.util.Map;
 
-public class NumberBaseballGame {
+public class BaseballGame {
     private final BaseBallNumber computerNumber;
 
-    public NumberBaseballGame(NumberGenerator numberGenerator) {
+    public BaseballGame(NumberGenerator numberGenerator) {
         computerNumber = new BaseBallNumber(numberGenerator.generate());
     }
 

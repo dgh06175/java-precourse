@@ -1,6 +1,6 @@
 package baseball.domain;
 
-public class DomainConstant {
+public class GameConstant {
     public static final int RETRY = 1;
     public static final int NOT_RETRY = 2;
     public static final int MIN_NUMBER = 1;

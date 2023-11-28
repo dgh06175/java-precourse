@@ -1,6 +1,6 @@
 package baseball.view;
 
-import static baseball.domain.DomainConstant.NUMBER_COUNT;
+import static baseball.domain.GameConstant.NUMBER_COUNT;
 import static baseball.exception.ExceptionMessage.INTEGER_EXCEPTION;
 import static baseball.exception.ExceptionMessage.NUMBER_COUNT_EXCEPTION;
 import static baseball.exception.ExceptionMessage.NUMBER_INPUT_STRING_EXCEPTION;

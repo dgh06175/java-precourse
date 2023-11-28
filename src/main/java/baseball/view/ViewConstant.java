@@ -1,7 +1,7 @@
 package baseball.view;
 
-import static baseball.domain.DomainConstant.NOT_RETRY;
-import static baseball.domain.DomainConstant.RETRY;
+import static baseball.domain.GameConstant.NOT_RETRY;
+import static baseball.domain.GameConstant.RETRY;
 
 public class ViewConstant {
     public static final String START_MESSAGE = "숫자 야구 게임을 시작합니다.";

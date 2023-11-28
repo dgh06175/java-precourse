@@ -1,8 +1,8 @@
 package baseball.domain;
 
-import static baseball.domain.DomainConstant.MAX_NUMBER;
-import static baseball.domain.DomainConstant.MIN_NUMBER;
-import static baseball.domain.DomainConstant.NUMBER_COUNT;
+import static baseball.domain.GameConstant.MAX_NUMBER;
+import static baseball.domain.GameConstant.MIN_NUMBER;
+import static baseball.domain.GameConstant.NUMBER_COUNT;
 import static baseball.exception.ExceptionMessage.NUMBER_COUNT_EXCEPTION;
 import static baseball.exception.ExceptionMessage.NUMBER_SIZE_EXCEPTION;
 
