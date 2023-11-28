@@ -17,9 +17,9 @@ class NumberBaseballGameTest {
         NumberBaseballGame game = new NumberBaseballGame(generator);
 
         BaseBallNumber userNumber = new BaseBallNumber(Arrays.asList(1, 4, 3));
-        Map<String, Integer> result = game.getResultWith(userNumber);
+        GameResult result = game.getResultWith(userNumber);
 
-        assertThat(result).containsEntry("Strike", 2).containsEntry("Ball", 0);
+        assertThat(result.formatResult()).isEqualTo("2스트라이크");
     }
 
     @Test

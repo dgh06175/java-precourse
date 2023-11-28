@@ -10,6 +10,7 @@ import static baseball.view.ViewConstant.START_MESSAGE;
 import static baseball.view.ViewConstant.STRIKE_KR;
 import static baseball.view.ViewConstant.WIN_MESSAGE;
 
+import baseball.domain.GameResult;
 import java.util.Map;
 
 public class OutputView {
@@ -21,24 +22,10 @@ public class OutputView {
         System.out.print(BASEBALL_NUMBER_INPUT_MESSAGE);
     }
 
-    public void printNumberCompareResult(Map<String, Integer> result) {
-        int strike = result.get(STRIKE);
-        int ball = result.get(BALL);
-        if (strike == 0 && ball == 0) {
-            System.out.println(NOTHING);
-            return;
-        }
-        if (ball > 0) {
-            System.out.printf("%d" + BALL_KR, ball);
-        }
-        if (ball > 0 && strike > 0) {
-            System.out.print(" ");
-        }
-        if (strike > 0) {
-            System.out.printf("%d" + STRIKE_KR, strike);
-        }
-        System.out.println();
+    public void printNumberCompareResult(GameResult result) {
+        System.out.println(result.formatResult());
     }
+
 
     public void printWinMessage() {
         System.out.println(WIN_MESSAGE);

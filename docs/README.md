@@ -49,4 +49,8 @@
 - NumberGenerator : 숫자 생성기 인터페이스
 - RandomNumberGenerator : 랜덤 숫자 생성 구현체
 
+## 리팩터링
 
+- [x] 메소드 분리
+- [x] 문자열 포장
+- [x] 객체 역할 분리

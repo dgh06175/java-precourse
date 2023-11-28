@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class InputView {
-
-
     public List<Integer> inputBaseballNumbers() throws InvalidInputException {
         String input = readInput();
         return convertStringToListOfIntegers(input);

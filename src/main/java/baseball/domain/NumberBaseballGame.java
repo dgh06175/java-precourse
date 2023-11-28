@@ -15,15 +15,13 @@ public class NumberBaseballGame {
         computerNumber = new BaseBallNumber(numberGenerator.generate());
     }
 
-    public Map<String, Integer> getResultWith(BaseBallNumber userNumber) {
-        Map<String, Integer> result = new HashMap<>();
+    public GameResult getResultWith(BaseBallNumber userNumber) {
         int strike = computerNumber.calcStrikeWith(userNumber);
         int ball = computerNumber.calcBallWith(userNumber);
 
-        result.put(STRIKE, strike);
-        result.put(BALL, ball);
-        return result;
+        return new GameResult(strike, ball);
     }
+
 
     public boolean isWin(BaseBallNumber userNumber) {
         return computerNumber.calcStrikeWith(userNumber) == NUMBER_COUNT;

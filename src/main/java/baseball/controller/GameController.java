@@ -5,6 +5,7 @@ import static baseball.domain.DomainConstant.RETRY;
 import static baseball.exception.ExceptionMessage.RESTART_NUMBER_EXCEPTION;
 
 import baseball.domain.BaseBallNumber;
+import baseball.domain.GameResult;
 import baseball.domain.NumberBaseballGame;
 import baseball.exception.InvalidInputException;
 import baseball.util.NumberGenerator;
@@ -36,14 +37,14 @@ public class GameController {
         boolean isWin = false;
         while (!isWin) {
             BaseBallNumber userNumbers = requestUserNumber();
-            Map<String, Integer> roundResult = game.getResultWith(userNumbers);
+            GameResult roundResult = game.getResultWith(userNumbers);
             displayRoundResult(roundResult);
             isWin = game.isWin(userNumbers);
         }
         outputView.printWinMessage();
     }
 
-    private void displayRoundResult(Map<String, Integer> roundResult) {
+    private void displayRoundResult(GameResult roundResult) {
         outputView.printNumberCompareResult(roundResult);
     }
 
