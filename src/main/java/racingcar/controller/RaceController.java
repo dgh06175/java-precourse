@@ -1,9 +1,9 @@
 package racingcar.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import racingcar.domain.AttemptResult;
 import racingcar.domain.Car;
+import racingcar.domain.GameResult;
 import racingcar.domain.Race;
 import racingcar.util.NumberGenerator;
 import racingcar.view.InputView;
@@ -22,17 +22,10 @@ public class RaceController {
 
     public void run() {
         List<Car> cars = requestCars();
-
         int maxAttempt = requestMaxAttempt();
 
-        Race race = new Race(cars, maxAttempt);
-
-        do {
-            AttemptResult attemptResult = race.doAttempt();
-            outputView.printAttemptResult(attemptResult);
-        } while (!race.isRaceEnd());
-
-        outputView.printGameResult(race.getGameResult());
+        GameResult gameResult = doRace(cars, maxAttempt);
+        outputView.printGameResult(gameResult);
     }
 
     private List<Car> requestCars() {
@@ -49,5 +42,16 @@ public class RaceController {
 
     private int requestMaxAttempt() {
         return inputView.readMaxAttempt();
+    }
+
+    private GameResult doRace(List<Car> cars, int maxAttempt) {
+        Race race = new Race(cars, maxAttempt);
+        outputView.printAttemptResultStartMessage();
+        do {
+            AttemptResult attemptResult = race.doAttempt();
+            outputView.printAttemptResult(attemptResult);
+        } while (!race.isRaceEnd());
+
+        return race.getGameResult();
     }
 }

@@ -6,7 +6,7 @@ import racingcar.domain.GameResult;
 
 public class OutputView {
     public void printAttemptResultStartMessage() {
-        System.out.println("실행 결과");
+        System.out.println("\n실행 결과");
     }
 
     public void printAttemptResult(AttemptResult attemptResult) {
