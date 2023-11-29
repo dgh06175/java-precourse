@@ -1,10 +1,13 @@
 package racingcar.controller;
 
+import static racingcar.exception.ErrorMessage.DUPLICATE_NAME;
+
 import java.util.List;
 import racingcar.domain.AttemptResult;
 import racingcar.domain.Car;
 import racingcar.domain.GameResult;
 import racingcar.domain.Race;
+import racingcar.exception.InvalidInputException;
 import racingcar.util.NumberGenerator;
 import racingcar.view.InputView;
 import racingcar.view.OutputView;
@@ -35,9 +38,16 @@ public class RaceController {
 
     private List<Car> parseInputCarNames(String inputCarNames) {
         List<String> carNames = List.of(inputCarNames.split(","));
+        validateCarNames(carNames);
         return carNames.stream()
                 .map(name -> new Car(name, numberGenerator))
                 .toList();
+    }
+
+    private void validateCarNames(List<String> carNames) {
+        if (carNames.stream().distinct().count() != carNames.size()) {
+            throw new InvalidInputException(DUPLICATE_NAME.message);
+        }
     }
 
     private int requestMaxAttempt() {
