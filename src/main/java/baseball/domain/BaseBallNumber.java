@@ -3,6 +3,7 @@ package baseball.domain;
 import static baseball.domain.GameConstant.MAX_NUMBER;
 import static baseball.domain.GameConstant.MIN_NUMBER;
 import static baseball.domain.GameConstant.NUMBER_COUNT;
+import static baseball.exception.ExceptionMessage.DUPLICATE_NUMBER_EXCEPTION;
 import static baseball.exception.ExceptionMessage.NUMBER_COUNT_EXCEPTION;
 import static baseball.exception.ExceptionMessage.NUMBER_SIZE_EXCEPTION;
 
@@ -19,20 +20,27 @@ public class BaseBallNumber {
     }
 
     private void validateNumbers(List<Integer>numbers) {
-        if (!isValidNumber(numbers)) {
+        if (isInValidNumber(numbers)) {
             throw new InvalidInputException(NUMBER_COUNT_EXCEPTION.message);
         }
-        if (!isAllBetween1and9(numbers)) {
+        if (isAnyBetween1and9(numbers)) {
             throw new InvalidInputException(NUMBER_SIZE_EXCEPTION.message);
+        }
+        if (isDuplicateNumbers(numbers)) {
+            throw new InvalidInputException(DUPLICATE_NUMBER_EXCEPTION.message);
         }
     }
 
-    private boolean isValidNumber(List<Integer> numbers) {
-        return numbers != null && numbers.size() == NUMBER_COUNT;
+    private boolean isInValidNumber(List<Integer> numbers) {
+        return numbers == null || numbers.size() != NUMBER_COUNT;
     }
 
-    private boolean isAllBetween1and9(List<Integer> numbers) {
-        return numbers.stream().allMatch(number -> number >= MIN_NUMBER && number <= MAX_NUMBER);
+    private boolean isAnyBetween1and9(List<Integer> numbers) {
+        return numbers.stream().anyMatch(number -> number < MIN_NUMBER || number > MAX_NUMBER);
+    }
+
+    private boolean isDuplicateNumbers(List<Integer> numbers) {
+        return numbers.stream().distinct().count() != NUMBER_COUNT;
     }
 
     public int calcStrikeWith(BaseBallNumber otherNumber) {

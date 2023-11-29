@@ -41,6 +41,16 @@ class BaseBallNumberTest {
         }
 
         @ParameterizedTest
+        @CsvSource({"1, 1, 5", "4, 8, 4"})
+        @DisplayName("중복된 숫자")
+        void duplicatedNumbers(int a, int b, int c) {
+            List<Integer> numbers = Arrays.asList(a, b, c);
+            assertThatThrownBy(() -> new BaseBallNumber(numbers))
+                    .isInstanceOf(InvalidInputException.class)
+                    .hasMessageContaining("중복되지 않아야 합니다.");
+        }
+
+        @ParameterizedTest
         @CsvSource({"1, 2", "1, 2, 3, 4"})
         @DisplayName("길이가 3이 아닌 숫자 리스트")
         void invalidLength(String csvNumbers) {
