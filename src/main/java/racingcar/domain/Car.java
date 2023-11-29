@@ -7,6 +7,7 @@ import racingcar.util.NumberGenerator;
 
 public class Car implements Comparable<Car> {
     private static final int MAX_NAME_LENGTH = 5;
+    private static final int MOVE_CONDITION = 4;
     private final NumberGenerator generator;
     private final String name;
     private int position;
@@ -33,12 +34,16 @@ public class Car implements Comparable<Car> {
         return name;
     }
 
+    public int getPosition() {
+        return position;
+    }
+
     private boolean canMove(int value) {
-        return value >= 4;
+        return value >= MOVE_CONDITION;
     }
 
     private void validateName(String name) {
-        if (name.length() > 5) {
+        if (name.length() > MAX_NAME_LENGTH) {
             throw new InvalidInputException(NAME_LENGTH_ERROR.message);
         }
     }
