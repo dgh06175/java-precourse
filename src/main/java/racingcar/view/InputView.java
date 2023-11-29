@@ -19,7 +19,7 @@ public class InputView {
         return input;
     }
 
-    public int readAttempt() {
+    public int readMaxAttempt() {
         printReadAttemptMessage();
         return parseInt(readString());
     }

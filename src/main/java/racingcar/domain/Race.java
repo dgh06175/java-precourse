@@ -5,6 +5,7 @@ import static racingcar.exception.ErrorMessage.RACE_ERROR;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
+import racingcar.exception.InvalidInputException;
 
 public class Race {
     private final List<Car> cars;
@@ -19,7 +20,7 @@ public class Race {
 
     public AttemptResult doAttempt() {
         if (isRaceEnd()) {
-            throw new IllegalArgumentException(RACE_ERROR.message);
+            throw new InvalidInputException(RACE_ERROR.message);
         }
 
         for (Car car: cars) {
