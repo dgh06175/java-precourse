@@ -12,13 +12,9 @@ public enum ExceptionMessage {
     NUMBER_INPUT_STRING_EXCEPTION("숫자로만 이루어진 값을 입력해주세요."),
     INTEGER_EXCEPTION("정수 값을 입력해주세요.");
 
-    private final String message;
+    public final String message;
 
     ExceptionMessage(String message) {
         this.message = message;
-    }
-
-    public String getMessage() {
-        return message;
     }
 }

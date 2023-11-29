@@ -35,7 +35,7 @@ public class InputView {
                     .map(Integer::parseInt)
                     .collect(Collectors.toList());
         } catch (NumberFormatException e) {
-            throw new InvalidInputException(NUMBER_INPUT_STRING_EXCEPTION.getMessage());
+            throw new InvalidInputException(NUMBER_INPUT_STRING_EXCEPTION.message);
         }
     }
 
@@ -44,19 +44,19 @@ public class InputView {
         try {
             return Integer.parseInt(input);
         } catch (NumberFormatException e) {
-            throw new InvalidInputException(INTEGER_EXCEPTION.getMessage());
+            throw new InvalidInputException(INTEGER_EXCEPTION.message);
         }
     }
 
     private void validateInputForBaseballNumbers(String input) throws InvalidInputException {
         if (input.length() != NUMBER_COUNT) {
-            throw new InvalidInputException(NUMBER_COUNT_EXCEPTION.getMessage());
+            throw new InvalidInputException(NUMBER_COUNT_EXCEPTION.message);
         }
     }
 
     private void validateInputForRetryNumber(String input) throws InvalidInputException {
         if (input.length() != 1) {
-            throw new InvalidInputException(RETRY_NUMBER_COUNT_INVALID_EXCEPTION.getMessage());
+            throw new InvalidInputException(RETRY_NUMBER_COUNT_INVALID_EXCEPTION.message);
         }
     }
 }

@@ -20,10 +20,10 @@ public class BaseBallNumber {
 
     private void validateNumbers(List<Integer>numbers) {
         if (!isValidNumber(numbers)) {
-            throw new InvalidInputException(NUMBER_COUNT_EXCEPTION.getMessage());
+            throw new InvalidInputException(NUMBER_COUNT_EXCEPTION.message);
         }
         if (!isAllBetween1and9(numbers)) {
-            throw new InvalidInputException(NUMBER_SIZE_EXCEPTION.getMessage());
+            throw new InvalidInputException(NUMBER_SIZE_EXCEPTION.message);
         }
     }
 
