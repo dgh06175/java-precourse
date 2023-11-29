@@ -7,6 +7,7 @@ import static baseball.exception.ExceptionMessage.RESTART_NUMBER_EXCEPTION;
 import baseball.domain.BaseBallNumber;
 import baseball.domain.GameResult;
 import baseball.domain.BaseballGame;
+import baseball.domain.GameStatus;
 import baseball.exception.InvalidInputException;
 import baseball.util.NumberGenerator;
 import baseball.view.InputView;
@@ -33,13 +34,12 @@ public class GameController {
 
     private void runGame() {
         BaseballGame game = new BaseballGame(numberGenerator);
-        boolean isWin = false;
-        while (!isWin) {
+        GameStatus status;
+        do {
             BaseBallNumber userNumbers = requestUserNumber();
-            GameResult roundResult = game.getResultWith(userNumbers);
-            displayRoundResult(roundResult);
-            isWin = game.isWin(userNumbers);
-        }
+            status = game.play(userNumbers);
+            displayRoundResult(status.result());
+        } while (!status.isWin());
         outputView.printWinMessage();
     }
 
@@ -63,7 +63,7 @@ public class GameController {
 
     private void validateRestartNumber(int restartNumber) {
         if (restartNumber != RETRY && restartNumber != NOT_RETRY) {
-            throw new InvalidInputException(RESTART_NUMBER_EXCEPTION.getMessage());
+            throw new InvalidInputException(RESTART_NUMBER_EXCEPTION.message);
         }
     }
 }

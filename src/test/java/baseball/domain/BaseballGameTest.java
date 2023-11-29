@@ -28,7 +28,7 @@ class BaseballGameTest {
         BaseballGame game = new BaseballGame(generator);
 
         BaseBallNumber winningNumber = new BaseBallNumber(Arrays.asList(1, 2, 3));
-        boolean isWin = game.isWin(winningNumber);
+        boolean isWin = game.calcResult(winningNumber);
 
         assertThat(isWin).isTrue();
     }
@@ -40,7 +40,7 @@ class BaseballGameTest {
         BaseballGame game = new BaseballGame(generator);
 
         BaseBallNumber losingNumber = new BaseBallNumber(Arrays.asList(1, 2, 4));
-        boolean isWin = game.isWin(losingNumber);
+        boolean isWin = game.calcResult(losingNumber);
 
         assertThat(isWin).isFalse();
     }

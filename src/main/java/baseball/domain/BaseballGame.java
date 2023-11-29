@@ -11,6 +11,12 @@ public class BaseballGame {
         computerNumber = new BaseBallNumber(numberGenerator.generate());
     }
 
+    public GameStatus play(BaseBallNumber userNumber) {
+        GameResult result = getResultWith(userNumber);
+        boolean isWin = calcResult(userNumber);
+        return new GameStatus(result, isWin);
+    }
+
     public GameResult getResultWith(BaseBallNumber userNumber) {
         int strike = computerNumber.calcStrikeWith(userNumber);
         int ball = computerNumber.calcBallWith(userNumber);
@@ -18,7 +24,7 @@ public class BaseballGame {
         return new GameResult(strike, ball);
     }
 
-    public boolean isWin(BaseBallNumber userNumber) {
+    public boolean calcResult(BaseBallNumber userNumber) {
         return computerNumber.calcStrikeWith(userNumber) == NUMBER_COUNT;
     }
 }
