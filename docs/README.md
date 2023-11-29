@@ -79,3 +79,8 @@
 5. Utility
    - NumberGenerator: 값 생성 인터페이스
    - RandomNumberGenerator: 무작위 값을 생성하는 유틸리티 클래스.
+
+## 리팩터링
+- 테스트 코드 추가 및 개선
+- 원시값 포장
+- 객체 역할 정리 (결과 객체)
