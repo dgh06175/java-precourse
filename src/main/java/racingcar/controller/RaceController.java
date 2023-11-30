@@ -5,6 +5,7 @@ import static racingcar.exception.ErrorMessage.DUPLICATE_NAME;
 import java.util.List;
 import racingcar.domain.AttemptResult;
 import racingcar.domain.Car;
+import racingcar.domain.Cars;
 import racingcar.domain.GameResult;
 import racingcar.domain.Race;
 import racingcar.exception.InvalidInputException;
@@ -24,24 +25,24 @@ public class RaceController {
     }
 
     public void run() {
-        List<Car> cars = requestCars();
+        Cars cars = requestCars();
         int maxAttempt = requestMaxAttempt();
 
         GameResult gameResult = doRace(cars, maxAttempt);
         outputView.printGameResult(gameResult);
     }
 
-    private List<Car> requestCars() {
+    private Cars requestCars() {
         String inputCarNames = inputView.readCarNames();
         return parseInputCarNames(inputCarNames);
     }
 
-    private List<Car> parseInputCarNames(String inputCarNames) {
+    private Cars parseInputCarNames(String inputCarNames) {
         List<String> carNames = List.of(inputCarNames.split(","));
         validateCarNames(carNames);
-        return carNames.stream()
+        return new Cars(carNames.stream()
                 .map(name -> new Car(name, numberGenerator))
-                .toList();
+                .toList());
     }
 
     private void validateCarNames(List<String> carNames) {
@@ -54,7 +55,7 @@ public class RaceController {
         return inputView.readMaxAttempt();
     }
 
-    private GameResult doRace(List<Car> cars, int maxAttempt) {
+    private GameResult doRace(Cars cars, int maxAttempt) {
         Race race = new Race(cars, maxAttempt);
         outputView.printAttemptResultStartMessage();
         do {

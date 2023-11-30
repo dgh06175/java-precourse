@@ -1,57 +1,46 @@
 package racingcar.domain;
 
-import static racingcar.exception.ErrorMessage.RACE_ERROR;
+import static racingcar.exception.ErrorMessage.RACE_ATTEMPT_ERROR;
+import static racingcar.exception.ErrorMessage.RACE_MAX_ATTEMPT_ERROR;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
 import racingcar.exception.InvalidInputException;
 
 public class Race {
-    private final List<Car> cars;
+    private final Cars cars;
     private final int maxAttempt;
     private int attempt;
 
-    public Race(List<Car> cars, int maxAttempt) {
+    public Race(Cars cars, int maxAttempt) {
+        validateMaxAttempt(maxAttempt);
         this.cars = cars;
         this.maxAttempt = maxAttempt;
         this.attempt = 0;
     }
 
     public AttemptResult doAttempt() {
-        if (isRaceEnd()) {
-            throw new InvalidInputException(RACE_ERROR.message);
-        }
-
-        for (Car car: cars) {
-            car.tryMove();
-        }
+        validateAttempt();
+        cars.allTryMove();
         attempt += 1;
-        return getAttemptResult();
+        return cars.getAttemptResult();
     }
 
     public GameResult getGameResult() {
-        return new GameResult(getWinners());
-    }
-
-    private List<String> getWinners() {
-        Car maxPositionCar = Collections.max(cars);
-        return cars.stream()
-                .filter(car -> car.compareTo(maxPositionCar) == 0)
-                .map(Car::getName)
-                .toList();
+        return new GameResult(cars.getWinners());
     }
 
     public boolean isRaceEnd() {
         return attempt >= maxAttempt;
     }
 
-    private AttemptResult getAttemptResult() {
-        AttemptResult attemptResult = new AttemptResult();
-        for(Car car: cars) {
-            attemptResult.put(car.getName(), car.getPosition());
+    private void validateMaxAttempt(int maxAttempt) {
+        if (maxAttempt < 1) {
+            throw new InvalidInputException(RACE_MAX_ATTEMPT_ERROR.message);
         }
+    }
 
-        return attemptResult;
+    private void validateAttempt() {
+        if (attempt >= maxAttempt) {
+            throw new InvalidInputException(RACE_ATTEMPT_ERROR.message);
+        }
     }
 }
