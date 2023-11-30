@@ -74,7 +74,7 @@ class CarTest {
             car1.tryMove(); // car1 이동
             car2.tryMove(); // car2 이동하지 않음
 
-            assertThat(car1.compareTo(car2)).isPositive();
+            assertThat(car1).isGreaterThan(car2);
         }
     }
 }

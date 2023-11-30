@@ -2,6 +2,7 @@ package racingcar.domain;
 
 import static racingcar.exception.ErrorMessage.NAME_LENGTH_ERROR;
 
+import java.util.Objects;
 import racingcar.exception.InvalidInputException;
 import racingcar.util.NumberGenerator;
 
@@ -23,6 +24,23 @@ public class Car implements Comparable<Car> {
         if (canMove(generator.generate())) {
             position += 1;
         }
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(position);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        Car car = (Car) obj;
+        return position == car.position;
     }
 
     @Override

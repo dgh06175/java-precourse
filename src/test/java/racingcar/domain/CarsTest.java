@@ -25,7 +25,7 @@ class CarsTest {
     void 모든_자동차_이동_시도() {
         cars.allTryMove();
         assertThat(car1.getPosition()).isEqualTo(1);
-        assertThat(car2.getPosition()).isEqualTo(0);
+        assertThat(car2.getPosition()).isZero();
     }
 
     @Test
