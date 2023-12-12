@@ -1,0 +1,22 @@
+plugins {
+    id 'java'
+}
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+dependencies {
+    implementation 'com.github.woowacourse-projects:mission-utils:1.1.0' // 1.0.0에서 1.1.0으로 변경
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
