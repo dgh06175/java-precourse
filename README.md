@@ -168,13 +168,13 @@ https://github.com/dgh06175/java-precourse-6/tree/main/java-baseball-6-study
 
 </details>
 
-## 2주차 로또
-
-(링크 없음)
-
-## 3주차 자동차 경주
+## 2주차 자동차 경주
 
 https://github.com/dgh06175/java-precourse-6/tree/main/java-racingcar-6-study
+
+## 3주차 로또
+
+(링크 없음)
 
 ## 5기 4주차 다리 건너기
 
