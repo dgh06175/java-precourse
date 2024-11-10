@@ -1,4 +1,7 @@
-package store.model;
+package store.model.store;
+
+import store.model.promotion.Promotion;
+import store.model.storage.Storage;
 
 public class Store {
     private final Storage storage;

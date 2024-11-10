@@ -1,4 +1,4 @@
 package store.dto;
 
-public record ProductQuantityDto(String name, int quantity) {
+public record ProductQuantity(String name, int quantity) {
 }

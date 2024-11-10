@@ -1,4 +1,4 @@
-package store.model;
+package store.model.store;
 
 public class Receipt {
 }

@@ -1,4 +1,4 @@
-package store.model;
+package store.model.promotion;
 
 public enum PromotionStatus {
     BONUS_OFFER_AVAILABLE,
