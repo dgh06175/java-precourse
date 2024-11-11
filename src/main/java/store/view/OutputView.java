@@ -41,4 +41,48 @@ public class OutputView {
         }
         System.out.printf("- %s %,d원 재고 없음\n", promotionProduct.name(), promotionProduct.cost());
     }
+
+    public void printReceipt(Map<String, NormalProduct> products, Map<String, NormalProduct> promotions) {
+        System.out.println();
+        System.out.println("==============W 편의점================");
+        System.out.printf("%-19s%-10s%s\n", "상품명", "수량", "가격");
+        for (var entry : products.entrySet()) {
+            NormalProduct product = entry.getValue();
+            System.out.printf("%-19s%-10s%,d\n", product.name(), product.quantity(),
+                    product.cost() * product.quantity());
+        }
+        System.out.println("=============증      정===============");
+        for (var entry : promotions.entrySet()) {
+            NormalProduct promotion = entry.getValue();
+            System.out.printf("%-19s%d\n", promotion.name(), promotion.quantity());
+        }
+        System.out.println("====================================");
+        System.out.printf("%-19s%-10d%,d\n", "총구매액", getTotalQuantity(products), getTotalCost(products));
+        System.out.printf("%-29s%,-10d\n", "행사할인", -1 * getPromotionCost(promotions));
+        System.out.printf("%-29s%,-10d\n", "멤버십할인", -1 * 0);
+        System.out.printf("%-29s %,d\n", "내실돈", getPayCost(products, promotions));
+        System.out.println();
+    }
+
+    private int getTotalQuantity(Map<String, NormalProduct> products) {
+        return products.values().stream()
+                .mapToInt(NormalProduct::quantity)
+                .sum();
+    }
+
+    private int getTotalCost(Map<String, NormalProduct> products) {
+        return products.values().stream()
+                .mapToInt(product -> product.quantity() * product.cost())
+                .sum();
+    }
+
+    private int getPromotionCost(Map<String, NormalProduct> promotions) {
+        return promotions.values().stream()
+                .mapToInt(promotion -> promotion.quantity() * promotion.cost())
+                .sum();
+    }
+
+    private int getPayCost(Map<String, NormalProduct> products, Map<String, NormalProduct> promotions) {
+        return getTotalCost(products) - getPromotionCost(promotions);
+    }
 }

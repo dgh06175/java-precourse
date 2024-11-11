@@ -108,8 +108,12 @@ public class Store {
         receipt.init();
     }
 
-    public void printReceipt() {
-        receipt.print();
+    public Map<String, NormalProduct> getReceiptProducts() {
+        return receipt.getProducts();
+    }
+
+    public Map<String, NormalProduct> getReceiptPromotions() {
+        return receipt.getPromotions();
     }
 
     private PromotionItem getPromotionItem(String name) {

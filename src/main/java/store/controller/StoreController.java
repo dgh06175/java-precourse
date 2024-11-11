@@ -6,6 +6,7 @@ import java.util.function.Supplier;
 import store.model.promotion.Promotion;
 import store.model.promotion.PromotionStatus;
 import store.model.promotion.PromotionStatusQuantity;
+import store.model.storage.NormalProduct;
 import store.model.storage.Storage;
 import store.model.store.Store;
 import store.view.InputView;
@@ -25,8 +26,14 @@ public class StoreController {
         do {
             store.initReceipt();
             buyProducts(store);
-            store.printReceipt();
+            printReceipt(store);
         } while (inputView.inputContinue());
+    }
+
+    private void printReceipt(Store store) {
+        Map<String, NormalProduct> receiptProducts = store.getReceiptProducts();
+        Map<String, NormalProduct> receiptPromotions = store.getReceiptPromotions();
+        outputView.printReceipt(receiptProducts, receiptPromotions);
     }
 
     private void buyProducts(Store store) {
