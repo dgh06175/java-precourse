@@ -1,10 +1,12 @@
 package store.view;
 
+import camp.nextstep.edu.missionutils.Console;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import store.model.storage.ProductQuantity;
 
 public class InputView {
     public static final String FILE_PATH = "src/main/resources/";
@@ -32,5 +34,25 @@ public class InputView {
         }
 
         return lines;
+    }
+
+    public List<ProductQuantity> inputBuyProducts() {
+        List<ProductQuantity> buyProducts = new ArrayList<>();
+        System.out.println("구매하실 상품명과 수량을 입력해 주세요. (예: [사이다-2],[감자칩-1])");
+        String input = Console.readLine();
+        String[] splitInputs = input.split(",");
+        for (String splitInput : splitInputs) {
+            ProductQuantity productQuantity = extractProductQuantity(splitInput, buyProducts);
+            buyProducts.add(productQuantity);
+        }
+        return buyProducts;
+    }
+
+    private ProductQuantity extractProductQuantity(String splitInput, List<ProductQuantity> buyProducts) {
+        String trimInput = splitInput.trim().replaceAll("^\\[|]$", "");
+        String[] splitTrimInput = trimInput.split("-");
+        String name = splitTrimInput[0];
+        int quantity = Integer.parseInt(splitTrimInput[1]);
+        return new ProductQuantity(name, quantity);
     }
 }

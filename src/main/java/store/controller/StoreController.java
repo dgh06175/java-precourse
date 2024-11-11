@@ -2,6 +2,7 @@ package store.controller;
 
 import java.util.List;
 import store.model.promotion.Promotion;
+import store.model.storage.ProductQuantity;
 import store.model.storage.Storage;
 import store.model.store.Store;
 import store.view.InputView;
@@ -18,6 +19,9 @@ public class StoreController {
 
     public void run() {
         Store store = initStore();
+        outputView.printWelcomeMessage();
+        // TODO: 재시작 기능 추가
+        List<ProductQuantity> userBuyProducts = inputView.inputBuyProducts();
     }
 
     private Store initStore() {
