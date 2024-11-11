@@ -79,7 +79,7 @@ public class Store {
         }
         int count = storage.getPromotionStockOf(name).quantity();
         if (isPromotionNotAvailable(name)) { // TODO: 명확한 분기 처리
-            int totalCost = buy(name, count) + (requestQuantity - count) * cost;
+            int totalCost = count * cost + (requestQuantity - count) * cost;
             receipt.addProduct(new NormalProduct(name, cost, requestQuantity));
             return totalCost;
         }
