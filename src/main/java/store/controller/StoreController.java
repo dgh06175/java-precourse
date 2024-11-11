@@ -20,6 +20,7 @@ public class StoreController {
     public void run() {
         Store store = initStore();
         outputView.printWelcomeMessage();
+        outputView.printProducts(store.getNormalStocks(), store.getPromotionStocks());
         // TODO: 재시작 기능 추가
         List<ProductQuantity> userBuyProducts = inputView.inputBuyProducts();
     }

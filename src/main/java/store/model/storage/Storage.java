@@ -1,11 +1,13 @@
 package store.model.storage;
 
-import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Storage {
-    private final List<Stock> products = new ArrayList<>();
+    private final Map<String, NormalStock> normalStock = new LinkedHashMap<>();
+    private final Map<String, PromotionStock> promotionStocks = new LinkedHashMap<>();
 
     public Storage(List<String> productLines) {
         for (String productLine : productLines.subList(1, productLines.size())) {
@@ -15,12 +17,22 @@ public class Storage {
             int quantity = Integer.parseInt(splitProductLine.get(2));
             String promotion = splitProductLine.getLast();
 
-            Stock stock = new Stock(name, cost, quantity, promotion);
-            this.products.add(stock);
+            if (promotion.equalsIgnoreCase("null")) {
+                normalStock.put(name, new NormalStock(name, cost, quantity));
+                continue;
+            }
+            promotionStocks.put(name, new PromotionStock(name, cost, quantity, promotion));
+            if (normalStock.get(name) == null) {
+                normalStock.put(name, new NormalStock(name, cost, 0));
+            }
         }
     }
 
-    public List<Stock> getProducts() {
-        return Collections.unmodifiableList(products);
+    public Map<String, NormalStock> getNormalStock() {
+        return Collections.unmodifiableMap(normalStock);
+    }
+
+    public Map<String, PromotionStock> getPromotionStocks() {
+        return Collections.unmodifiableMap(promotionStocks);
     }
 }
