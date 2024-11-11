@@ -1,13 +1,13 @@
 package store.model.storage;
 
 import static store.exception.StoreError.STOCK_PROMOTION_EMPTY;
-import static store.model.storage.NormalStock.validateStock;
+import static store.model.storage.NormalProduct.validateStock;
 
 import store.exception.StoreException;
 
-public record PromotionStock(String name, int cost, int quantity, String promotion) {
+public record PromotionProduct(String name, int cost, int quantity, String promotion) {
 
-    public PromotionStock {
+    public PromotionProduct {
         validatePromotionStock(name, cost, quantity, promotion);
     }
 

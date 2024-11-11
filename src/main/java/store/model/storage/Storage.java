@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public class Storage {
-    private final Map<String, NormalStock> normalStock = new LinkedHashMap<>();
-    private final Map<String, PromotionStock> promotionStocks = new LinkedHashMap<>();
+    private final Map<String, NormalProduct> normalStock = new LinkedHashMap<>();
+    private final Map<String, PromotionProduct> promotionStocks = new LinkedHashMap<>();
 
     public Storage(List<String> productLines) {
         for (String productLine : productLines.subList(1, productLines.size())) {
@@ -18,21 +18,30 @@ public class Storage {
             String promotion = splitProductLine.getLast();
 
             if (promotion.equalsIgnoreCase("null")) {
-                normalStock.put(name, new NormalStock(name, cost, quantity));
+                normalStock.put(name, new NormalProduct(name, cost, quantity));
                 continue;
             }
-            promotionStocks.put(name, new PromotionStock(name, cost, quantity, promotion));
+            promotionStocks.put(name, new PromotionProduct(name, cost, quantity, promotion));
             if (normalStock.get(name) == null) {
-                normalStock.put(name, new NormalStock(name, cost, 0));
+                normalStock.put(name, new NormalProduct(name, cost, 0));
             }
         }
     }
 
-    public Map<String, NormalStock> getNormalStock() {
+    public Map<String, NormalProduct> getNormalStock() {
         return Collections.unmodifiableMap(normalStock);
     }
 
-    public Map<String, PromotionStock> getPromotionStocks() {
+    public Map<String, PromotionProduct> getPromotionStocks() {
         return Collections.unmodifiableMap(promotionStocks);
+    }
+
+    public boolean hasProduct(String name) {
+        return normalStock.containsKey(name) || promotionStocks.containsKey(name);
+    }
+
+    public boolean hasStock(String name, int quantity) {
+        int stockCount = normalStock.get(name).quantity() + promotionStocks.get(name).quantity();
+        return stockCount >= quantity;
     }
 }
