@@ -10,35 +10,39 @@ public class OutputView {
         System.out.println("현재 보유하고 있는 상품입니다.\n");
     }
 
-    //- 콜라 1,000원 10개 탄산2+1
     public void printProducts(Map<String, NormalStock> normalStocks, Map<String, PromotionStock> promotionStocks) {
-        for (var normalStock : normalStocks.entrySet()) {
-            String name = normalStock.getKey();
-            int cost = normalStock.getValue().cost();
+        for (var entry : normalStocks.entrySet()) {
+            String name = entry.getKey();
 
-            int promotionQuantity = getPromotionQuantity(promotionStocks, name);
+            NormalStock normalStock = normalStocks.get(name);
+            PromotionStock promotionStock = promotionStocks.get(name);
 
-            int normalQuantity = normalStocks.get(name).quantity();
-
-            // 프로모션은 재고없으면 출력안함
-            if (promotionQuantity > 0) {
-                System.out.printf("- %s %,d원 %d개 %s\n", name, cost, promotionQuantity,
-                        promotionStocks.get(name).promotion());
+            if (promotionStock != null) {
+                printPromotionStock(promotionStock);
             }
-            // 노말은 재고없어도 출력함
-            if (normalQuantity > 0) {
-                System.out.printf("- %s %,d원 %d개\n", name, cost, normalQuantity);
-            } else {
-                System.out.printf("- %s %,d원 재고 없음\n", name, cost);
+            if (normalStock != null) {
+                printNormalStock(normalStock);
             }
         }
     }
 
-    private int getPromotionQuantity(Map<String, PromotionStock> promotionStocks, String name) {
-        PromotionStock promotionStock = promotionStocks.get(name);
-        if (promotionStock == null) {
-            return 0;
+    private void printNormalStock(NormalStock normalStock) {
+        if (normalStock.quantity() > 0) {
+            System.out.printf("- %s %,d원 %d개\n", normalStock.name(), normalStock.cost(), normalStock.quantity());
+            return;
         }
-        return promotionStocks.get(name).quantity();
+        System.out.printf("- %s %,d원 재고 없음\n", normalStock.name(), normalStock.cost());
+    }
+
+    private void printPromotionStock(PromotionStock promotionStock) {
+        if (promotionStock.quantity() > 0) {
+            System.out.printf("- %s %,d원 %d개 %s\n",
+                    promotionStock.name(),
+                    promotionStock.cost(),
+                    promotionStock.quantity(),
+                    promotionStock.promotion());
+            return;
+        }
+        System.out.printf("- %s %,d원 재고 없음\n", promotionStock.name(), promotionStock.cost());
     }
 }
