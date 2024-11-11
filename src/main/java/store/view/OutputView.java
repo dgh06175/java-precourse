@@ -13,16 +13,12 @@ public class OutputView {
     public void printProducts(Map<String, NormalStock> normalStocks, Map<String, PromotionStock> promotionStocks) {
         for (var entry : normalStocks.entrySet()) {
             String name = entry.getKey();
-
             NormalStock normalStock = normalStocks.get(name);
             PromotionStock promotionStock = promotionStocks.get(name);
-
             if (promotionStock != null) {
                 printPromotionStock(promotionStock);
             }
-            if (normalStock != null) {
-                printNormalStock(normalStock);
-            }
+            printNormalStock(normalStock);
         }
     }
 
