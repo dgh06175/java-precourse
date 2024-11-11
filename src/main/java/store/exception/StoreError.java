@@ -15,6 +15,8 @@ public enum StoreError {
     STORAGE_ITEM_NOT_EXIST("존재하지 않는 상품입니다. 다시 입력해 주세요."),
     STORAGE_ITEM_STOCK_NOT_ENOUGH("재고 수량을 초과하여 구매할 수 없습니다. 다시 입력해 주세요."),
     OTHER_INVALID_INPUT("잘못된 입력입니다. 다시 입력해 주세요."),
+    STOCK_NOT_FOUND("상품을 찾을 수 없습니다."),
+    PROMOTION_NOT_FOUND("프로모션을 찾을 수 없습니다."),
     ;
 
     public final String message;

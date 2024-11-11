@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.function.Supplier;
 import store.model.promotion.Promotion;
 import store.model.promotion.PromotionStatus;
+import store.model.promotion.PromotionStatusQuantity;
 import store.model.storage.Storage;
 import store.model.store.Store;
 import store.view.InputView;
@@ -27,11 +28,29 @@ public class StoreController {
         for (var userOrder : userOrders.entrySet()) {
             String name = userOrder.getKey();
             int quantity = userOrder.getValue();
-            PromotionStatus promotionStatus = store.checkPromotionStatus(name, quantity);
-            if (promotionStatus == PromotionStatus.OK) {
+            PromotionStatusQuantity promotionStatusQuantity = store.checkPromotionStatus(name, quantity);
+            if (promotionStatusQuantity.promotionStatus() == PromotionStatus.PROMOTION_STOCK_NOT_ENOUGH) {
+                boolean userChoice = inputView.inputPromotionStockNotEnough(name, promotionStatusQuantity.quantity());
+                if (userChoice) {
+                    store.buy(name, quantity + promotionStatusQuantity.quantity());
+                    continue;
+                }
                 store.buy(name, quantity);
+                continue;
             }
+            if (promotionStatusQuantity.promotionStatus() == PromotionStatus.BONUS_OFFER_AVAILABLE) {
+                // TODO: 유저 입력 받고 입력에 따라 처리
+                boolean userChoice = inputView.inputBonusOffer(name, promotionStatusQuantity.quantity());
+                if (userChoice) {
+                    store.buy(name, quantity + promotionStatusQuantity.quantity());
+                    continue;
+                }
+                store.buy(name, quantity);
+                continue;
+            }
+            store.buy(name, quantity);
         }
+        // 멤버십 할인
     }
 
     private Store initStore() {

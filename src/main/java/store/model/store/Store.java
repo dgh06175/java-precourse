@@ -6,7 +6,9 @@ import static store.exception.StoreError.STORAGE_ITEM_STOCK_NOT_ENOUGH;
 import java.util.Map;
 import store.exception.StoreException;
 import store.model.promotion.Promotion;
+import store.model.promotion.PromotionItem;
 import store.model.promotion.PromotionStatus;
+import store.model.promotion.PromotionStatusQuantity;
 import store.model.storage.NormalProduct;
 import store.model.storage.PromotionProduct;
 import store.model.storage.Storage;
@@ -23,45 +25,73 @@ public class Store {
     }
 
     public void validateProduct(String name, int quantity) {
-        if (!storage.hasProduct(name)) {
+        if (storage.hasNotProduct(name)) {
             throw new StoreException(STORAGE_ITEM_NOT_EXIST);
         }
-        if (!storage.hasStock(name, quantity)) {
+        if (storage.hasNotEnoughStock(name, quantity)) {
             throw new StoreException(STORAGE_ITEM_STOCK_NOT_ENOUGH);
         }
     }
 
-    public PromotionStatus checkPromotionStatus(String name, int quantity) {
-        // 프로모션 적용이 가능한 상품에 대해 고객이 해당 수량만큼 가져오지 않았을 경우
-        if (!isPromotionEligible(name, quantity)) {
-            return PromotionStatus.BONUS_OFFER_AVAILABLE;
+    public PromotionStatusQuantity checkPromotionStatus(String name, int requestQuantity) {
+        if (isPromotionNotAvailable(name)) {
+            return new PromotionStatusQuantity(PromotionStatus.OK, 0);
         }
-        // 프로모션 재고가 부족하여 일부 수량을 프로모션 혜택 없이 결제해야 하는 경우
-        if (!isPromotionStockSufficient(name, quantity)) {
-            return PromotionStatus.PROMOTION_STOCK_NOT_ENOUGH;
+        int promotionQuantity = storage.getPromotionStockOf(name).quantity();
+        int buy = promotion.getPromotionItemOf(storage.getPromotionStockOf(name).promotion()).buy();
+        int get = promotion.getPromotionItemOf(storage.getPromotionStockOf(name).promotion()).get();
+        int normal_count = storage.getNormalStockOf(name).quantity();
+
+        if (requestQuantity > promotionQuantity + normal_count) {
+            throw new StoreException(STORAGE_ITEM_STOCK_NOT_ENOUGH);
         }
-        return PromotionStatus.OK;
+
+        if (promotionQuantity < requestQuantity) {
+            return new PromotionStatusQuantity(
+                    PromotionStatus.PROMOTION_STOCK_NOT_ENOUGH,
+                    (requestQuantity - promotionQuantity) + (promotionQuantity % (buy + get))
+            );
+        }
+
+        int remain = requestQuantity % (buy + get);
+        if (remain < buy) {
+            return new PromotionStatusQuantity(PromotionStatus.OK, 0);
+        }
+
+        if (remain == buy) {
+            if (requestQuantity + get > promotionQuantity) {
+                return new PromotionStatusQuantity(PromotionStatus.OK, 0);
+            }
+            return new PromotionStatusQuantity(PromotionStatus.BONUS_OFFER_AVAILABLE, get);
+        }
+
+        return new PromotionStatusQuantity(PromotionStatus.OK, 0);
     }
 
     public void buy(String name, int quantity) {
         // TODO: 구매 처리
     }
 
+    private boolean isPromotionNotAvailable(String name) {
+        PromotionProduct promotionStock;
+        try {
+            promotionStock = storage.getPromotionStockOf(name);
+        } catch (StoreException e) {
+            return true;
+        }
+        return !promotion.isAvailable(promotionStock.promotion());
+    }
+
+    private PromotionItem getPromotionItem(String name) {
+        PromotionProduct promotionStock = storage.getPromotionStockOf(name);
+        return promotion.getPromotionItemOf(promotionStock.promotion());
+    }
+
     public Map<String, NormalProduct> getNormalStocks() {
-        return storage.getNormalStock();
+        return storage.getNormalStocks();
     }
 
     public Map<String, PromotionProduct> getPromotionStocks() {
         return storage.getPromotionStocks();
-    }
-
-    private boolean isPromotionEligible(String name, int quantity) {
-        // TODO: 구현
-        return true;
-    }
-
-    private boolean isPromotionStockSufficient(String name, int quantity) {
-        // TODO: 구현
-        return true;
     }
 }

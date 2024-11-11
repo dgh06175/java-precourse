@@ -1,9 +1,12 @@
 package store.model.storage;
 
+import static store.exception.StoreError.STOCK_NOT_FOUND;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import store.exception.StoreException;
 
 public class Storage {
     private final Map<String, NormalProduct> normalStock = new LinkedHashMap<>();
@@ -28,7 +31,21 @@ public class Storage {
         }
     }
 
-    public Map<String, NormalProduct> getNormalStock() {
+    public NormalProduct getNormalStockOf(String name) {
+        if (!normalStock.containsKey(name)) {
+            throw new StoreException(STOCK_NOT_FOUND);
+        }
+        return normalStock.get(name);
+    }
+
+    public PromotionProduct getPromotionStockOf(String name) {
+        if (!promotionStocks.containsKey(name)) {
+            throw new StoreException(STOCK_NOT_FOUND);
+        }
+        return promotionStocks.get(name);
+    }
+
+    public Map<String, NormalProduct> getNormalStocks() {
         return Collections.unmodifiableMap(normalStock);
     }
 
@@ -36,12 +53,20 @@ public class Storage {
         return Collections.unmodifiableMap(promotionStocks);
     }
 
-    public boolean hasProduct(String name) {
-        return normalStock.containsKey(name) || promotionStocks.containsKey(name);
+    public boolean hasNotProduct(String name) {
+        return !normalStock.containsKey(name) && !promotionStocks.containsKey(name);
     }
 
-    public boolean hasStock(String name, int quantity) {
-        int stockCount = normalStock.get(name).quantity() + promotionStocks.get(name).quantity();
-        return stockCount >= quantity;
+    public boolean hasNotEnoughStock(String name, int quantity) {
+        int normalQuantity = 0;
+        int promotionQuantity = 0;
+        if (normalStock.containsKey(name)) {
+            normalQuantity = normalStock.get(name).quantity();
+        }
+        if (promotionStocks.containsKey(name)) {
+            promotionQuantity = promotionStocks.get(name).quantity();
+        }
+        int stockCount = normalQuantity + promotionQuantity;
+        return stockCount < quantity;
     }
 }
