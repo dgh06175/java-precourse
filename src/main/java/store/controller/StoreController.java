@@ -22,6 +22,14 @@ public class StoreController {
 
     public void run() {
         Store store = initStore();
+        do {
+            store.initReceipt();
+            buyProducts(store);
+            store.printReceipt();
+        } while (inputView.inputContinue());
+    }
+
+    private void buyProducts(Store store) {
         outputView.printWelcomeMessage();
         outputView.printProducts(store.getNormalStocks(), store.getPromotionStocks());
         Map<String, Integer> userOrders = inputUserOrder(store);
@@ -32,14 +40,13 @@ public class StoreController {
             if (promotionStatusQuantity.promotionStatus() == PromotionStatus.PROMOTION_STOCK_NOT_ENOUGH) {
                 boolean userChoice = inputView.inputPromotionStockNotEnough(name, promotionStatusQuantity.quantity());
                 if (userChoice) {
-                    store.buy(name, quantity + promotionStatusQuantity.quantity());
+                    store.buy(name, quantity);
                     continue;
                 }
-                store.buy(name, quantity);
+                store.buy(name, quantity - promotionStatusQuantity.quantity());
                 continue;
             }
             if (promotionStatusQuantity.promotionStatus() == PromotionStatus.BONUS_OFFER_AVAILABLE) {
-                // TODO: 유저 입력 받고 입력에 따라 처리
                 boolean userChoice = inputView.inputBonusOffer(name, promotionStatusQuantity.quantity());
                 if (userChoice) {
                     store.buy(name, quantity + promotionStatusQuantity.quantity());
@@ -51,6 +58,9 @@ public class StoreController {
             store.buy(name, quantity);
         }
         // 멤버십 할인
+        if (inputView.inputMembership()) {
+//            store.discountMembership();
+        }
     }
 
     private Store initStore() {

@@ -23,4 +23,8 @@ public record NormalProduct(String name, int cost, int quantity) {
             throw new StoreException(STOCK_QUANTITY_INVALID);
         }
     }
+
+    public NormalProduct pickUpStock(int quantity) {
+        return new NormalProduct(name, cost, this.quantity - quantity);
+    }
 }

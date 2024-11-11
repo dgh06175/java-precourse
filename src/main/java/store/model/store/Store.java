@@ -34,12 +34,12 @@ public class Store {
     }
 
     public PromotionStatusQuantity checkPromotionStatus(String name, int requestQuantity) {
-        if (isPromotionNotAvailable(name)) {
+        if (isPromotionNotAvailable(name)) { // TODO: 명확한 분기 처리
             return new PromotionStatusQuantity(PromotionStatus.OK, 0);
         }
         int promotionQuantity = storage.getPromotionStockOf(name).quantity();
-        int buy = promotion.getPromotionItemOf(storage.getPromotionStockOf(name).promotion()).buy();
-        int get = promotion.getPromotionItemOf(storage.getPromotionStockOf(name).promotion()).get();
+        int buy = getPromotionItem(name).buy();
+        int get = getPromotionItem(name).get();
         int normal_count = storage.getNormalStockOf(name).quantity();
 
         if (requestQuantity > promotionQuantity + normal_count) {
@@ -68,10 +68,32 @@ public class Store {
         return new PromotionStatusQuantity(PromotionStatus.OK, 0);
     }
 
-    public void buy(String name, int quantity) {
-        // TODO: 구매 처리
+    public int buy(String name, int requestQuantity) {
+        storage.pickUpStock(name, requestQuantity);
+
+        int cost = storage.getNormalStockOf(name).cost();
+        if (storage.isPromotionNotExist(name)) {
+            int totalCost = cost * requestQuantity;
+            receipt.addProduct(new NormalProduct(name, cost, requestQuantity));
+            return totalCost;
+        }
+        int count = storage.getPromotionStockOf(name).quantity();
+        if (isPromotionNotAvailable(name)) { // TODO: 명확한 분기 처리
+            int totalCost = buy(name, count) + (requestQuantity - count) * cost;
+            receipt.addProduct(new NormalProduct(name, cost, requestQuantity));
+            return totalCost;
+        }
+        int buy = getPromotionItem(name).buy();
+        int get = getPromotionItem(name).get();
+        int remain = requestQuantity % (buy + get);
+        int remainCount = requestQuantity / (buy + get);
+        int totalCost = remain * cost + remainCount * buy * cost;
+        receipt.addProduct(new NormalProduct(name, cost, requestQuantity));
+        receipt.addPromotion(new NormalProduct(name, cost, remainCount * get));
+        return totalCost;
     }
 
+    // TODO: 모호한 메서드 기능 정리
     private boolean isPromotionNotAvailable(String name) {
         PromotionProduct promotionStock;
         try {
@@ -80,6 +102,14 @@ public class Store {
             return true;
         }
         return !promotion.isAvailable(promotionStock.promotion());
+    }
+
+    public void initReceipt() {
+        receipt.init();
+    }
+
+    public void printReceipt() {
+        receipt.print();
     }
 
     private PromotionItem getPromotionItem(String name) {

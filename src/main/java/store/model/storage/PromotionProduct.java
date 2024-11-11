@@ -17,4 +17,8 @@ public record PromotionProduct(String name, int cost, int quantity, String promo
             throw new StoreException(STOCK_PROMOTION_EMPTY);
         }
     }
+
+    public PromotionProduct pickUpStock(int quantity) {
+        return new PromotionProduct(name, cost, this.quantity - quantity, promotion);
+    }
 }

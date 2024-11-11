@@ -71,6 +71,20 @@ public class InputView {
         return input.equalsIgnoreCase("y");
     }
 
+    public boolean inputContinue() {
+        System.out.println("감사합니다. 구매하고 싶은 다른 상품이 있나요? (Y/N)");
+        String input = Console.readLine();
+        validateUserChoice(input);
+        return input.equalsIgnoreCase("y");
+    }
+
+    public boolean inputMembership() {
+        System.out.println("멤버십 할인을 받으시겠습니까? (Y/N)");
+        String input = Console.readLine();
+        validateUserChoice(input);
+        return input.equalsIgnoreCase("y");
+    }
+
     private void validateUserChoice(String input) {
         if (!input.equalsIgnoreCase("y") && !input.equalsIgnoreCase("n")) {
             throw new StoreException(INPUT_NOT_VALID_FORMAT);

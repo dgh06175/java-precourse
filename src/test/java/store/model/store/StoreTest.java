@@ -122,4 +122,46 @@ class StoreTest {
             assertThat(promotionStatusQuantity.quantity()).isEqualTo(1);
         }
     }
+
+    @Nested
+    class buyTests {
+        @Test
+        void 프로모션_재고_안쪽이면_프로모션_가격으로_결제() {
+            // given
+            String name = "사이다";
+            int quantity = 8;
+
+            // when
+            int cost = store.buy(name, quantity);
+
+            // then
+            assertThat(cost).isEqualTo(6000);
+        }
+
+        @Test
+        void 특이사항_없음() {
+            // given
+            String name = "콜라";
+            int quantity = 3;
+
+            // when
+            int cost = store.buy(name, quantity);
+
+            // then
+            assertThat(cost).isEqualTo(2000);
+        }
+
+        @Test
+        void 특이사항_없음2() {
+            // given
+            String name = "에너지바";
+            int quantity = 5;
+
+            // when
+            int cost = store.buy(name, quantity);
+
+            // then
+            assertThat(cost).isEqualTo(10000);
+        }
+    }
 }

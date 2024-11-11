@@ -31,6 +31,25 @@ public class Storage {
         }
     }
 
+    public void pickUpStock(String name, int requestQuantity) {
+        if (isPromotionNotExist(name)) {
+            NormalProduct normalProduct = normalStock.get(name).pickUpStock(requestQuantity);
+            normalStock.put(name, normalProduct);
+            return;
+        }
+        PromotionProduct existPromotionProduct = promotionStocks.get(name);
+        int count = existPromotionProduct.quantity();
+        if (requestQuantity > count) {
+            PromotionProduct promotionProduct = existPromotionProduct.pickUpStock(count);
+            promotionStocks.put(name, promotionProduct);
+            NormalProduct normalProduct = normalStock.get(name).pickUpStock(requestQuantity - count);
+            normalStock.put(name, normalProduct);
+            return;
+        }
+        PromotionProduct promotionProduct = existPromotionProduct.pickUpStock(requestQuantity);
+        promotionStocks.put(name, promotionProduct);
+    }
+
     public NormalProduct getNormalStockOf(String name) {
         if (!normalStock.containsKey(name)) {
             throw new StoreException(STOCK_NOT_FOUND);
@@ -68,5 +87,9 @@ public class Storage {
         }
         int stockCount = normalQuantity + promotionQuantity;
         return stockCount < quantity;
+    }
+
+    public boolean isPromotionNotExist(String name) {
+        return !promotionStocks.containsKey(name);
     }
 }
